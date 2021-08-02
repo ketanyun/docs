@@ -84,15 +84,19 @@ spec:
                         # 应用市场代码
                         name: 
                           type: string 
+                # 账号主体，默认使用租户级配置，参考 [Principal](Principal)  
                 principal:
                   type: string
+                # 多租信息
                 tenant:
                   type: object
                   required:
                     - multitenancy
                   properties:
+                    # 租户编码
                     name: 
                       type: string
+                    # 是否支持多租。为true时，租户必须为 "localhost"
                     multitenancy: 
                       type: boolean
   # either Namespaced or Cluster
