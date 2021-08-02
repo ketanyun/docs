@@ -1,0 +1,38 @@
+apiVersion: ketanyun.cn/v1alpha1
+kind: QApp
+metadata:
+  # 命名空间 + 类型(QApp)内唯一，含 helm release 变量，支持同一个产品多次安装
+  name: test-qapp
+  # namespace: default 
+  labels:
+    # 指定处理 QApp 资源的 Bootstrap 服务为 `sso`
+    service: "sso"
+    # helm 安装名
+    release: test-qapp
+spec:
+  # 定义需要哪些oauth的scope
+  oauth:
+    scopes:
+      - name: data openid
+        grant_types:
+          implicit: required
+      - name: introspect
+        grant_types:
+          client_credentials: required
+  # 定义产品化程度
+  product:
+    # 产品代码，仅产品化需要
+    name: test-product
+    version:
+      name: "v20210803"
+      text: "v20210803"
+      timestamp: 1627880495
+    market:
+      # 应用市场代码
+      name: central
+  # 账号主体，默认使用租户级配置，参考 [Principal](Principal)  
+  principal: openid
+  # 多租信息
+  tenant:
+    name: localhost
+    multitenancy: true
