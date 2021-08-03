@@ -1,0 +1,95 @@
+apiVersion: enum("ketanyun.cn/v1alpha1")
+kind: enum("QCanvas")
+metadata:
+  # 命名空间 + 类型(QCanvas)内唯一，含 helm release 变量，支持同一个产品多次安装
+  name: str()
+  namespace: str(required=False)
+  labels:
+    # 指定处理 QCanvas 资源的 Bootstrap 服务为 `maker`
+    service: enum("maker")
+spec:
+
+  # 所属应用(QApp)
+  app: 
+    # QApp 的 metadata.name 
+    name: str() 
+    autoActivate: bool()  # 新建租户时是否需要自动激活 
+
+  canvas:
+    # 《布局》定义  
+    layout:
+        # 主题样式名，系统内置 + 外部主题插件开发
+        prototype: str(required=False)
+        # 首页page名
+        home: str(required=False)
+
+    # 《菜单》 列表定义 
+    menu:                              
+      kind: enum("static", "dynamic")
+      items: 
+      # 菜单机读代码，本定义内唯一
+      - name: str()
+        text: str()
+
+    # 《页面》 列表定义
+    pages: 
+    # 页面机读代码，本定义内唯一，被菜单跳转《动作》、首页等引用
+    - name: str()
+
+    # 《内容》 列表定义 
+    contents: 
+    # 内容机读代码，本定义内唯一，被页面引用
+    - name: str()
+      kind: enum("list", "grid", "static", "iframe", "form", "chart")
+      # 通过《数据》机读代码引用
+      data: str()
+      # 引用自其他Yaml定义，比如 "QForm", "QChart"
+      reference:
+        kind: str()
+        name: str()
+
+    # 《弹框》 列表定义 
+    popups: array()
+
+    # 《资源》 列表定义 
+    resources:
+      i18n: 
+        defaults: enum("zh", "cn", ...)
+        strings: 
+         - zh: str()
+           en: str()
+      images: array()
+      fonts: array()
+      
+    # 《数据》 列表定义
+    data:
+      # 数据机读代码，本定义内唯一
+      name: str()
+      #《数据字段》列表定义
+      fields: list()
+      #《数据操作》列表定义
+      operations: list()
+      # 定义数据实际来源
+      environment: list()
+        
+    # 《角色》 列表定义
+    # 参考：https://github.com/ketanyun/docs/wiki/Role
+    roles: [ QRole() ]
+
+    # 《入口》 列表定义 
+    entries: 
+    - name: str()                      # 入口标识，用于部分API
+      text: str()                      # 入口文字，用于前端显示
+      uri: str()                       # 入口链接，相对路径，不包含域名部分
+      icon: str(required=False)        # 图标链接，相对路径，不包含域名部分
+      description: str(required=False) # 入口描述
+      # 支持屏，空集视为不限
+      #   desktop ： 桌面端
+      #   mobile  ： 移动端（所有非桌面端）
+      #     ios     ： 苹果原生App
+      #     android ： 安卓原生App
+      #     wechat  :  微信（含企业微信）
+      #       wechat_pc  ： 微信PC端
+      screens: array(String) 
+      # 支持用户列表，空集视为不限，语法参考：[UserFilter](https://github.com/infoplus/docs/wiki/UserFilter)
+      userFilters: array(String) 

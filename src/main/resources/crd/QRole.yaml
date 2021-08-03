@@ -1,0 +1,113 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  # name must match the spec fields below, and be in the form: <plural>.<group>
+  name: qroles.ketanyun.cn
+spec:
+  # group name to use for REST API: /apis/<group>/<version>
+  group: ketanyun.cn
+  # list of versions supported by this CustomResourceDefinition
+  versions:
+    - name: v1alpha1
+      # Each version can be enabled/disabled by Served flag.
+      served: true
+      # One and only one version must be marked as the storage version.
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              required:
+                - app
+                - rules
+              properties:
+                # 所属 QApp 的信息
+                app: 
+                  type: object
+                  required:
+                    - name
+                  properties:
+                    # 所属应用的 QApp 的 metadata.name 
+                    name: 
+                      type: string   
+                # 规则数组
+                rules:    
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - objects
+                      - verbs
+                    properties:
+                      # 权限对象（主语）
+                      objects: 
+                        type: array
+                        items:
+                          type: object
+                          required:
+                            - kind
+                            - name
+                          properties:
+                            # 权限宾语类型
+                            # type: GraphQL的类型
+                            # data: maker开发工具中的`数据`，暂不支持
+                            # menu: maker开发工具中的`菜单`，暂不支持
+                            kind: 
+                              type: string
+                              pattern: '^(type|data|menu)$'
+                            # 类型名，支持指定服务前缀，如 "iam/User"
+                            name: 
+                              type: string
+                      # 权限操作（谓语 + 宾语）
+                      verbs: 
+                        type: array
+                        items:
+                          type: object
+                          required:
+                            - name
+                          properties:
+                            # 当 objects.kind = "type" 时：
+                            #   name 表示 GraphQL operation 名
+                            #   支持通配符 *，支持 "[r]"（仅Query）、"[w]"（仅Mutation）、"[rw]" 
+                            name: 
+                              type: string
+                            # 该GraphQL操作的filter参数，参考：https://github.com/infoplus/canvas-docs/wiki/Filter
+                            filters:   
+                              type: array
+                              items:
+                                type: object
+                                required:
+                                  - name
+                                properties:   
+                                  # 字段名           
+                                  name:
+                                    type: string  
+                                  # 默认为 "eq"
+                                  match: 
+                                    type: string  
+                                  # 支持表达式，参考：https://github.com/infoplus/canvas-docs/wiki/Expression
+                                  value:
+                                    type: string  
+                                  # 当 match = "in" 或 "nin" 时指定 
+                                  values: 
+                                    type: array
+                                    items:
+                                      x-kubernetes-int-or-string: true
+                                      # x-kubernetes-preserve-unknown-fields: true
+                      # 允许分级授权。r:默认，当前主体拥；w:可授予他人但不能再分级；x:可将x授予其他人
+                      grant: 
+                        type: string
+  # either Namespaced or Cluster
+  scope: Namespaced
+  names:
+    # plural name to be used in the URL: /apis/<group>/<version>/<plural>
+    plural: qroles
+    # singular name to be used as an alias on the CLI and for display
+    singular: qrole
+    # kind is normally the CamelCased singular type. Your resource manifests use this.
+    kind: QRole
+    # shortNames allow shorter string to match your resource on the CLI
+    #shortNames:
+    #  - qrole

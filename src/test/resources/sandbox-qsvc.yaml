@@ -1,0 +1,35 @@
+apiVersion: ketanyun.cn/v1alpha1
+kind: QService
+metadata:
+  name: sandbox-qsvc-rand
+  # namespace: default 
+  labels:
+    # 指定处理 QService 资源的 Bootstrap 服务为 `bus`
+    service: bus
+    # helm 安装名
+    release: sandbox-helm
+spec:
+  # 服务信息 
+  service:
+    name: sandbox                     # 服务名，参考上表，用于服务发现 
+    kind: REST
+    text: Sandbox                     # 友好的服务名
+    description: Sandbox-API  # 描述 
+    # 对外提供服务的地址。`GraphQL`类型可不给出，默认 /bus/graphql/{service} 
+    uri: /sandbox/apis/v1          
+    # 后端实际地址，即 EndPoint 
+    backend: http://sandbox-svc:8080/sandbox/apis/v1     
+    # 账号主体，默认使用租户级配置，参考 [Principal](Principal)  
+    principal: openid
+    # 定义此服务提供哪些 oauth 的 scope
+    scopes:
+      - name: sandbox 
+      - name: sandbox-edit 
+        # 授权类型，不给出视为全部支持
+        # 可选值：`client_credentials`、`authorization_code`、`implicit`、`password`
+        grant_types: 
+          - client_credentials 
+  # 多租信息
+  tenant:
+    name: localhost
+    multitenancy: true

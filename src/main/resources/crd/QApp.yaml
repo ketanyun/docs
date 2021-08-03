@@ -32,7 +32,7 @@ spec:
                     # OAuth scopes 
                     scopes:
                       type: array
-                      description: OAuth scopes 
+                      description: OAuth scopes used
                       items:
                         type: object
                         required:
@@ -87,6 +87,7 @@ spec:
                 # 账号主体，默认使用租户级配置，参考 [Principal](Principal)  
                 principal:
                   type: string
+                  pattern: '^(openid|usercode)$'
                 # 多租信息
                 tenant:
                   type: object

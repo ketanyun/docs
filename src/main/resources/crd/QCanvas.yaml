@@ -1,0 +1,240 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  # name must match the spec fields below, and be in the form: <plural>.<group>
+  name: qcanvas.ketanyun.cn
+spec:
+  # group name to use for REST API: /apis/<group>/<version>
+  group: ketanyun.cn
+  # list of versions supported by this CustomResourceDefinition
+  versions:
+    - name: v1alpha1
+      # Each version can be enabled/disabled by Served flag.
+      served: true
+      # One and only one version must be marked as the storage version.
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              required:
+                - app
+                - canvas
+              properties:
+
+                # 所属应用(QApp)
+                app:
+                  type: object
+                  required:
+                    - name
+                  properties:
+                    # 所属应用的 QApp 的 metadata.name 
+                    name: 
+                      type: object   
+                    # 新建租户时是否需要自动激活 
+                    autoActivate:
+                      type: boolean 
+
+                # 应用定义
+                canvas:
+                  type: object
+                  properties:
+                    # 《布局》定义  
+                    layout: 
+                      type: object
+                      properties:
+                        # 主题
+                        prototype:
+                          type: string  
+                        # 首页 page 名 
+                        home:
+                          type: string 
+                    # 《菜单》 列表定义 
+                    menu:  
+                      type: object
+                      required:
+                        - kind
+                        - items
+                      properties:                            
+                        kind:
+                          type: string
+                          pattern: '^(static|dynamic)$'
+                        items: 
+                          type: array
+                          items:
+                            type: object
+                            required:
+                              - name
+                              - text 
+                            properties:
+                              # 菜单机读代码，本定义内唯一
+                              name: 
+                                type: string
+                              text: 
+                                type: string
+                    # 《页面》 列表定义
+                    pages: 
+                      type: array
+                      items:
+                        type: object
+                        required:
+                          - name
+                        properties:
+                          # 页面机读代码，本定义内唯一，被菜单跳转《动作》、首页等引用
+                          name: 
+                            type: string
+
+                    # 《内容》 列表定义 
+                    contents: 
+                      type: array
+                      items:
+                        type: object 
+                        required:
+                          - name
+                          - kind
+                        properties:
+                          name: 
+                            type: string
+                          kind: 
+                            type: string
+                            pattern: '^(list|grid|static|iframe|form|chart)$'
+                          # 通过《数据》机读代码引用
+                          data: 
+                            type: string
+                          # 引用自其他Yaml定义，比如 "QForm", "QChart"
+                          reference:
+                            type: object
+                            properties:
+                              kind:
+                                type: string
+                              name:
+                                type: string
+
+                    # 《弹框》 列表定义 
+                    popups: 
+                      type: array
+                      items:
+                        type: object 
+
+                    # 《资源》 列表定义 
+                    resources:
+                      type: object
+                      properties:
+                        i18n: 
+                          type: object
+                          properties:
+                            defaults: 
+                              type: string
+                              pattern: '^(zh|en|jp|kr|fr)$'
+                            strings: 
+                              type: array 
+                              items:
+                                type: object
+                                properties:
+                                  zh:
+                                    type: string
+                                  en:
+                                    type: string
+                                  fr:
+                                    type: string
+                                  jp:
+                                    type: string
+                                  kr:
+                                    type: string
+                        images: 
+                          type: array 
+                          items: 
+                            type: object
+                        fonts: 
+                          type: array 
+                          items: 
+                            type: object 
+
+                    # 《数据》 列表定义
+                    data: 
+                      type: array
+                      items:
+                        type: object 
+                        properties:
+                          # 数据机读代码，本定义内唯一
+                          name: 
+                            type: string
+                          #《数据字段》列表定义
+                          fields: 
+                            type: array
+                            items:
+                              type: object
+                          #《数据操作》列表定义
+                          operations: 
+                            type: array
+                            items:
+                              type: object
+                          # 定义数据实际来源
+                          environment: 
+                            type: array
+                            items:
+                              type: object
+
+                    # 《角色》 列表定义
+                    # 参考：https://github.com/ketanyun/docs/wiki/Role
+                    roles: 
+                      type: array
+                      items:
+                        type: object 
+
+                    # 《入口》列表定义 
+                    entries: 
+                      type: array
+                      items:
+                        type: object
+                        required:
+                          - name
+                          - uri
+                          - text
+                        properties:
+                          # 入口标识，用于部分API
+                          name: 
+                            type: string            
+                          # 入口文字，用于前端显示
+                          text: 
+                            type: string     
+                          # 入口链接，相对路径，不包含域名部分
+                          uri: 
+                            type: string                   
+                          # 图标链接，相对路径，不包含域名部分
+                          icon: 
+                            type: string      
+                          # 入口描述
+                          description:
+                            type: string      
+                          # 支持屏，空集视为不限
+                          #   desktop ： 桌面端
+                          #   mobile  ： 移动端（所有非桌面端）
+                          #     ios     ： 苹果原生App
+                          #     android ： 安卓原生App
+                          #     wechat  :  微信（含企业微信）
+                          #       wechat_pc  ： 微信PC端
+                          screens: 
+                            type: array
+                            items:
+                              type: string
+                          # 支持用户列表，空集视为不限，语法参考：[UserFilter](https://github.com/infoplus/docs/wiki/UserFilter)
+                          userFilters: 
+                            type: array
+                            items:
+                              type: string 
+
+  # either Namespaced or Cluster
+  scope: Namespaced
+  names:
+    # plural name to be used in the URL: /apis/<group>/<version>/<plural>
+    plural: qcanvas
+    # singular name to be used as an alias on the CLI and for display
+    singular: qcanvas
+    # kind is normally the CamelCased singular type. Your resource manifests use this.
+    kind: QCanvas
+    # shortNames allow shorter string to match your resource on the CLI
+    shortNames:
+      - qcvs
