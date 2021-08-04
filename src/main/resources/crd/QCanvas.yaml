@@ -22,6 +22,7 @@ spec:
               required:
                 - app
                 - canvas
+                - designer
               properties:
 
                 # 所属应用(QApp)
@@ -32,15 +33,174 @@ spec:
                   properties:
                     # 所属应用的 QApp 的 metadata.name 
                     name: 
-                      type: object   
+                      type: string   
                     # 新建租户时是否需要自动激活 
                     autoActivate:
                       type: boolean 
+
+                # 设计器信息
+                designer: 
+                  type: object
+                  properties:
+                    # 设计器名称，如 maker
+                    name: 
+                      type: string
+                    # 额外自定义属性
+                    attributes:
+                      type: object
+
+                # 定义本CRD的公共类型，不用于实际CustomResource
+                types:
+                  type: object
+                  properties:
+                    # 《元素》：基础类型
+                    _element: 
+                      type: object
+                      properties: &ELEMENT_PROPERTIES
+                        text:
+                          type: string
+                        description:
+                          type: string
+                        uri:
+                          type: string
+                    # 《筛选器》
+                    _filter: &FILTER
+                      type: object
+                      required:
+                        - field
+                      # anyOf:
+                      #  - required:
+                      #    - value
+                      #    - values
+                      #    - experssion
+                      properties:
+                        field:
+                          type: string
+                        match:
+                          type: string
+                          enum:
+                            - eq 
+                            - neq
+                            - in
+                            - nin
+                            - gt
+                            - gte
+                            - lt
+                            - lte
+                            - like
+                        value:
+                          x-kubernetes-int-or-string: true
+                        values:
+                          type: array
+                          items:
+                            x-kubernetes-int-or-string: true
+                        experssion:
+                          type: string
+
+                    # 《修饰符》(非空、数组）
+                    # 参考 https://graphql.org/learn/schema/ type-modifiers
+                    _modifiers: &MODIFIERS
+                      type: array
+                      items:
+                        type: string
+                        enmu:
+                          - NotNull
+                          - List
+
+                    # 《参数》: GraphQL 的 argument 概念
+                    _argument: &ARGUMENT
+                      type: object
+                      required:
+                        - value
+                      properties:
+                        # 字段数据类型，引用到 spec.canvas.data[].name
+                        type:
+                          type: string
+                        value:
+                          x-kubernetes-int-or-string: true
+                        defaultValue:
+                          x-kubernetes-int-or-string: true
+                        modifiers: *MODIFIERS
+
+                    # 《字段》
+                    _field: &FIELD
+                      type: object
+                      required:
+                        - name
+                      properties:
+                        name:
+                          type: string
+                        text:
+                          type: string
+                        description:
+                          type: string
+                        # 对如何使用改字段的暗示
+                        kind:
+                          type: string
+                          pattern: '^(text|value|icon|tooltip)$'
+                        # 字段数据类型，引用到 spec.canvas.data[].name
+                        type:
+                          type: string
+                        # 修饰符 (非空、数组）
+                        modifiers: *MODIFIERS
+
+                    # 《操作》: GraphQL 的 query/mutation/subscription
+                    _operation: &OPERATION
+                      type: object
+                      properties:
+                        kind:
+                          type: string
+                          enum:
+                            - query
+                            - mutation
+                            - subscription
+                        name:
+                          type: string
+                        # 该《数据操作》所需Filter
+                        # 参考：https://github.com/infoplus/canvas-docs/wiki/Filter
+                        filters:
+                          type: array
+                          items: *FILTER
+                        # 该《数据操作》所需字段
+                        fields:
+                          type: array
+                          items: *FIELD
+                        # 该《数据操作》所需参数
+                        arguments:
+                          type: array
+                          items: *ARGUMENT
+
+                    # 《控件》
+                    _control: 
+                      type: object
+                      properties: &CONTROL_PROPERTIES
+                        <<: *ELEMENT_PROPERTIES
+                        value: 
+                          x-kubernetes-int-or-string: true
+                        defaultValue: 
+                          x-kubernetes-int-or-string: true
+                        # 控件数据源，下拉框等使用，引用到 spec.canvas.data[].name
+                        data:
+                          type: string
+                        operation: *OPERATION
+                        icon:
+                          type: string
+                        # 可见性。支持表达式，"="开头。
+                        # 参考：https://github.com/infoplus/canvas-docs/wiki/Expression
+                        visible:
+                          type: string
+                        enabled:
+                          type: string
+                        styles:
+                          type: string
+                        format:
+                          type: string
 
                 # 应用定义
                 canvas:
                   type: object
                   properties:
+
                     # 《布局》定义  
                     layout: 
                       type: object
@@ -51,6 +211,51 @@ spec:
                         # 首页 page 名 
                         home:
                           type: string 
+
+                    # 《数据》 列表定义
+                    data: 
+                      type: array
+                      items:
+                        type: object 
+                        properties:
+                          # 数据机读代码，本定义内唯一
+                          name: 
+                            type: string
+                          #《数据字段》列表定义
+                          fields: 
+                            type: array
+                            items: *FIELD
+                                  
+                          #《数据操作》列表定义
+                          operations: 
+                            type: array
+                            items: *OPERATION
+
+                          # 定义数据实际来源
+                          environments: 
+                            type: array
+                            items: &ENVIRONMENT
+                              type: object
+                              required:
+                                - kind
+                                - sources
+                              properties:
+                                kind: 
+                                  type: string
+                                  enmu:
+                                    - development
+                                    - staging
+                                    - production
+                                sources:
+                                  type: array
+                                  items: &SOURCE
+                                    type: object
+                                    required:
+                                      - uri
+                                    properties:
+                                      uri: 
+                                        type: string
+
                     # 《菜单》 列表定义 
                     menu:  
                       type: object
@@ -63,7 +268,7 @@ spec:
                           pattern: '^(static|dynamic)$'
                         items: 
                           type: array
-                          items:
+                          items: &MENUITEM
                             type: object
                             required:
                               - name
@@ -73,50 +278,65 @@ spec:
                               name: 
                                 type: string
                               text: 
+                                type: string 
+                              description:
+                                type: string 
+                              icon:
                                 type: string
-                    # 《页面》 列表定义
-                    pages: 
-                      type: array
-                      items:
-                        type: object
-                        required:
-                          - name
-                        properties:
-                          # 页面机读代码，本定义内唯一，被菜单跳转《动作》、首页等引用
-                          name: 
-                            type: string
-
-                    # 《内容》 列表定义 
-                    contents: 
-                      type: array
-                      items:
-                        type: object 
-                        required:
-                          - name
-                          - kind
-                        properties:
-                          name: 
-                            type: string
-                          kind: 
-                            type: string
-                            pattern: '^(list|grid|static|iframe|form|chart)$'
-                          # 通过《数据》机读代码引用
-                          data: 
-                            type: string
-                          # 引用自其他Yaml定义，比如 "QForm", "QChart"
-                          reference:
-                            type: object
-                            properties:
+                              # 父菜单
+                              parent:
+                                type: string 
+                              # 菜单类型，可枚举 
                               kind:
-                                type: string
-                              name:
-                                type: string
-
-                    # 《弹框》 列表定义 
-                    popups: 
-                      type: array
-                      items:
-                        type: object 
+                                type: string 
+                              action: &ACTION 
+                                type: object
+                                properties:
+                                  <<: *CONTROL_PROPERTIES
+                                  kind:
+                                    type: string
+                                    pattern: '^(create|read|update|delete|list|print|export|search)$'
+                                  # 定义服务端交互 (server-side API invocations)
+                                  operation: *OPERATION
+                                  # 定义客户端交互 (client-side UI interactions)
+                                  commands: 
+                                    type: array
+                                    items: &COMMAND
+                                      type: object 
+                                      description: define client-side UI interactions
+                                      required:
+                                        - when
+                                        - kind
+                                      properties:
+                                        # 相较于 operation 的执行实际
+                                        when:
+                                          type: string
+                                          pattern: '^(before|done|success|failure)$'
+                                        kind:
+                                          type: string
+                                          pattern: '^(confirm|info|warning|error|refresh|close|link|navigate)$'
+                                        uri:
+                                          type: string
+                                        # 用于 navigate/link
+                                        target:
+                                          type: string
+                                          pattern: '^(blank|self)$'
+                                        # 用于 navigate，向前/向后跳转的历史栈长度 
+                                        offset:
+                                          type: integer
+                                        # 用于 confirm/info/warning/error，显示的消息内容
+                                        message:
+                                          type: string
+                                        # 参数列表。对于 navigate，视为 QueryString  
+                                        parameters:
+                                          type: array
+                                          items:
+                                            type: object
+                                            properties:
+                                              name: 
+                                                type: string
+                                              value:
+                                                x-kubernetes-int-or-string: true
 
                     # 《资源》 列表定义 
                     resources:
@@ -132,7 +352,11 @@ spec:
                               type: array 
                               items:
                                 type: object
+                                required:
+                                  - name
                                 properties:
+                                  name:
+                                    type: string
                                   zh:
                                     type: string
                                   en:
@@ -152,30 +376,114 @@ spec:
                           items: 
                             type: object 
 
-                    # 《数据》 列表定义
-                    data: 
+                    # 《页面》 列表定义
+                    pages: 
+                      type: array
+                      items:
+                        type: object
+                        required:
+                          - name
+                        properties:
+                          # 页面机读代码，本定义内唯一，被菜单跳转《动作》、首页等引用
+                          name: 
+                            type: string
+                          text:
+                            type: string
+                          tabs:
+                            type: array
+                            items:
+                              type: object
+                              required:
+                                - content
+                              properties:
+                                <<: *ELEMENT_PROPERTIES
+                                icon: 
+                                  type: string
+                                content: 
+                                  type: string
+
+                    # 《内容》 列表定义 
+                    contents: 
                       type: array
                       items:
                         type: object 
+                        required:
+                          - name
+                          - kind
                         properties:
-                          # 数据机读代码，本定义内唯一
                           name: 
                             type: string
-                          #《数据字段》列表定义
-                          fields: 
+                          kind: 
+                            type: string
+                            enum:
+                             - list   # 列表
+                             - grid   # 表格
+                             - static # 静态
+                             - iframe # 内嵌
+                             - form   # 表单
+                             - chart  # 图标
+                          # 通过《数据》机读代码引用
+                          data: 
+                            type: string
+                          operation: *OPERATION
+                          # 引用自其他Yaml定义，比如 "QForm", "QChart"
+                          reference:
+                            type: object
+                            properties:
+                              kind:
+                                type: string
+                              name:
+                                type: string
+                          # 内置类型Content（grid）的属性定义
+                          # 表格1：查询条件
+                          conditions:
                             type: array
                             items:
                               type: object
-                          #《数据操作》列表定义
-                          operations: 
+                              properties:
+                                text:
+                                  type: string
+                                filter: *FILTER 
+                                input:  &INPUT
+                                  type: object
+                                  properties:
+                                    <<: *CONTROL_PROPERTIES
+                                    # 控件类型，edit|check|select|suggester|...
+                                    kind:
+                                      type: string
+                                    validation:
+                                      type: string 
+                          # 表格2：表格列
+                          columns:
                             type: array
                             items:
                               type: object
-                          # 定义数据实际来源
-                          environment: 
+                              properties:
+                                <<: *CONTROL_PROPERTIES
+                                field: *FIELD
+                                input: *INPUT
+                                sort:
+                                  type: object
+                                  properties:
+                                    enabled: 
+                                      type: boolean
+                                    order:
+                                      type: string
+
+                          # 表格3：表格动作
+                          actions:
                             type: array
-                            items:
-                              type: object
+                            items: *ACTION
+                          # 表格4：表格行动作
+                          itemActions:
+                            type: array
+                            items: *ACTION
+
+                    # 《弹框》 列表定义 
+                    popups: 
+                      type: array
+                      items:
+                        type: object 
 
                     # 《角色》 列表定义
                     # 参考：https://github.com/ketanyun/docs/wiki/Role
@@ -183,6 +491,44 @@ spec:
                       type: array
                       items:
                         type: object 
+                        properties:
+                          # 权限主体（主语）
+                          subjects:
+                            type: array
+                            items:
+                              type: object
+                              properites:
+                          # 允许分级授权。r:默认，当前主体拥；w:可授予他人但不能再分级；x:可将x授予其他人
+                          grant: 
+                            type: string
+                          rules:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                # 权限对象（宾语）
+                                objects: 
+                                  type: array
+                                  items:
+                                    type: object
+                                    required:
+                                      - kind
+                                      - name
+                                    properties:
+                                      # 权限宾语类型
+                                      kind: 
+                                        type: string
+                                        enum: 
+                                          - type # GraphQL的类型，暂不支持
+                                          - data # 数据，引用 spec.canvas.data[].name
+                                          - menu # 菜单，引用 spec.canvas.menu.items[].name
+                                      # 宾语对象引用名，对于 kind为type时，支持指定服务前缀，如 "iam/User"
+                                      name: 
+                                        type: string
+                                # 权限操作（谓语）
+                                verbs: 
+                                  type: array
+                                  items: *OPERATION
 
                     # 《入口》列表定义 
                     entries: 
@@ -210,21 +556,24 @@ spec:
                           description:
                             type: string      
                           # 支持屏，空集视为不限
-                          #   desktop ： 桌面端
-                          #   mobile  ： 移动端（所有非桌面端）
-                          #     ios     ： 苹果原生App
-                          #     android ： 安卓原生App
-                          #     wechat  :  微信（含企业微信）
-                          #       wechat_pc  ： 微信PC端
+                          
                           screens: 
                             type: array
                             items:
                               type: string
+                              enum:
+                                - desktop    # 桌面端
+                                - mobile     # 移动端（所有非桌面端）
+                                # - ios        # 苹果原生App
+                                # - android    # 安卓原生App
+                                - wechat     # 微信（包括企业微信）
+                                # - wechat_pc  # 微信PC端
                           # 支持用户列表，空集视为不限，语法参考：[UserFilter](https://github.com/infoplus/docs/wiki/UserFilter)
                           userFilters: 
                             type: array
                             items:
                               type: string 
+
 
   # either Namespaced or Cluster
   scope: Namespaced

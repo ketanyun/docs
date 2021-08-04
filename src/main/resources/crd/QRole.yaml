@@ -41,7 +41,7 @@ spec:
                       - objects
                       - verbs
                     properties:
-                      # 权限对象（主语）
+                      # 权限对象（宾语）
                       objects: 
                         type: array
                         items:
@@ -60,7 +60,7 @@ spec:
                             # 类型名，支持指定服务前缀，如 "iam/User"
                             name: 
                               type: string
-                      # 权限操作（谓语 + 宾语）
+                      # 权限操作（谓语）
                       verbs: 
                         type: array
                         items:

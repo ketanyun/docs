@@ -1,0 +1,168 @@
+apiVersion: ketanyun.cn/v1alpha1
+kind: QCanvas
+metadata:
+  name: sandbox-qcanvas-rand
+  labels:
+    # 指定处理 QCanvas 资源的 Bootstrap 服务为 `maker`
+    service: maker
+    # helm 安装名
+    release: sandbox-helm
+spec:
+  # 所属应用信息
+  app:
+    name: sandbox-qapp-rand
+    autoActivate: false
+
+  designer:
+    name: maker
+
+  # 画布定义
+  canvas:
+    layout:
+      prototype: default
+
+    # 类型： <Menu>
+    menu:
+      kind: static
+      items:
+        - name: workflow-menu
+          text: R(strings/Workflows)
+          action: 
+            commands:
+              - when: before
+                kind: link
+                uri: "vue:///manage/goAbroad/manage/abroad-team-statistics@"
+    # 类型: <Page>
+    pages:
+      - name: resume-page
+        text: R(strings/resume)
+        tabs:
+          - content: resume-grid
+
+    # 类型：<Content>
+    contents:
+      - name: workflow-list
+        kind: list
+        # 类型：<Data>
+        data: workflow
+        operation:
+          kind: query
+          name: Workflows
+
+      - name: resume-gird
+        kind: grid
+        data: Resume
+        conditions:
+          - filter:
+              field: name
+              match: like
+            # 无 input 表示此 filter 用户不可更改
+            input:
+              kind: text
+          - filter:
+              field: category.id
+            input:
+              kind: select
+              # 数据源
+              data: product
+              operation:
+                kind: query 
+                name: ProductCategories
+                
+        # 类型：<Column>
+        columns:
+          - field: 
+              name: id       # 默认可排序
+          - field: 
+              name: name
+            input: 
+              kind: text
+          - field: 
+              name: category.name
+        # 类型 <Action>
+        actions:        # 行按钮
+          - text: R(strings/save)
+            operation:
+              kind: mutation
+              name: EditProduct
+              filters:
+                - field: id     # popup 内 type 的字段
+                  value: $id    # 当前行数据字段的值
+            commands:
+              - when: failure
+                kind: warning
+                message: =$result.error
+
+        # 批量操作按钮
+        itemActions:
+          - text: R(strings/search)
+            kind: search
+          - text: R(strings/delete)
+            kind: delete
+            commands:
+              - when: done
+                kind: refresh
+            # 无 fail 自动使用默认方式处理（弹框报错）
+
+    # 类型：<Data>
+    data:
+      - name: Workflow
+        environments:
+        - kind: production
+          sources:
+            - uri: canvasbus://infoplus-graph/Workflow
+        - kind: development
+          sources:
+            - uri: >-
+                constants://[
+                  { "id": "1", name: "Cat", category: { "id": "1", "name": "Backyard" } },
+                  { "id": "2", name: "Dog", category: { "id": "1", "name": "Backyard" } },
+                  { "id": "3", name: "Mantis", category: { "id": "2", "name": "Bugs" } },
+                  { "id": "4", name: "Parrot", category: { "id": "3", "name": "Birds" } }
+                ]
+      - name: Resume
+        environments:
+        - kind: production
+          sources:
+            - uri: canvasbus://infoplus-data/Resume
+        - kind: development
+          sources:
+            - uri: >-
+                constants://[
+                  { "id": "1", product: { "id": "1" } }
+                ]
+
+    # 资源类型：<Resource>
+    resources:
+      i18n:
+        defaults: zh
+        strings: # <Translation>
+          - name: products
+            zh: 商品列表
+            en: Products
+          - name: orders
+            zh: 订单列表
+            en: Order
+          - name: help
+            zh: 帮助
+            en: Help
+          - name: new
+            zh: 新建
+            en: New
+          - name: delete
+            zh: 删除
+            en: Delete
+          - name: completed
+            zh: 完结
+            en: Completed
+      fonts:
+        - name: material
+          uri: static/system/material.ttf
+
+    # 入口类型：<Entry>
+    entries:
+      - name: default
+        text: Sandbox Home
+        uri: /home/
+
+
