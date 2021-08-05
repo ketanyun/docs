@@ -15,6 +15,7 @@ spec:
 
   designer:
     name: maker
+    version: v20210806
 
   # 画布定义
   canvas:

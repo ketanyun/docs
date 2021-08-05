@@ -5,11 +5,11 @@
 
 | Name | Multitenancy | Explained | 
 |------|------|-----|
-| [QApp](#QApp) | `Yes` | OAuth应用 | 
-| [QService](QService) | `Yes` | 服务注册 |
-| [QRole](QRole) | `No` | 描述ACL |
-| [QCanvas](QCanvas) | `Yes` | 数据应用 |
-| [QWorkflow](QWorkflow) | `Yes` | 流程应用 |
-| [QForm](QForm) | `Yes` | 表单界面定义，被数据应用、流程应用等所引用 |
-| [QPatch](QPatch) | `?` | 应用补丁 |
-| [QLicense](QLicense) | `No` | 应用授权|
+| [QApp](/wiki/QApp) | `Yes` | OAuth应用 | 
+| [QService](/wiki/QService) | `Yes` | 服务注册 |
+| [QRole](/wiki/QRole) | `No` | 描述ACL |
+| [QCanvas](/wiki/QCanvas) | `Yes` | 数据应用 |
+| [QWorkflow](/wiki/QWorkflow) | `Yes` | 流程应用 |
+| [QForm](/wiki/QForm) | `Yes` | 表单界面定义，被数据应用、流程应用等所引用 |
+| [QPatch](/wiki/QPatch) | `?` | 应用补丁 |
+| [QLicense](/wiki/QLicense) | `No` | 应用授权|

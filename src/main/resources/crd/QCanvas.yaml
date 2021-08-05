@@ -41,15 +41,21 @@ spec:
                 # 设计器信息
                 designer: 
                   type: object
+                  required:
+                    - name
+                    - version
                   properties:
                     # 设计器名称，如 maker
                     name: 
+                      type: string
+                    # 设计器版本，影响保存出来的文件格式版本
+                    version: 
                       type: string
                     # 额外自定义属性
                     attributes:
                       type: object
 
-                # 定义本CRD的公共类型，不用于实际CustomResource
+                # 定义本CRD的公共类型，不用于实际 CustomResource
                 types:
                   type: object
                   properties:
@@ -57,11 +63,15 @@ spec:
                     _element: 
                       type: object
                       properties: &ELEMENT_PROPERTIES
+                        name:
+                          type: string
                         text:
                           type: string
                         description:
                           type: string
                         uri:
+                          type: string
+                        tags:
                           type: string
                     # 《筛选器》
                     _filter: &FILTER
@@ -111,10 +121,14 @@ spec:
                     _argument: &ARGUMENT
                       type: object
                       required:
+                        - name
                         - value
                       properties:
                         # 字段数据类型，引用到 spec.canvas.data[].name
                         type:
+                          type: string
+                        # 参数名
+                        name:
                           type: string
                         value:
                           x-kubernetes-int-or-string: true
@@ -128,16 +142,15 @@ spec:
                       required:
                         - name
                       properties:
-                        name:
-                          type: string
-                        text:
-                          type: string
-                        description:
-                          type: string
+                        <<: *ELEMENT_PROPERTIES
                         # 对如何使用改字段的暗示
                         kind:
                           type: string
-                          pattern: '^(text|value|icon|tooltip)$'
+                          enum:
+                            - text
+                            - value
+                            - icon
+                            - tooltip
                         # 字段数据类型，引用到 spec.canvas.data[].name
                         type:
                           type: string
@@ -154,6 +167,7 @@ spec:
                             - query
                             - mutation
                             - subscription
+                            - "*"           # 不限
                         name:
                           type: string
                         # 该《数据操作》所需Filter
@@ -196,6 +210,79 @@ spec:
                         format:
                           type: string
 
+                    # 《命令》：界面操作
+                    _command: &COMMAND
+                      type: object 
+                      description: define client-side UI interactions
+                      required:
+                        - when
+                        - kind
+                      properties:
+                        # 相较于 operation 的执行实际
+                        when:
+                          type: string
+                          enum:
+                            - before
+                            - done
+                            - success
+                            - failure
+                        kind:
+                          type: string
+                          enum:
+                            - confirm
+                            - info
+                            - warning
+                            - error
+                            - refresh
+                            - close
+                            - link
+                            - navigate 
+                        # URL scenes /w examples:
+                        # 1. (link) external                : https://example.com/path1
+                        # 2. (link) in-app-vue              : vue://Home
+                        # 3. (link) external-micro-frontend : sub://{base}/{path}@{entry}
+                        # 4. (nav) in-app-native navigate   : "product", "product#sales" (page + tab)
+                        # 5. (nav) inter-app-native navi    : {client-id}://{page}#{content}
+                        uri:
+                          type: string
+                        # 用于 navigate/link
+                        target:
+                          type: string
+                          enum:
+                            - _self
+                            - _blank
+                        # 用于 navigate，向前/向后跳转的历史栈长度 
+                        offset:
+                          type: integer
+                        # 用于 confirm/info/warning/error，显示的消息内容
+                        message:
+                          type: string
+                        # 参数列表。对于 navigate，视为 QueryString  
+                        parameters:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              name: 
+                                type: string
+                              value: 
+                                x-kubernetes-int-or-string: true
+
+                    # 《动作》：服务调用
+                    _action: &ACTION 
+                      type: object
+                      properties:
+                        <<: *CONTROL_PROPERTIES
+                        kind:
+                          type: string
+                          pattern: '^(create|read|update|delete|list|print|export|search)$'
+                        # 定义服务端交互 (server-side API invocations)
+                        operation: *OPERATION
+                        # 定义客户端交互 (client-side UI interactions)
+                        commands: 
+                          type: array
+                          items: *COMMAND
+
                 # 应用定义
                 canvas:
                   type: object
@@ -215,23 +302,19 @@ spec:
                     # 《数据》 列表定义
                     data: 
                       type: array
-                      items:
+                      items: &DATA
                         type: object 
                         properties:
-                          # 数据机读代码，本定义内唯一
-                          name: 
-                            type: string
+                          <<: *ELEMENT_PROPERTIES
                           #《数据字段》列表定义
                           fields: 
                             type: array
                             items: *FIELD
-                                  
                           #《数据操作》列表定义
                           operations: 
                             type: array
                             items: *OPERATION
-
-                          # 定义数据实际来源
+                          #《数据环境》列表定义
                           environments: 
                             type: array
                             items: &ENVIRONMENT
@@ -248,13 +331,24 @@ spec:
                                     - production
                                 sources:
                                   type: array
+                                  #《数据来源》
                                   items: &SOURCE
                                     type: object
                                     required:
                                       - uri
                                     properties:
+                                      # 可选协议：
+                                      # 网关：canvasbus://$service/$type 
+                                      # 常量：constants://$JSON 
                                       uri: 
                                         type: string
+                          #《数据属性》
+                          attributes:
+                            type: object
+                            properties:
+                              # 是否支持分页结构
+                              pagination:
+                                type: boolean 
 
                     # 《菜单》 列表定义 
                     menu:  
@@ -265,7 +359,9 @@ spec:
                       properties:                            
                         kind:
                           type: string
-                          pattern: '^(static|dynamic)$'
+                          enum:
+                            - static
+                            - dynamic
                         items: 
                           type: array
                           items: &MENUITEM
@@ -274,69 +370,26 @@ spec:
                               - name
                               - text 
                             properties:
-                              # 菜单机读代码，本定义内唯一
-                              name: 
-                                type: string
-                              text: 
-                                type: string 
-                              description:
-                                type: string 
+                              # name: 菜单机读代码，本定义内唯一
+                              <<: *ELEMENT_PROPERTIES
+                              # 菜单图标，可使用资源引用，例如：=R('images/logo')
                               icon:
                                 type: string
                               # 父菜单
                               parent:
+                                type: string
+                              # 同 控件.visible 属性，支持表达式
+                              visible: 
                                 type: string 
-                              # 菜单类型，可枚举 
-                              kind:
-                                type: string 
-                              action: &ACTION 
-                                type: object
-                                properties:
-                                  <<: *CONTROL_PROPERTIES
-                                  kind:
-                                    type: string
-                                    pattern: '^(create|read|update|delete|list|print|export|search)$'
-                                  # 定义服务端交互 (server-side API invocations)
-                                  operation: *OPERATION
-                                  # 定义客户端交互 (client-side UI interactions)
-                                  commands: 
-                                    type: array
-                                    items: &COMMAND
-                                      type: object 
-                                      description: define client-side UI interactions
-                                      required:
-                                        - when
-                                        - kind
-                                      properties:
-                                        # 相较于 operation 的执行实际
-                                        when:
-                                          type: string
-                                          pattern: '^(before|done|success|failure)$'
-                                        kind:
-                                          type: string
-                                          pattern: '^(confirm|info|warning|error|refresh|close|link|navigate)$'
-                                        uri:
-                                          type: string
-                                        # 用于 navigate/link
-                                        target:
-                                          type: string
-                                          pattern: '^(blank|self)$'
-                                        # 用于 navigate，向前/向后跳转的历史栈长度 
-                                        offset:
-                                          type: integer
-                                        # 用于 confirm/info/warning/error，显示的消息内容
-                                        message:
-                                          type: string
-                                        # 参数列表。对于 navigate，视为 QueryString  
-                                        parameters:
-                                          type: array
-                                          items:
-                                            type: object
-                                            properties:
-                                              name: 
-                                                type: string
-                                              value:
-                                                x-kubernetes-int-or-string: true
+                              # 菜单动作
+                              action: *ACTION
+                              # 菜单项关联的数据，仅如下数据有效： 
+                              # accesses[].name
+                              # accesses[].text
+                              # accesses[].operation[].filter[]
+                              accesses: 
+                                type: array
+                                items: *DATA
 
                     # 《资源》 列表定义 
                     resources:
@@ -389,6 +442,10 @@ spec:
                             type: string
                           text:
                             type: string
+                          # 画布中的位置，仅用于设计器
+                          position: 
+                            type: string
+                            pattern: '^\d+,\d+$'
                           tabs:
                             type: array
                             items:
@@ -411,8 +468,7 @@ spec:
                           - name
                           - kind
                         properties:
-                          name: 
-                            type: string
+                          <<: *ELEMENT_PROPERTIES
                           kind: 
                             type: string
                             enum:
@@ -475,9 +531,37 @@ spec:
                             type: array
                             items: *ACTION
                           # 表格4：表格行动作
+                          # 列表1：列表项动作（例外）
                           itemActions:
                             type: array
                             items: *ACTION
+                          # 静态1: 静态内容格式
+                          format:
+                            type: string
+                            enum:
+                              - HTML
+                              - Markdown
+                          # 静态2：静态内容
+                          body:
+                            type: string
+                          # 列表2：列表项动作 
+                          action: *ACTION 
+                          # 列表3：列表筛选条件
+                          filter: *FILTER
+                          # 表单1：权限列表
+                          permissions:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                # 字段名，引用自 data[].fields[].name
+                                field:
+                                  type: string
+                                # 权限字：
+                                # r（读）w（写）i（增）d（删）e（修改）R（Sibling读）
+                                value:
+                                  type: string
+                                  pattern: '^[rwideR*]*$'
 
                     # 《弹框》 列表定义 
                     popups: 
@@ -492,6 +576,7 @@ spec:
                       items:
                         type: object 
                         properties:
+                          <<: *ELEMENT_PROPERTIES
                           # 权限主体（主语）
                           subjects:
                             type: array
@@ -524,6 +609,9 @@ spec:
                                           - menu # 菜单，引用 spec.canvas.menu.items[].name
                                       # 宾语对象引用名，对于 kind为type时，支持指定服务前缀，如 "iam/User"
                                       name: 
+                                        type: string
+                                      # 显示名，仅用于非内部引用类型 
+                                      text:
                                         type: string
                                 # 权限操作（谓语）
                                 verbs: 
