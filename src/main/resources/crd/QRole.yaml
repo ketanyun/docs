@@ -20,9 +20,17 @@ spec:
             spec:
               type: object
               required:
+                - name
+                - text
                 - app
                 - rules
               properties:
+                # 角色代码（机读） 
+                name: 
+                  type: string
+                # 角色名称（人读） 
+                text: 
+                  type: string
                 # 所属 QApp 的信息
                 app: 
                   type: object

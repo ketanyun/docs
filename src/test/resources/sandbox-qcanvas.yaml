@@ -16,6 +16,11 @@ spec:
   designer:
     name: maker
     version: v20210806
+    attributes:
+      pages:
+        - name: resume-page
+          x: 100
+          y: 160
 
   # 画布定义
   canvas:

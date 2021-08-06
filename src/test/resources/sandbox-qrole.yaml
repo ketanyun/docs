@@ -1,18 +1,22 @@
 apiVersion: ketanyun.cn/v1alpha1
 kind: QRole
 metadata:
-  name: sandbox-qrole-rand
+  name: sandbox-qrole-sys-rand
   labels:
     # 指定处理 QRole 资源的 Bootstrap 服务为 `bus`
     service: bus
     # helm 安装名
     release: sandbox-helm
 spec:
+  # 角色代码（机读）
+  name: sys
+  # 角色名称（人读）
+  text: System
   # 所属 QApp 的信息
   app: 
     name: sandbox-qapp-rand  # 所属应用的 QApp 的 metadata.name 
   # 规则数组
-  rules:               
+  rules:
     - objects: 
         # 权限宾语类型
         - kind: type        # GraphQL类型

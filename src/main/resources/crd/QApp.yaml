@@ -23,12 +23,24 @@ spec:
                 - oauth
                 - tenant
               properties:
+
+                # 应用名称 
+                text: 
+                  type: string
+              
+                # 账号主体，默认使用租户级配置，参考 [Principal](Principal)  
+                principal:
+                  type: string
+                  enum:
+                    - openid
+                    - usercode
+
                 # 定义需要哪些oauth的scope
                 oauth:
                   type: object
                   required:
                     - scopes
-                  properties: 
+                  properties:
                     # OAuth scopes 
                     scopes:
                       type: array
@@ -84,10 +96,6 @@ spec:
                         # 应用市场代码
                         name: 
                           type: string 
-                # 账号主体，默认使用租户级配置，参考 [Principal](Principal)  
-                principal:
-                  type: string
-                  pattern: '^(openid|usercode)$'
                 # 多租信息
                 tenant:
                   type: object

@@ -51,9 +51,22 @@ spec:
                     # 设计器版本，影响保存出来的文件格式版本
                     version: 
                       type: string
-                    # 额外自定义属性
+                    # 额外设计器相关属性
                     attributes:
                       type: object
+                      properties:
+                        pages:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              name: 
+                                type: string
+                              x: 
+                                type: integer
+                              y:
+                                type: integer
+
 
                 # 定义本CRD的公共类型，不用于实际 CustomResource
                 types:
@@ -442,10 +455,7 @@ spec:
                             type: string
                           text:
                             type: string
-                          # 画布中的位置，仅用于设计器
-                          position: 
-                            type: string
-                            pattern: '^\d+,\d+$'
+                          # 标签页
                           tabs:
                             type: array
                             items:
