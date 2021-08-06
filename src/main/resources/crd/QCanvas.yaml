@@ -37,7 +37,7 @@ spec:
                     # 新建租户时是否需要自动激活 
                     autoActivate:
                       type: boolean 
-                    # 新建租户时是否需要自动升级 
+                    # 内容变化时，已激活的租户中本应用是否自动升级 
                     autoUpgrade:
                       type: boolean 
 
