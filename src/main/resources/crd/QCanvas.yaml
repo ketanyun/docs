@@ -37,6 +37,9 @@ spec:
                     # 新建租户时是否需要自动激活 
                     autoActivate:
                       type: boolean 
+                    # 新建租户时是否需要自动升级 
+                    autoUpgrade:
+                      type: boolean 
 
                 # 设计器信息
                 designer: 
