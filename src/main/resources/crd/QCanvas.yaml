@@ -64,12 +64,33 @@ spec:
                             type: object
                             properties:
                               name: 
-                                type: string
+                                type: string # reference to pages[].name
                               x: 
                                 type: integer
                               y:
                                 type: integer
-
+                        roles:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              name:
+                                type: string # reference to roles[].name
+                              menuAccesses:
+                                type: array
+                                items: 
+                                  type: object 
+                                  properties:
+                                    # 菜单 name 应用 
+                                    menu: 
+                                      type: string
+                                      description: references to menu.items[].name 
+                                    # 权限字，[r] 或 [rw]
+                                    access:
+                                      type: string 
+                                    # 是否限定部门
+                                    limitDept:
+                                      type: boolean 
 
                 # 定义本CRD的公共类型，不用于实际 CustomResource
                 types:
@@ -617,7 +638,7 @@ spec:
                                       kind: 
                                         type: string
                                         enum: 
-                                          - type # GraphQL的类型，暂不支持
+                                          - type # 网关 GraphQL 的类型
                                           - data # 数据，引用 spec.canvas.data[].name
                                           - menu # 菜单，引用 spec.canvas.menu.items[].name
                                       # 宾语对象引用名，对于 kind为type时，支持指定服务前缀，如 "iam/User"
