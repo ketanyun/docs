@@ -256,7 +256,7 @@ spec:
                         # URL scenes /w examples:
                         # 1. (link) external                : https://example.com/path1
                         # 2. (link) in-app-vue              : vue://Home
-                        # 3. (link) external-micro-frontend : sub://{base}/{path}@{entry}
+                        # 3. (link) external-micro-frontend : sub://{context-path}/{router}?uri={sub-app-uri}&token={self|parent}
                         # 4. (nav) in-app-native navigate   : "product", "product#sales" (page + tab)
                         # 5. (nav) inter-app-native navi    : {client-id}://{page}#{content}
                         uri:
