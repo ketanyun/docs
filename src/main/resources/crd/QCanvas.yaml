@@ -620,6 +620,12 @@ spec:
                           # 允许分级授权。r:默认，当前主体拥；w:可授予他人但不能再分级；x:可将x授予其他人
                           grant: 
                             type: string
+                          # 角色类型（系统、用户自定义）
+                          kind:
+                            type: string
+                            enum:
+                              - system  # 系统角色，不允许用户修改其权限部分
+                              - user    # 用户自定义角色
                           rules:
                             type: array
                             items:
