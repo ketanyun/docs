@@ -1,0 +1,394 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  # name must match the spec fields below, and be in the form: <plural>.<group>
+  name: qsurvey.ketanyun.cn
+spec:
+  # group name to use for REST API: /apis/<group>/<version>
+  group: ketanyun.cn
+  # list of versions supported by this CustomResourceDefinition
+  versions:
+    - name: v1alpha1
+      # Each version can be enabled/disabled by Served flag.
+      served: true
+      # One and only one version must be marked as the storage version.
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              required:
+                - app
+                - designer
+                - content
+              properties:
+
+                # 所属应用(QApp)
+                app:
+                  type: object
+                  required:
+                    - name
+                  properties:
+                    # 所属应用的 QApp 的 metadata.name
+                    name:
+                      type: string
+                    # 新建租户时是否需要自动激活
+                    autoActivate:
+                      type: boolean
+                    # 内容变化时，已激活的租户中本应用是否自动升级
+                    autoUpgrade:
+                      type: boolean
+
+                # 设计器信息
+                designer:
+                  type: object
+                  required:
+                    - name
+                    - version
+                  properties:
+                    # 设计器名称，如 SurveyDesigner、InfoPath
+                    name:
+                      type: string
+                    # 设计器版本，影响保存出来的文件格式版本
+                    version:
+                      type: string
+                    # 额外设计器相关属性
+                    attributes:
+                      type: object
+
+                # 定义本CRD的公共类型，不用于实际 CustomResource
+                types:
+                  type: object
+                  properties:
+                    # 《元素》：基础类型
+                    _element:
+                      type: object
+                      properties: &ELEMENT_PROPERTIES
+                        name:
+                          type: string
+                        text:
+                          type: string
+                        description:
+                          type: string
+                        uri:
+                          type: string
+                        tags:
+                          type: string
+
+                # 表单内容定义
+                content:
+                  type: object
+                  required:
+                    - name
+                    - kind
+                    - views
+                  properties:
+                    # 机读标识，要求租户内唯一
+                    name:
+                      type: string
+                    kind:
+                      type: string
+                      enum:
+                        - Exam      # 考试
+                        - CheckIn   # 签到
+                    # 显示名
+                    text:
+                      type: string
+                    description:
+                      type: string
+
+
+                    # 《视图》 列表定义
+                    views:
+                      type: array
+                      items: &VIEW
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          text:
+                            type: string
+                          renders:
+                            type: array
+                            items: &CONTROL
+                              type: object
+                              properties:
+                                <<: *ELEMENT_PROPERTIES
+                                # 控件类型
+                                kind:
+                                  type: string
+                                  enum:
+                                    # 业务控件
+                                    - User               # 用户（表单类型：全部）
+                                    - Dept               # 部门（表单类型：全部）
+                                    
+                                    # 普通控件 
+                                    - Option            # 单选/判断（表单类型：Exam、CheckIn）
+                                    - CheckList         # 多选（表单类型：Exam、CheckIn）
+                                    - Select            # 下拉（表单类型：Exam）
+                                    - PictureOption     # 单选图片（表单类型：Exam）
+                                    - PictureCheckList  # 多选图片（表单类型：Exam）
+                                    - Edit              # 填空（表单类型：Exam、CheckIn）
+                                    - TextArea          # 简答（表单类型：Exam、CheckIn）
+                                    - EditList          # 多项填空（表单类型：Exam）
+                                    - File              # 文件上传（表单类型：CheckIn）
+                                    - FileList          # 多文件上传（表单类型：CheckIn）
+                                    - Picture           # 图片上传（表单类型：CheckIn）
+                                    - PictureList       # 多图片上传（表单类型：CheckIn）
+                                    - Date              # 日期上传（表单类型：CheckIn）
+                                    - DateRange         # 日期范围上传（表单类型：CheckIn）
+
+                                    # 描述分页
+                                    - HorizontalRule    # 分割线（表单类型：全部）
+                                    - PageBreak         # 分页符（表单类型：全部）
+                                    - SectionBreak      # 分节符（表单类型：全部）
+                                # 解析
+                                explained:
+                                  type: string
+                                # 必填
+                                required:
+                                  type: boolean
+                                # 显示序号
+                                indexing:
+                                  type: boolean
+                                # 格式：File/Picture控件用于限制文件类型
+                                format:
+                                  type: string
+                                # 最小长度
+                                minLength:
+                                  type: integer
+                                # 最大长度
+                                maxLength:
+                                  type: integer
+                                # 行数：用于TextArea
+                                lines:
+                                  type: integer
+                                # 评分规则
+                                scoring:
+                                  type: string
+                                  enum:
+                                    - Exactly     # 全对得分（填空、简答、单选、多选）
+                                    - Contain     # 包含得分（填空、简答）
+                                    - EachExactly # 每个选项单独计分（单选、多选、多填）
+                                    - EachContain # 每个选项单独计分（多选、多填）
+                                # 控件子项
+                                items:
+                                  type: array
+                                  required:
+                                    - text
+                                  items:
+                                    type: object
+                                    properties:
+                                      # 值ID，对于选择题随机生成，填空题（含多项）不需要
+                                      name:
+                                        type: string
+                                      # 显示值
+                                      text:
+                                        type: string
+                                      # 可补充填写
+                                      external:
+                                        type: boolean
+                                      # 答案设置
+                                      answer:
+                                        type: object
+                                        properties:
+                                          correct:
+                                            type: boolean
+                                          # 填空答案
+                                          text:
+                                            type: string
+                                          score:
+                                            type: integer
+
+
+                    # 《批次》 列表定义
+                    batches:
+                      type: array
+                      items: &BATCH
+                        type: object
+                        required:
+                          - name
+                        properties:
+                          name:
+                            type: string
+                          # 第一个人可以答题的时间
+                          startTime:  &TIMEPOINT
+                            type: object
+                            properties:
+                              # 日期，如："2021-03-12"
+                              date:
+                                type: string
+                              # 时间，到当天凌晨的秒数
+                              time:
+                                type: integer
+                          # 第一个人可以交卷的时间
+                          dueTime: *TIMEPOINT
+                          # 最后一个人可以交卷的时间
+                          limitTime: *TIMEPOINT
+                          repeat:
+                            type: object
+                            properties:
+                              strategy:
+                                type: string
+                                enum:
+                                  - None
+                                  - Day
+                                  - Week
+                                  - Month
+
+                    # 填写限制
+                    limits:
+                      type: object
+                      properties:
+                        # 秒数，单次填写最大允许时间
+                        maxTime:
+                          type: integer
+                        # 秒数，多久不操作自动提交
+                        maxIdle:
+                          type: integer
+                        # 次数，最多允许的切屏（失去焦点）次数
+                        maxBlur:
+                          type: integer
+                        # 次数，每批次每人最多允许填写次数，默认=1
+                        maxFill:
+                          type: integer
+
+                    # 抽题
+                    selection:
+                      type: object
+                      properties:
+                        # 是否启用"抽题"
+                        enable:
+                          type: boolean
+                        # 抽题规则
+                        rules:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              # 格式举例："10-20"，从多少题到多少题
+                              range:
+                                type: string
+                              # 选取几道
+                              select:
+                                type: integer
+                              # 选取策略
+                              strategy:
+                                type: string
+                                enum:
+                                  - Random
+
+                    # 事件
+                    events:
+                      type: object
+                      properties:
+                        # 提交后事件
+                        done:
+                          type: object
+                          properties:
+                            commands:
+                              type: array
+                              items: &COMMAND
+                                type: object
+                                required:
+                                  - kind
+                                properties:
+                                  kind:
+                                    type: string
+                                    enum:
+                                      - Transcript  # 成绩单
+                                      - Prompt      # 提示语
+                                      - Navigate    # 跳转
+                                  # 提示内容
+                                  text:
+                                    type: string
+                                  # 转跳URL
+                                  uri:
+                                    type: string
+
+                    # 成绩单设置
+                    transcript:
+                      type: object
+                      properties:
+                        # 显示总分，默认false
+                        score:
+                          type: boolean
+                        # 显示答案，默认false
+                        answer:
+                          type: boolean
+                        reviews:
+                          type: array
+                          items:
+                            type: array
+                            items:
+                              type: object
+                              required:
+                                - range
+                                - text
+                              properties:
+                                # 形如 "80-100"
+                                range:
+                                  type: string
+                                # 评语内容
+                                text:
+                                  type: string
+
+                    # 《入口》列表定义
+                    entries:
+                      type: array
+                      items:
+                        type: object
+                        required:
+                          - name
+                          - uri
+                          - text
+                        properties:
+                          # 入口标识，用于部分API
+                          name:
+                            type: string
+                          # 入口文字，用于前端显示
+                          text:
+                            type: string
+                          # 入口链接，相对路径，不包含域名部分
+                          uri:
+                            type: string
+                          # 图标链接，相对路径，不包含域名部分
+                          icon:
+                            type: string
+                          # 入口描述
+                          description:
+                            type: string
+                          # 支持屏，空集视为不限
+
+                          screens:
+                            type: array
+                            items:
+                              type: string
+                              enum:
+                                - desktop    # 桌面端
+                                - mobile     # 移动端（所有非桌面端）
+                                # - ios        # 苹果原生App
+                                # - android    # 安卓原生App
+                                - wechat     # 微信（包括企业微信）
+                                # - wechat_pc  # 微信PC端
+                          # 支持用户列表，空集视为不限，语法参考：[UserFilter](https://github.com/infoplus/docs/wiki/UserFilter)
+                          userFilters:
+                            type: array
+                            items:
+                              type: string
+
+
+  # either Namespaced or Cluster
+  scope: Namespaced
+  names:
+    # plural name to be used in the URL: /apis/<group>/<version>/<plural>
+    plural: qsurvey
+    # singular name to be used as an alias on the CLI and for display
+    singular: qsurveys
+    # kind is normally the CamelCased singular type. Your resource manifests use this.
+    kind: QSurvey
+    # shortNames allow shorter string to match your resource on the CLI
+    shortNames:
+      - qsvy

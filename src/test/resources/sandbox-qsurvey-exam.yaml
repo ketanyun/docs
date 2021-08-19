@@ -1,0 +1,35 @@
+apiVersion: ketanyun.cn/v1alpha1
+kind: QSurvey
+metadata:
+  name: sandbox-survey-rand
+spec:
+  app:
+    name: sandbox-qapp-rand
+  designer:
+    name: SurveyDesigner
+    version: "v1"
+  content:
+    kind: "Exam"
+    name: "sandbox-survey-rand"
+    text: "通识考试"
+    views:
+      - name: v01
+        renders:
+          - name: "f01"
+            kind: Option
+            text: "1+1=?"
+            explained: "显而易见"
+            required: true
+            items:
+              - name: "A"
+                text: "10"
+                answer:
+                  correct: false
+              - name: "B"
+                text: "2"
+                answer:
+                  correct: true
+    batches:
+      - name: "b01"
+        repeat:
+          strategy: None
