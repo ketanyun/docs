@@ -69,28 +69,6 @@ spec:
                                 type: integer
                               y:
                                 type: integer
-                        roles:
-                          type: array
-                          items:
-                            type: object
-                            properties:
-                              name:
-                                type: string # reference to roles[].name
-                              menuAccesses:
-                                type: array
-                                items: 
-                                  type: object 
-                                  properties:
-                                    # 菜单 name 应用 
-                                    menu: 
-                                      type: string
-                                      description: references to menu.items[].name 
-                                    # 权限字，[r] 或 [rw]
-                                    access:
-                                      type: string 
-                                    # 是否限定部门
-                                    limitDept:
-                                      type: boolean 
 
                 # 定义本CRD的公共类型，不用于实际 CustomResource
                 types:
@@ -319,6 +297,34 @@ spec:
                         commands: 
                           type: array
                           items: *COMMAND
+
+                    # 《用户》
+                    _user: &USER
+                      type: object
+                      properties:
+                        account:  # 用户账号
+                          type: string
+                        name:     # 显示名
+                          type: string 
+                    
+                    # 《部门》
+                    _dept: &DEPT
+                      type: object
+                      properties:
+                        code:     # 部门代码
+                          type: string
+                        name:     # 显示名
+                          type: string 
+
+                    # 《岗位》
+                    _post: &POST
+                      type: object
+                      properties:
+                        code:     # 岗位代码
+                          type: string
+                        name:     # 显示名
+                          type: string 
+                    
 
                 # 应用定义
                 canvas:
@@ -593,7 +599,7 @@ spec:
                                   type: string
                                 # 权限字：
                                 # r（读）w（写）i（增）d（删）e（修改）R（Sibling读）
-                                value:
+                                access:
                                   type: string
                                   pattern: '^[rwideR*]*$'
 
@@ -617,11 +623,14 @@ spec:
                             items:
                               type: object
                               properites:
+                                user: *USER
+                                post: *POST
+                                dept: *DEPT 
                           # 允许分级授权。r:默认，当前主体拥；w:可授予他人但不能再分级；x:可将x授予其他人
                           grant: 
                             type: string
-                          # 角色类型（系统、用户自定义）
-                          kind:
+                          # 角色保护级别（系统、用户自定义）
+                          ring:
                             type: string
                             enum:
                               - system  # 系统角色，不允许用户修改其权限部分
@@ -630,6 +639,8 @@ spec:
                             type: array
                             items:
                               type: object
+                              required:
+                                - objects
                               properties:
                                 # 权限对象（宾语）
                                 objects: 
@@ -653,6 +664,13 @@ spec:
                                       # 显示名，仅用于非内部引用类型 
                                       text:
                                         type: string
+                                      # 仅支持menu类型：权限字，*/[r]/[w]/[rw]，用于自动为ACL选择operation
+                                      access:
+                                        type: string 
+                                      # 仅支持menu类型：是否限定部门，用于自动为ACL追加Filter
+                                      limitDept:
+                                        type: boolean 
+
                                 # 权限操作（谓语）
                                 verbs: 
                                   type: array
