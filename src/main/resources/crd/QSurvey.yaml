@@ -20,16 +20,13 @@ spec:
             spec:
               type: object
               required:
-                - app
                 - designer
                 - content
               properties:
 
-                # 所属应用(QApp)
+                # 所属应用(QApp)，尚不支持
                 app:
                   type: object
-                  required:
-                    - name
                   properties:
                     # 所属应用的 QApp 的 metadata.name
                     name:

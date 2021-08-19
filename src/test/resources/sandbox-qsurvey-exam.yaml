@@ -3,8 +3,6 @@ kind: QSurvey
 metadata:
   name: sandbox-survey-rand
 spec:
-  app:
-    name: sandbox-qapp-rand
   designer:
     name: SurveyDesigner
     version: "v1"
