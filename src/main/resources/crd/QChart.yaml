@@ -1,0 +1,266 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  # name must match the spec fields below, and be in the form: <plural>.<group>
+  name: qcharts.ketanyun.cn
+spec:
+  # group name to use for REST API: /apis/<group>/<version>
+  group: ketanyun.cn
+    # either Namespaced or Cluster
+  scope: Namespaced
+  names:
+    # plural name to be used in the URL: /apis/<group>/<version>/<plural>
+    plural: qcharts
+    # singular name to be used as an alias on the CLI and for display
+    singular: qchart
+    # kind is normally the CamelCased singular type. Your resource manifests use this.
+    kind: QChart
+    # shortNames allow shorter string to match your resource on the CLI
+    # shortNames:
+    #   - qcht
+  # list of versions supported by this CustomResourceDefinition
+  versions:
+    - name: v1alpha1
+      # Each version can be enabled/disabled by Served flag.
+      served: true
+      # One and only one version must be marked as the storage version.
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              spec:
+              type: object
+              required:
+                - designer
+                - content
+              properties:
+              
+                # 所属应用(QApp)
+                app:
+                  type: object
+                  properties:
+                    # 所属应用的 QApp 的 metadata.name
+                    name:
+                      type: string
+                    # 新建租户时是否需要自动激活
+                    autoActivate:
+                      type: boolean
+                    # 内容变化时，已激活的租户中本应用是否自动升级
+                    autoUpgrade:
+                      type: boolean
+
+                # 设计器信息
+                designer:
+                  type: object
+                  required:
+                    - name
+                    - version
+                  properties:
+                    # 设计器名称，如 ChartDesigner
+                    name:
+                      type: string
+                    # 设计器版本，影响保存出来的文件格式版本
+                    version:
+                      type: string
+                    # 额外设计器相关属性
+                    attributes:
+                      type: object
+                        
+                content:
+                  type: object
+                  properties:
+                    kind: 
+                      type: string
+                      enum:
+                        - Chart
+                    name: 
+                      type: string  # 机读标识
+                    text: 
+                      type: string  # 标题
+                    description: 
+                      type: string
+
+                    # 
+                    view: 
+                      type: object
+                      properties:
+                        name: 
+                          type: string
+                        text: 
+                          type: string
+                        renders:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              # 控件ID（字段名），Content 内唯一
+                              name: 
+                                type: string 
+                              # 控件类型
+                              kind: 
+                                type: string
+                                enum:
+                                  - LineChart   # 折线图
+                                  - BarChart    # 柱状图
+                                  - PieChart    # 饼图
+                                  - Gauge       # 仪表盘
+                                  - DataTable   # 数据表 
+                                  - PivotTable  # 透视表 
+                              # 标题
+                              text:
+                                type: string
+                              # 描述
+                              description: 
+                                type: string
+                              # 外部链接
+                              uri:
+                                type: string
+                              # 位置，（x, y, w, h）
+                              position:
+                                type: object
+                                properties:
+                                  x:
+                                    type: integer
+                                  y:
+                                    type: integer
+                                  w:
+                                    type: integer
+                                  h:
+                                    type: integer
+                              # 分组。使用方式：
+                              # Line、Bar、Pie、Guage: 仅使用[0]作为x轴（invert后为y轴）
+                              # DataTable：作为表列（不支持invert）
+                              # PivotTable：度量值作为表列（invert后为表行）
+                              groups:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    # 维度名
+                                    dimension:
+                                      type: string
+                                    # 行列反转
+                                    invert:
+                                      type: boolean
+                                    # 显示信息
+                                    text:
+                                      type: string
+                                    # 格式化串，用于格式化时间
+                                    format:
+                                      type: string
+                                    # 最小值
+                                    min:
+                                      type: string
+                                    # 最大值
+                                    max: 
+                                      type: string
+                                    # 总显示量，对于
+                                    total:
+                                      type: string
+                              # 度量值
+                              # Line、Bar: 可多值
+                              # Guage、Pie: 单值
+                              # DataTable: 作为表列
+                              # PivotTable：作为表内容
+                              values: 
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    metric:
+                                      type: string 
+                                    text:
+                                      type: string
+                                    # 聚合方式，仅用于 Guage
+                                    aggregation:
+                                      type: string
+                                      enum:
+                                        - count
+                                        - sum
+                                        - average
+                                    # 定义颜色、线型等
+                                    styles:
+                                      type: array
+                                      items:
+                                        type: object
+                                        properties:
+                                          name: 
+                                            type: string 
+                                            enum:
+                                              - color
+                                              - weight
+                                          value:
+                                            type: string
+                              # 轴线
+                              axes: 
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    # 轴线位置
+                                    position:
+                                      type: string
+                                      enum:
+                                        - top
+                                        - left
+                                        - right
+                                        - bottom 
+                                    # 轴线标题 
+                                    text:
+                                      type: string
+                              # 图例
+                              legend:
+                                type: object
+                                properties:
+                                  # 是否显示
+                                  show:
+                                    type: boolean 
+                                  dimension:
+                                    type: string 
+                              # 数据
+                              data:
+                                type: object
+                                properties:
+                                  # 数据源
+                                  source:
+                                    type: object
+                                    properties:
+                                      # 数据源名称，来自数据网关
+                                      name: 
+                                        type: string
+                                      text:
+                                        type: string
+                                  # 查询语句
+                                  query:
+                                    type: object
+                                    properties:
+                                      kind: 
+                                        type: string
+                                        enum:
+                                          - sql
+                                          - elastic_search
+                                          - prometheus
+                                      statement:
+                                        type: string 
+                                  # 《维度》列表
+                                  dimensions:
+                                    type: array
+                                    items:
+                                      type: object 
+                                      properties:
+                                        name: 
+                                          type: string 
+                                        field:
+                                          type: string
+                                  # 《度量》列表
+                                  metrics:
+                                    type: array
+                                    items:
+                                      type: object 
+                                      properties:
+                                        name: 
+                                          type: string 
+                                        field:
+                                          type: string

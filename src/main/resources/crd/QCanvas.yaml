@@ -6,6 +6,18 @@ metadata:
 spec:
   # group name to use for REST API: /apis/<group>/<version>
   group: ketanyun.cn
+    # either Namespaced or Cluster
+  scope: Namespaced
+  names:
+    # plural name to be used in the URL: /apis/<group>/<version>/<plural>
+    plural: qcanvas
+    # singular name to be used as an alias on the CLI and for display
+    singular: qcanvas
+    # kind is normally the CamelCased singular type. Your resource manifests use this.
+    kind: QCanvas
+    # shortNames allow shorter string to match your resource on the CLI
+    shortNames:
+      - qcvs
   # list of versions supported by this CustomResourceDefinition
   versions:
     - name: v1alpha1
@@ -721,15 +733,4 @@ spec:
                               type: string 
 
 
-  # either Namespaced or Cluster
-  scope: Namespaced
-  names:
-    # plural name to be used in the URL: /apis/<group>/<version>/<plural>
-    plural: qcanvas
-    # singular name to be used as an alias on the CLI and for display
-    singular: qcanvas
-    # kind is normally the CamelCased singular type. Your resource manifests use this.
-    kind: QCanvas
-    # shortNames allow shorter string to match your resource on the CLI
-    shortNames:
-      - qcvs
+

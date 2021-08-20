@@ -6,6 +6,18 @@ metadata:
 spec:
   # group name to use for REST API: /apis/<group>/<version>
   group: ketanyun.cn
+    # either Namespaced or Cluster
+  scope: Namespaced
+  names:
+    # plural name to be used in the URL: /apis/<group>/<version>/<plural>
+    plural: qroles
+    # singular name to be used as an alias on the CLI and for display
+    singular: qrole
+    # kind is normally the CamelCased singular type. Your resource manifests use this.
+    kind: QRole
+    # shortNames allow shorter string to match your resource on the CLI
+    #shortNames:
+    #  - qrole
   # list of versions supported by this CustomResourceDefinition
   versions:
     - name: v1alpha1
@@ -107,15 +119,3 @@ spec:
                       # 允许分级授权。r:默认，当前主体拥；w:可授予他人但不能再分级；x:可将x授予其他人
                       grant: 
                         type: string
-  # either Namespaced or Cluster
-  scope: Namespaced
-  names:
-    # plural name to be used in the URL: /apis/<group>/<version>/<plural>
-    plural: qroles
-    # singular name to be used as an alias on the CLI and for display
-    singular: qrole
-    # kind is normally the CamelCased singular type. Your resource manifests use this.
-    kind: QRole
-    # shortNames allow shorter string to match your resource on the CLI
-    #shortNames:
-    #  - qrole

@@ -1,0 +1,136 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  # name must match the spec fields below, and be in the form: <plural>.<group>
+  name: qforms.ketanyun.cn
+spec:
+  # group name to use for REST API: /apis/<group>/<version>
+  group: ketanyun.cn
+    # either Namespaced or Cluster
+  scope: Namespaced
+  names:
+    # plural name to be used in the URL: /apis/<group>/<version>/<plural>
+    plural: qforms
+    # singular name to be used as an alias on the CLI and for display
+    singular: qform
+    # kind is normally the CamelCased singular type. Your resource manifests use this.
+    kind: QForm
+    # shortNames allow shorter string to match your resource on the CLI
+    shortNames:
+      - qfrm
+  # list of versions supported by this CustomResourceDefinition
+  versions:
+    - name: v1alpha1
+      # Each version can be enabled/disabled by Served flag.
+      served: true
+      # One and only one version must be marked as the storage version.
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              required:
+                - designer
+                - content
+              properties:
+
+                # 所属应用(QApp)
+                app:
+                  type: object
+                  properties:
+                    # 所属应用的 QApp 的 metadata.name
+                    name:
+                      type: string
+                    # 新建租户时是否需要自动激活
+                    autoActivate:
+                      type: boolean
+                    # 内容变化时，已激活的租户中本应用是否自动升级
+                    autoUpgrade:
+                      type: boolean
+
+                # 设计器信息
+                designer:
+                  type: object
+                  required:
+                    - name
+                    - version
+                  properties:
+                    # 设计器名称，如 SurveyDesigner、InfoPath
+                    name:
+                      type: string
+                    # 设计器版本，影响保存出来的文件格式版本
+                    version:
+                      type: string
+                    # 额外设计器相关属性
+                    attributes:
+                      type: object
+                        
+                content:
+                  type: object
+                  properties:
+                    kind: 
+                      type: string
+                      enum:
+                        - Form
+                    name: 
+                      type: string  # 机读标识
+                    text: 
+                      type: string  # 标题
+                    description: 
+                      type: string
+
+                    # 多视图设置，尚无需支持。参考：https://github.com/infoplus/docs/wiki/ViewPage
+                    views: 
+                      type: array
+                      items:
+                        type: object
+                        required:
+                          - name
+                        properties:
+                          # 视图标识，QForm 内唯一
+                          name: 
+                            type: string
+                          # 视图显示名
+                          text: 
+                            type: string
+                          renders:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                # 控件ID（字段名），Content 内唯一
+                                name: 
+                                  type: string
+                                # 控件分类：数据控件、布局控件、显示控件
+                                category: 
+                                  type: string
+                                  enum:
+                                    - Boundable
+                                    - Layoutable
+                                    - Displayable
+                                # 控件类型
+                                kind: 
+                                  type: string 
+                                  enum:
+                                    - Edit
+                                    - Option
+                                    - Select
+                                    - ...
+                                description: 
+                                  type: string 
+                                # 是否必填，仅 `数据控件` 支持
+                                required: 
+                                  type: boolean 
+                                # 对应数据字段，仅 `数据控件` 支持
+                                field: 
+                                  type: string 
+                                # 子控件列表，仅 `布局控件` 支持
+                                renders:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties: 
+                                      nameRef: 
+                                        type: string 

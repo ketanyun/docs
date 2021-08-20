@@ -6,6 +6,18 @@ metadata:
 spec:
   # group name to use for REST API: /apis/<group>/<version>
   group: ketanyun.cn
+    # either Namespaced or Cluster
+  scope: Namespaced
+  names:
+    # plural name to be used in the URL: /apis/<group>/<version>/<plural>
+    plural: qservices
+    # singular name to be used as an alias on the CLI and for display
+    singular: qservice
+    # kind is normally the CamelCased singular type. Your resource manifests use this.
+    kind: QService
+    # shortNames allow shorter string to match your resource on the CLI
+    shortNames:
+      - qsvc
   # list of versions supported by this CustomResourceDefinition
   versions:
     - name: v1alpha1
@@ -84,15 +96,3 @@ spec:
                     # 是否支持多租。为true时，租户必须为 "localhost"
                     multitenancy: 
                       type: boolean
-  # either Namespaced or Cluster
-  scope: Namespaced
-  names:
-    # plural name to be used in the URL: /apis/<group>/<version>/<plural>
-    plural: qservices
-    # singular name to be used as an alias on the CLI and for display
-    singular: qservice
-    # kind is normally the CamelCased singular type. Your resource manifests use this.
-    kind: QService
-    # shortNames allow shorter string to match your resource on the CLI
-    shortNames:
-      - qsvc
