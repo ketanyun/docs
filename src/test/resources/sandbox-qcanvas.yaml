@@ -171,4 +171,20 @@ spec:
         text: Sandbox Home
         uri: /home/
 
+    roles:
+      - name: Admin
+        subjects:
+          - user:
+              account: marstone
+          - post:
+              code: ITAdmin
+            dept:
+              code: "*"
+        rules:
+          - objects:
+              - kind: type
+                name: builtin/*
+            verbs:
+              - kind: "*"
+
 
