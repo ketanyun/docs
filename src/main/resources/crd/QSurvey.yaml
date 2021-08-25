@@ -6,7 +6,7 @@ metadata:
 spec:
   # group name to use for REST API: /apis/<group>/<version>
   group: ketanyun.cn
-    # either Namespaced or Cluster
+  # either Namespaced or Cluster
   scope: Namespaced
   names:
     # plural name to be used in the URL: /apis/<group>/<version>/<plural>
@@ -132,8 +132,8 @@ spec:
                                     # 业务控件
                                     - User               # 用户（表单类型：全部）
                                     - Dept               # 部门（表单类型：全部）
-                                    
-                                    # 普通控件 
+
+                                    # 普通控件
                                     - Option            # 单选/判断（表单类型：Exam、CheckIn）
                                     - CheckList         # 多选（表单类型：Exam、CheckIn）
                                     - Select            # 下拉（表单类型：Exam）
@@ -211,6 +211,41 @@ spec:
                                           score:
                                             type: integer
 
+                    # 《指南》定义
+                    guide:
+                      type: object
+                      properties:
+                        # 指南页标题
+                        text:
+                          type: string
+                        # 章节列表
+                        sections:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              # 章节内容类型
+                              kind:
+                                type: string
+                                enum:
+                                  - html
+                                  - markdown
+                                  - plain
+                              # 章节内容
+                              text:
+                                type: string
+                        # 是否要求显示接受协议
+                        acceptances:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              # 文字内容
+                              text:
+                                type: string
+                              # 是否必须勾选
+                              required:
+                                type: boolean
 
                     # 《批次》 列表定义
                     batches:
@@ -223,7 +258,7 @@ spec:
                           name:
                             type: string
                           # 第一个人可以答题的时间
-                          startTime:  &TIMEPOINT
+                          startTime:  &TIME_POINT
                             type: object
                             properties:
                               # 日期，如："2021-03-12"
@@ -233,9 +268,10 @@ spec:
                               time:
                                 type: integer
                           # 第一个人可以交卷的时间
-                          dueTime: *TIMEPOINT
+                          dueTime: *TIME_POINT
                           # 最后一个人可以交卷的时间
-                          limitTime: *TIMEPOINT
+                          limitTime: *TIME_POINT
+                          # 重复设置
                           repeat:
                             type: object
                             properties:
@@ -244,8 +280,47 @@ spec:
                                 enum:
                                   - None
                                   - Day
+                                  - Weekday
                                   - Week
                                   - Month
+                          # 有效期范围
+                          period:
+                            type: object
+                            properties:
+                              startTime: *TIME_POINT
+                              limitTime: *TIME_POINT
+
+                    # 地点限制
+                    location:
+                      type: object
+                      properties:
+                        # 是否限定地理位置
+                        required:
+                          type: boolean
+                        ranges:
+                          type: array
+                          items:
+                            type: object
+                            required:
+                              - coordinate
+                              - radius
+                            properties:
+                              # 坐标
+                              coordinate:
+                                type: object
+                                properties:
+                                  # 维度
+                                  latitude:
+                                    type: number
+                                  # 经度
+                                  longitude:
+                                    type: number
+                                  # 比例尺
+                                  scale:
+                                    type: integer
+                              # 半径，单位"米"
+                              radius:
+                                type: number
 
                     # 填写限制
                     limits:
@@ -263,6 +338,7 @@ spec:
                         # 次数，每批次每人最多允许填写次数，默认=1
                         maxFill:
                           type: integer
+
 
                     # 抽题
                     selection:
@@ -289,7 +365,7 @@ spec:
                                 enum:
                                   - Random
 
-                    # 事件
+                    # 《事件》
                     events:
                       type: object
                       properties:
@@ -317,7 +393,7 @@ spec:
                                   uri:
                                     type: string
 
-                    # 成绩单设置
+                    # 《成绩单》设置
                     transcript:
                       type: object
                       properties:
