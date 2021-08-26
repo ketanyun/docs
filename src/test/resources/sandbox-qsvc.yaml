@@ -29,6 +29,9 @@ spec:
         # 可选值：`client_credentials`、`authorization_code`、`implicit`、`password`
         grant_types: 
           - client_credentials 
+    env:
+      - name: SANDBOX_VERSION
+        value: "2021"
   # 多租信息
   tenant:
     name: localhost

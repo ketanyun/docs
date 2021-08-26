@@ -84,6 +84,20 @@ spec:
                             type: array
                             items:
                               type: string
+                    # 定义该服务除设置 `服务名_URL` 之外其他需要设置到服务发现configmap中的变量 
+                    env:
+                      type: array
+                      description: Additional ENVs set to qservice-discovery configmap 
+                      items:
+                        type: object
+                        required:
+                          - name
+                          - value
+                        properties:
+                          name: 
+                            type: string
+                          value: 
+                            type: string
                 # 多租信息
                 tenant:
                   type: object
