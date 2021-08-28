@@ -228,24 +228,24 @@ spec:
                               kind:
                                 type: string
                                 enum:
-                                  - html
-                                  - markdown
-                                  - plain
+                                  - HTML
+                                  - Markdown
+                                  - Plain
                               # 章节内容
                               text:
                                 type: string
-                        # 是否要求显示接受协议
-                        acceptances:
-                          type: array
-                          items:
-                            type: object
-                            properties:
-                              # 文字内容
-                              text:
-                                type: string
-                              # 是否必须勾选
-                              required:
-                                type: boolean
+                              # 是否要求显示接受协议
+                              acceptances:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    # 文字内容
+                                    text:
+                                      type: string
+                                    # 是否必须勾选
+                                    required:
+                                      type: boolean
 
                     # 《批次》 列表定义
                     batches:
@@ -305,6 +305,9 @@ spec:
                               - coordinate
                               - radius
                             properties:
+                              # 地点名称
+                              text:
+                                type: string
                               # 坐标
                               coordinate:
                                 type: object
@@ -317,7 +320,7 @@ spec:
                                     type: number
                                   # 比例尺
                                   scale:
-                                    type: integer
+                                    type: number
                               # 半径，单位"米"
                               radius:
                                 type: number
