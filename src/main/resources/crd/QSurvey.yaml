@@ -101,7 +101,7 @@ spec:
                       type: string
                       enum:
                         - Exam      # 考试
-                        - CheckIn   # 签到
+                        - Checkin   # 签到
                     # 显示名
                     text:
                       type: string
