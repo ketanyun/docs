@@ -1,0 +1,33 @@
+apiVersion: ketanyun.cn/v1alpha1
+kind: QRole
+metadata:
+  name: sandbox-qrole-usr-rand
+  labels:
+    # 指定处理 QRole 资源的 Bootstrap 服务为 `bus`
+    service: bus
+    # helm 安装名
+    release: sandbox-helm
+spec:
+  # 角色代码（机读）
+  name: users-all
+  # 角色名称（人读）
+  text: All login users
+  # 所属 QApp 的信息
+  app: 
+    name: sandbox-qapp-rand  # 所属应用的 QApp 的 metadata.name 
+  subjects:
+    - user:
+        account: "*"
+  # 规则数组
+  rules:
+    - objects: 
+        # 权限宾语类型
+        - kind: type        # GraphQL类型
+          name: iam/User    # 类型名，支持指定服务前缀，如 "iam/User"
+      verbs: 
+        # 当 objects.kind = "type" 时：
+        #   name 表示 GraphQL operation 名
+        #   支持通配符 *，支持 "[r]"（仅Query）、"[w]"（仅Mutation）、"[rw]" 
+        - name: '*'
+      # 允许分级授权。r:默认，当前主体拥；w:可授予他人但不能再分级；x:可将x授予其他人
+      grant: r 

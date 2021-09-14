@@ -52,6 +52,31 @@ spec:
                     # 所属应用的 QApp 的 metadata.name 
                     name: 
                       type: string   
+                # 授权对象（主语）
+                # 不给出视为应用授权（OAuth的client_credentials方式）
+                subjects:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      user: 
+                        type: object
+                        required:
+                          - account
+                        properties:
+                          account: 
+                            type: string
+                            enum:
+                              - "*"
+                      post: 
+                        type: object
+                        required:
+                          - code
+                        properties:
+                          code: 
+                            type: string
+                            enum:
+                              - "*"
                 # 规则数组
                 rules:    
                   type: array

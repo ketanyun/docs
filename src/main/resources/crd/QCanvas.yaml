@@ -679,8 +679,11 @@ spec:
                                       # 仅支持menu类型：权限字，*/[r]/[w]/[rw]，用于自动为ACL选择operation
                                       access:
                                         type: string 
-                                      # 仅支持menu类型：是否限定部门，用于自动为ACL追加Filter
+                                      # 仅支持menu类型：是否按部门限定菜单可见性
                                       limitDept:
+                                        type: boolean 
+                                      # 仅支持menu类型：是否限定菜单对应的数据(accesses)的部门，用于控制是否为ACL追加Filter
+                                      limitDeptAccess:
                                         type: boolean 
 
                                 # 权限操作（谓语）
