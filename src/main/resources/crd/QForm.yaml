@@ -95,6 +95,28 @@ spec:
                           # 视图显示名
                           text: 
                             type: string
+                          # 控件标签通用属性
+                          label: &LABEL
+                            type: object
+                            properties:
+                              # 可见性，支持表达式
+                              visible:
+                                type: string
+                              # 标签停靠位置
+                              dock:
+                                type: string
+                                enum:
+                                  - auto
+                                  - left
+                                  - top
+                              # 宽度
+                              width:
+                                type: integer
+                              # 内容
+                              text:
+                                type: string
+                          
+                          # 控件列表
                           renders:
                             type: array
                             items:
@@ -114,18 +136,142 @@ spec:
                                 kind: 
                                   type: string 
                                   enum:
-                                    - Edit
-                                    - Option
-                                    - Select
-                                    - ...
-                                description: 
-                                  type: string 
+                                    - Edit        # 文本框，单行文本 
+                                    - TextArea    # 大文本框，多行文本
+                                    - RichText    # 富文本框，输入富文本
+                                    - Remark      # 备注文本框，可输入多行文本，但只显示一个图标表示有无输入
+                                    - Date        # 日期，以yyyy-mm-dd的格式输入日期
+                                    - Time        # 时间，以mm:ss的格式输入时间
+                                    - Check       # 复选框，复选项
+                                    - Switch      # 切换开关，切换状态开关
+                                    - CheckList   # 复选框，以代码表作为复选项
+                                    - Option      # 单选框，单选项
+                                    - OptionList  # 单选框，以代码表作为单选项
+                                    - Select      # 下拉框，下拉输入
+                                    - Suggester   # 提示输入框，带有智能提示的输入文本框
+                                    - Label       # 标签，标签显示内容，不可输入
+                                    - Hidden      # 隐藏字段，隐藏内容，不显示
+                                    - Anchor      # 链接，超链接，可以多种方式打开
+                                    - File        # 文件，文件上传
+                                    - Image       # 图片显示，显示图片
+                                    - Picture     # 图片上传，图片上传
+                                    - Help        # 帮助，显示一个帮助图标，点上去出帮助提示
+                                    - Button      # 按钮，显示一个按钮，点击后会触发后台fieldChange
+                                    - LinkButton  # 链接按钮，显示一个链接，点击后会触发后台fieldChange
+                                    - CheckButton # check按钮，显示一个按钮，有选中和不选中两种状态
+                                    - Thing       # 物品，输入物品
+                                    - IFrame      # iframe，用于设计第三方控件
+                                    - Map         # 地图，用于显示位置或者让用户选取位置
+                                    - Seal        # 印章，数字印章的选取和显示
+                                    - Signature   # 签名，对指定表单数据进行签名和验证
                                 # 是否必填，仅 `数据控件` 支持
                                 required: 
                                   type: boolean 
                                 # 对应数据字段，仅 `数据控件` 支持
                                 field: 
                                   type: string 
+                                # 格式：File/Picture控件用于限制文件类型
+                                format:
+                                  type: string
+                                # 控件无内容时的提示信息
+                                placeholder:
+                                  type: string 
+                                # 最小长度
+                                minLength:
+                                  type: integer
+                                # 最大长度
+                                maxLength:
+                                  type: integer
+                                # 最大行数：用于TextArea
+                                lines:
+                                  type: integer
+
+                                # 标签选项
+                                label: *LABEL
+
+                                # 初始值
+                                initialize:
+                                  type: object
+                                  properties:
+                                    # 初始值
+                                    value: 
+                                      type: string
+                                    # 初始值条件
+                                    condition:
+                                      type: string
+                                      enum:
+                                        - Blank
+                                        - Always
+                                    readOnly:
+                                      type: boolean
+
+                                # 响应时布局
+                                layout:
+                                  type: object
+                                  properties:
+                                    # 所占列数，默认全宽（PC: 24）
+                                    columns: 
+                                      type: integer
+
+                                # 控件提示信息
+                                tooltip:
+                                  type: object
+                                  properties:
+                                    # 内容
+                                    text:
+                                      type: string
+
+                                # 验证
+                                validations:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      # 验证的正则表达式（或 = 开头表示 boolean 表达式）
+                                      value:
+                                        type: string
+                                      # 提示信息
+                                      text: 
+                                        type: string
+                                # 样式（css）
+                                styles:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      # 如：width: 200px;
+                                      value:
+                                        type: string
+
+                                # 子项，用于 Select 
+                                items:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      # 值ID
+                                      name:
+                                        type: string
+                                      # 显示值
+                                      text:
+                                        type: string
+
+                                # 图标
+                                icons:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      # 位置
+                                      dock:
+                                        type: string
+                                        enum:
+                                          - left
+                                          - right
+                                      # 图标值
+                                      value:
+                                        type: string
+
                                 # 子控件列表，仅 `布局控件` 支持
                                 renders:
                                   type: array
@@ -134,3 +280,29 @@ spec:
                                     properties: 
                                       nameRef: 
                                         type: string 
+
+                # 数据定义
+                data:
+                  type: object
+                  properties:
+                    # 数据类型机读标识
+                    name:
+                      type: string
+                    # 显示名
+                    text:
+                      type: string
+                    # 所需字段
+                    fields:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          # 字段名
+                          name: 
+                            type: string
+                          # 数据类型
+                          type:
+                            type: string
+                          # 数据层次，用于重复表
+                          group:
+                            type: string
