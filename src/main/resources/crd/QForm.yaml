@@ -136,6 +136,23 @@ spec:
                                 kind: 
                                   type: string 
                                   enum:
+                                    # 显示控件
+                                    - Title           # 标题控件
+                                    - HorizontalRule  # 分割线
+                                    - PageBreak       # 分页符
+                                    - SectionBreak    # 分节符
+                                    
+                                    # 布局控件
+                                    - Section         # 节
+                                    - Table           # 表
+                                    - RepeatSection   # 重复节
+                                    - RepeatTable     # 重复表
+
+                                    # 业务控件（同数据控件，需绑定字段）
+                                    - User            # 当前用户
+                                    - Dept            # 当前用户所属部门
+
+                                    # 数据控件
                                     - Edit        # 文本框，单行文本 
                                     - TextArea    # 大文本框，多行文本
                                     - RichText    # 富文本框，输入富文本
