@@ -206,22 +206,6 @@ spec:
                                 # 标签选项
                                 label: *LABEL
 
-                                # 初始值
-                                initialize:
-                                  type: object
-                                  properties:
-                                    # 初始值
-                                    value: 
-                                      type: string
-                                    # 初始值条件
-                                    condition:
-                                      type: string
-                                      enum:
-                                        - Blank
-                                        - Always
-                                    readOnly:
-                                      type: boolean
-
                                 # 响应时布局
                                 layout:
                                   type: object
@@ -317,9 +301,28 @@ spec:
                           # 字段名
                           name: 
                             type: string
+                          # 显示名
+                          text:
+                            type: string 
                           # 数据类型
                           type:
                             type: string
                           # 数据层次，用于重复表
                           group:
                             type: string
+                            
+                          # 初始值
+                          initialize:
+                            type: object
+                            properties:
+                              # 初始值
+                              value: 
+                                type: string
+                              # 初始值条件
+                              condition:
+                                type: string
+                                enum:
+                                  - Blank
+                                  - Always
+                              readOnly:
+                                type: boolean
