@@ -349,8 +349,11 @@ spec:
                   items:
                     type: object
                     properites:
-                      # 数据类型名
+                      # 代码表名
                       name:
+                        type: string
+                      # 数据类型名，来自数据选择器
+                      data:
                         type: string
                       # 数据操作（GraphQL查询）
                       operation:
