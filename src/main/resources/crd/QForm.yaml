@@ -244,18 +244,34 @@ spec:
                                       value:
                                         type: string
 
-                                # 子项，用于 Select 
-                                items:
-                                  type: array
-                                  items:
-                                    type: object
-                                    properties:
-                                      # 值ID
-                                      name:
-                                        type: string
-                                      # 显示值
-                                      text:
-                                        type: string
+                                # 数据源，用于 Select 等
+                                source:
+                                  type: object
+                                  properites:
+                                    kind: 
+                                      type: string
+                                      enum:
+                                        # 内部代码表
+                                        - internal
+                                        # 数据网关
+                                        - external
+                                        # 常量（后面items）
+                                        - constant
+                                    # 动态代码表
+                                    code:
+                                      type: string
+                                    # 常量代码表项
+                                    items:
+                                      type: array
+                                      items:
+                                        type: object
+                                        properties:
+                                          # 值ID
+                                          name:
+                                            type: string
+                                          # 显示值
+                                          text:
+                                            type: string
 
                                 # 图标
                                 icons:
@@ -326,3 +342,102 @@ spec:
                                   - Always
                               readOnly:
                                 type: boolean
+
+                # 代码表定义
+                codes:
+                  type: array
+                  items:
+                    type: object
+                    properites:
+                      # 数据类型名
+                      name:
+                        type: string
+                      # 数据操作（GraphQL查询）
+                      operation:
+                        type: object
+                        properites:
+                          kind:
+                            type: string
+                            enum:
+                              - query
+                          name:
+                            type: string
+                          # 该《数据操作》所需字段
+                          fields:
+                            type: array
+                            items: 
+                              type: object 
+                              properites:
+                                # 使用方式暗示
+                                kind:
+                                  type: string
+                                  enum:
+                                    - text
+                                    - value
+                                    - icon
+                                    - tooltip
+                                # 字段名
+                                name:
+                                  type: string
+                                # 字段显示名
+                                text:
+                                  type: string
+                                # 字段类型
+                                type:
+                                  type: string 
+                          # 该《数据操作》所需Filter
+                          # 参考：https://github.com/infoplus/canvas-docs/wiki/Filter
+                          filters:
+                            type: array
+                            items: 
+                              type: object 
+                            required:
+                              - field
+                            # anyOf:
+                            #  - required:
+                            #    - value
+                            #    - values
+                            #    - experssion
+                            properties:
+                              field:
+                                type: string
+                              match:
+                                type: string
+                                enum:
+                                  - eq 
+                                  - neq
+                                  - in
+                                  - nin
+                                  - gt
+                                  - gte
+                                  - lt
+                                  - lte
+                                  - like
+                              value:
+                                x-kubernetes-int-or-string: true
+                              values:
+                                type: array
+                                items:
+                                  x-kubernetes-int-or-string: true
+                              experssion:
+                                type: string
+                          
+                          # 该《数据操作》所需参数
+                          arguments:
+                            type: array
+                            items:
+                              type: object 
+                              required:
+                                - name
+                                - value
+                              properties:
+                                # 字段数据类型，仅支持简单类型
+                                type:
+                                  type: string
+                                # 参数名
+                                name:
+                                  type: string
+                                value:
+                                  x-kubernetes-int-or-string: true
+
+                

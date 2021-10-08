@@ -540,8 +540,14 @@ spec:
                             properties:
                               kind:
                                 type: string
+                                enum:
+                                  - QForm
+                                  - QChart
                               name:
                                 type: string
+                              # 该引用Yaml的最后修改时间戳（版本号）
+                              timestamp: 
+                                type: integer
                           # 内置类型Content（grid）的属性定义
                           # 表格1：查询条件
                           conditions:

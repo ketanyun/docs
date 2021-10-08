@@ -29,6 +29,7 @@ spec:
         openAPIV3Schema:
           type: object
           properties:
+            # 标准定义
             spec:
               type: object
               required:
@@ -120,4 +121,11 @@ spec:
                     # 是否支持多租。为true时，租户必须为 "localhost"
                     multitenancy: 
                       type: boolean
-  
+            # 状态定义
+            status:
+              type: object
+              properties:
+                clientId:
+                  type: string
+                clientSecret:
+                  type: string
