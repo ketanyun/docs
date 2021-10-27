@@ -352,9 +352,15 @@ spec:
                       # 代码表名
                       name:
                         type: string
-                      # 数据类型名，来自数据选择器
                       data:
-                        type: string
+                        type: object
+                        properites:
+                          # 数据类型，来自父级 DesignerAPI
+                          name: 
+                            type: string
+                          # 可选，来自数据目录选择器：bus://服务名/类型名
+                          uri:
+                            type: string
                       # 数据操作（GraphQL查询）
                       operation:
                         type: object

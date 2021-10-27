@@ -100,8 +100,9 @@ spec:
                     kind:
                       type: string
                       enum:
+                        - Survey    # 问卷调查
                         - Exam      # 考试
-                        - Checkin   # 签到
+                        - Checkin   # 签到打卡
                     # 显示名
                     text:
                       type: string
@@ -133,6 +134,11 @@ spec:
                                     - User               # 用户（表单类型：全部）
                                     - Dept               # 部门（表单类型：全部）
 
+                                    # 描述分页
+                                    - HorizontalRule    # 分割线（表单类型：全部）
+                                    - PageBreak         # 分页符（表单类型：全部）
+                                    - SectionBreak      # 分节符（表单类型：全部）
+
                                     # 普通控件
                                     - Option            # 单选/判断（表单类型：Exam、CheckIn）
                                     - CheckList         # 多选（表单类型：Exam、CheckIn）
@@ -149,10 +155,17 @@ spec:
                                     - Date              # 日期上传（表单类型：CheckIn）
                                     - DateRange         # 日期范围上传（表单类型：CheckIn）
 
-                                    # 描述分页
-                                    - HorizontalRule    # 分割线（表单类型：全部）
-                                    - PageBreak         # 分页符（表单类型：全部）
-                                    - SectionBreak      # 分节符（表单类型：全部）
+                                    # 2021/10 新增
+                                    - Rate              # 五星评分（表单类型：Survey）
+                                    - RateReview        # 五星评分 + 评价（表单类型：Survey）
+                                    - RateList          # 五星评分，多行（表单类型：Survey）
+                                    - NPS               # NPS 净推荐值（表单类型：Survey）
+                                    - Sort              # 排序题（表单类型：Survey）
+                                    - Ratio             # 比重题（表单类型：Survey）
+
+                                    # 待增加：
+                                    # 矩阵填空、自增表格、量表、投票、投票单选、图片投票单选、图片投票多选
+
                                 # 解析
                                 explained:
                                   type: string
@@ -167,7 +180,7 @@ spec:
                                   type: string
                                 # 控件无内容时的提示信息
                                 placeholder:
-                                  type: string 
+                                  type: string
                                 # 最小长度
                                 minLength:
                                   type: integer
