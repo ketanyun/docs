@@ -212,6 +212,9 @@ spec:
                                       # 显示值
                                       text:
                                         type: string
+                                      # 子项标签列表，回车分隔，用于 RateReview 的评分标签
+                                      tags:
+                                        type: string
                                       # 可补充填写
                                       external:
                                         type: boolean
