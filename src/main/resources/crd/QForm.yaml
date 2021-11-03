@@ -288,7 +288,36 @@ spec:
                                       # 图标值
                                       value:
                                         type: string
-
+                                
+                                # 条件属性 
+                                properties:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      # 属性类型
+                                      kind:
+                                        type: string
+                                        enum:
+                                          - value         # 公式
+                                          - style         # 样式
+                                          - rowStyle      # 样式（行）
+                                          - itemStyle     # 样式（项）
+                                          - visible       # 可见性
+                                          - rowVisible    # 可见性（行）
+                                          - colVisible    # 可见性（列）
+                                          - itemVisible   # 可见性（项）
+                                          - readOnly      # 只读
+                                          - itemReadOnly  # 只读（项）
+                                          - tooltip       # 提示
+                                          - valiation     # 验证
+                                      # 属性值，支持表达式
+                                      value:
+                                        type: string
+                                      # 条件，支持表达式
+                                      condition:
+                                        type: string
+                                        
                                 # 子控件列表，仅 `布局控件` 支持
                                 renders:
                                   type: array
