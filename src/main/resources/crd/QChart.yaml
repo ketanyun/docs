@@ -119,6 +119,9 @@ spec:
                               # 描述
                               description: 
                                 type: string
+                              # 控件内容，仅用于HTML控件 
+                              body: 
+                                type: string
                               # 外部链接
                               uri:
                                 type: string
