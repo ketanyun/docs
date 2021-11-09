@@ -102,10 +102,15 @@ spec:
                               kind: 
                                 type: string
                                 enum:
+                                  # 常规控件
+                                  - Title       # 标题控件
+                                  - HTML        # 自定义HTML内容 
+                                  # 统计图
                                   - LineChart   # 折线图
                                   - BarChart    # 柱状图
                                   - PieChart    # 饼图
                                   - Gauge       # 仪表盘
+                                  - KPI         # KPI
                                   - DataTable   # 数据表 
                                   - PivotTable  # 透视表 
                               # 标题
@@ -113,6 +118,9 @@ spec:
                                 type: string
                               # 描述
                               description: 
+                                type: string
+                              # 控件内容，仅用于HTML控件 
+                              body: 
                                 type: string
                               # 外部链接
                               uri:
@@ -129,6 +137,13 @@ spec:
                                     type: integer
                                   h:
                                     type: integer
+                              # ECharts 高级设置
+                              echarts:
+                                type: object
+                                properties:
+                                  # 可额外属性定义，JSON语法，覆盖默认配置 
+                                  options:
+                                    type: string 
                               # 分组。使用方式：
                               # Line、Bar、Pie、Guage: 仅使用[0]作为x轴（invert后为y轴）
                               # DataTable：作为表列（不支持invert）
