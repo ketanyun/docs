@@ -302,7 +302,16 @@ spec:
                         <<: *CONTROL_PROPERTIES
                         kind:
                           type: string
-                          pattern: '^(create|read|update|delete|list|print|export|search)$'
+                          enum:
+                            - create
+                            - read
+                            - update
+                            - delete
+                            - list
+                            - print
+                            - import
+                            - export
+                            - search 
                         # 定义服务端交互 (server-side API invocations)
                         operation: *OPERATION
                         # 定义客户端交互 (client-side UI interactions)
@@ -393,7 +402,7 @@ spec:
                                       - uri
                                     properties:
                                       # 可选协议：
-                                      # 网关：canvasbus://$service/$type 
+                                      # 网关：bus://$service/$type (schema也兼容canvasbus，20211109)
                                       # 常量：constants://$JSON 
                                       uri: 
                                         type: string
