@@ -323,6 +323,10 @@ spec:
                     _user: &USER
                       type: object
                       properties:
+                        openid:   # 用户openid
+                          type: string
+                        username: # 用户名
+                          type: string 
                         account:  # 用户账号
                           type: string
                         name:     # 显示名
