@@ -218,6 +218,12 @@ spec:
                                       # 可补充填写
                                       external:
                                         type: boolean
+                                      # 链接
+                                      uri:
+                                        type: string
+                                      # 控件项的其他样式设置
+                                      styles:
+                                        type: string
                                       # 答案设置
                                       answer:
                                         type: object
