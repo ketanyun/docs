@@ -129,3 +129,6 @@ spec:
                   type: string
                 clientSecret:
                   type: string
+      subresources:
+        # status enables the status subresource.
+        status: {}  
