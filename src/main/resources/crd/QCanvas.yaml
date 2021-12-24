@@ -542,7 +542,7 @@ spec:
                              - static # 静态
                              - iframe # 内嵌
                              - form   # 表单
-                             - chart  # 图标
+                             - chart  # 图表
                           # 通过《数据》机读代码引用
                           data: 
                             type: string
@@ -653,7 +653,7 @@ spec:
                             type: array
                             items:
                               type: object
-                              properites:
+                              properties:
                                 user: *USER
                                 post: *POST
                                 dept: *DEPT 
