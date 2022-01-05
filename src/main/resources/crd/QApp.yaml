@@ -81,6 +81,7 @@ spec:
                               password:
                                 type: string
                                 pattern: '^(required|optional)$'
+
                 # 定义产品化程度
                 product:
                   type: object
@@ -109,6 +110,21 @@ spec:
                         # 应用市场代码
                         name: 
                           type: string 
+                
+                # 应用依赖
+                dependencies:
+                  type: object
+                  properties:
+                    # 应用服务依赖列表
+                    services:
+                      type: array
+                      items: 
+                        type: object
+                        properties:
+                          # 服务名
+                          name: 
+                            type: string
+                
                 # 多租信息
                 tenant:
                   type: object
@@ -121,6 +137,8 @@ spec:
                     # 是否支持多租。为true时，租户必须为 "localhost"
                     multitenancy: 
                       type: boolean
+
+                
             # 状态定义
             status:
               type: object

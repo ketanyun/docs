@@ -329,7 +329,7 @@ spec:
                           type: string 
                         account:  # 用户账号
                           type: string
-                        name:     # 显示名
+                        text:     # 显示名
                           type: string 
                     
                     # 《部门》
@@ -338,7 +338,7 @@ spec:
                       properties:
                         code:     # 部门代码
                           type: string
-                        name:     # 显示名
+                        text:     # 显示名
                           type: string 
 
                     # 《岗位》
@@ -347,7 +347,7 @@ spec:
                       properties:
                         code:     # 岗位代码
                           type: string
-                        name:     # 显示名
+                        text:     # 显示名
                           type: string 
                     
 
@@ -654,6 +654,11 @@ spec:
                             items:
                               type: object
                               properties:
+                                kind:
+                                  type: string
+                                  enum:
+                                    - ALLOW
+                                    - DENY
                                 user: *USER
                                 post: *POST
                                 dept: *DEPT 
