@@ -82,6 +82,15 @@ spec:
                                 type: string
                                 pattern: '^(required|optional)$'
 
+                # 单点登录相关配置
+                sso:
+                  type: object
+                  properties:
+                    # 统一登出地址
+                    logout_uri:
+                      type: string
+
+
                 # 定义产品化程度
                 product:
                   type: object
