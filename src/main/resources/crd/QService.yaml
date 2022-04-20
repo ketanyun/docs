@@ -84,6 +84,20 @@ spec:
                             type: array
                             items:
                               type: string
+                              
+                    # 关联应用(QApp)
+                    app:
+                      type: object
+                      required:
+                        - name
+                      properties:
+                        # QApp 的 metadata.name 
+                        name: 
+                          type: string   
+                        # 默认false。true 表示使用 client_id 作为服务名
+                        asServiceName:
+                          type: boolean 
+                       
                     # 定义该服务除设置 `服务名_URL` 之外其他需要设置到服务发现configmap中的变量 
                     env:
                       type: array
