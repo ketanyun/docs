@@ -33,4 +33,4 @@
   * 比如 { fieldName, fieldType}  应使用 { field { name, type } }
 * 在避免关键字冲突的前提下简化。这包括但不限于：
   * OpenAPI Schema 关键字：`items`、`type`、`properties`，避免解析问题
-  * 编程语言关键字（）：`int`、`var`、`for` 等，避免序列化问题 
+  * 编程语言关键字：`int`、`var`、`for` 等，避免序列化问题 
