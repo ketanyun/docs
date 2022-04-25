@@ -115,6 +115,7 @@ spec:
                               # 内容
                               text:
                                 type: string
+                              
                           
                           # 样式（css）
                           styles: &STYLES
@@ -337,6 +338,19 @@ spec:
                                       value:
                                         type: string
                                 
+                                numbering:
+                                  type: object
+                                  properties:
+                                    # 编号格式，如："1.", "*", "1/", "1.1.1."
+                                    format:
+                                      type: string
+                                    # 起始编号，默认为空，即在上一个带编号的同组控件基础上顺延
+                                    from:
+                                      type: integer
+                                    # 编号组别，默认为空，所有为空的控件属于同组
+                                    group:
+                                      type: string
+
                                 # 条件属性 
                                 properties:
                                   type: array
