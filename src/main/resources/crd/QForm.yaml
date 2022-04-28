@@ -209,6 +209,9 @@ spec:
                                 # 对应数据字段，仅 `数据控件` 支持
                                 field: 
                                   type: string 
+                                # 文字内容，仅用于部分控件显示
+                                textContent:
+                                  type: string 
                                 # 格式：File/Picture控件用于限制文件类型
                                 format:
                                   type: string
