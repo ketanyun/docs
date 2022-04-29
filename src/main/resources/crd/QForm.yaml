@@ -203,12 +203,12 @@ spec:
                                     - Map         # 地图，用于显示位置或者让用户选取位置
                                     - Seal        # 印章，数字印章的选取和显示
                                     - Signature   # 签名，对指定表单数据进行签名和验证
-                                # 是否必填，仅 `数据控件` 支持
-                                required: 
-                                  type: boolean 
                                 # 对应数据字段，仅 `数据控件` 支持
                                 field: 
                                   type: string 
+                                # 是否必填，仅 `数据控件` 支持
+                                required: 
+                                  type: boolean
                                 # 文字内容，仅用于部分控件显示
                                 textContent:
                                   type: string 
@@ -261,6 +261,10 @@ spec:
                                     - ModalWindow     # 模式新窗口
                                     - ModelessWindow  # 无模式新窗口（默认）
                                     - Self            # 本页面转跳
+
+                                # 控件值变化时，是否触发服务端事件
+                                serverEvent:
+                                  type: boolean
 
                                 # 标签选项
                                 label: *LABEL
