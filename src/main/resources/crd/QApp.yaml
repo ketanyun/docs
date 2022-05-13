@@ -69,18 +69,14 @@ spec:
                           grant_types:
                             type: object 
                             properties: 
-                              client_credentials: 
+                              authorization_code: &GRANT
                                 type: string
-                                pattern: '^(required|optional)$'
-                              authorization_code:
-                                type: string
-                                pattern: '^(required|optional)$'
-                              implicit:
-                                type: string
-                                pattern: '^(required|optional)$'
-                              password:
-                                type: string
-                                pattern: '^(required|optional)$'
+                                enum:
+                                  - required
+                                  - optional 
+                              client_credentials: *GRANT
+                              implicit: *GRANT
+                              password: *GRANT
 
                 # 单点登录相关配置
                 sso:
@@ -89,6 +85,15 @@ spec:
                     # 统一登出地址
                     logout_uri:
                       type: string
+                    # 多因子认证
+                    factors:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+
 
 
                 # 定义产品化程度

@@ -740,8 +740,8 @@ spec:
                           # 入口描述
                           description:
                             type: string      
+
                           # 支持屏，空集视为不限
-                          
                           screens: 
                             type: array
                             items:
@@ -753,11 +753,24 @@ spec:
                                 # - android    # 安卓原生App
                                 - wechat     # 微信（包括企业微信）
                                 # - wechat_pc  # 微信PC端
+                          
                           # 支持用户列表，空集视为不限，语法参考：[UserFilter](https://github.com/infoplus/docs/wiki/UserFilter)
                           userFilters: 
                             type: array
                             items:
                               type: string 
 
-
+                          # 激活此应用入口的依赖项，比如依赖于infoplus流程或其他子QCanvas
+                          dependencies:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                # 应用模版ID，可用于[WorkspaceAPI](https://github.com/ketanyun/docs/wiki/WorkspaceAPI)的activateApp方法的template参数
+                                name: 
+                                  type: string
+                                # 提供WorkspaceAPI的服务名，参考[QService](https://github.com/ketanyun/docs/wiki/QService)
+                                # 目前支持：infoplus、answer、maker
+                                service: 
+                                  type: string
 
