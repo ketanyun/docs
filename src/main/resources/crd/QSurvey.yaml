@@ -132,6 +132,7 @@ spec:
                                     # 业务控件
                                     - User               # 用户（表单类型：全部）
                                     - Dept               # 部门（表单类型：全部）
+                                    - UserInfo           # 用户基本信息（表单类型：全部）
 
                                     # 描述分页
                                     - HorizontalRule    # 分割线（表单类型：全部）
@@ -509,4 +510,55 @@ spec:
                             items:
                               type: string
 
+                    # 《权限》列表定义
+                    permissions:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          # 机读ID，用于识别增删还是修改
+                          name:
+                            type: string
+                          # 权限类型
+                          kind: 
+                            type: string
+                            enum:
+                              # 管理问卷数据
+                              - Entry     
+                          # 用户范围
+                          userFilters:
+                            type: array
+                            items:
+                              type: string
+                          # 按岗位限定时，是否按用户在该岗位的部门做限定
+                          limitDept:
+                            type: object
+                            properties:
+                              # 是否启用，默认 false
+                              enabled: 
+                                type: boolean
 
+                    # 《规则》列表定义
+                    rules:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          # 条件布尔表达式，等号开头
+                          condition:
+                            type: string
+                          # 表达式为true时执行的动作
+                          actions:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                # 动作分类，便于展示
+                                # 枚举值，如： visible、readOnly 等
+                                kind:
+                                  type: string
+                                # 具体执行脚本。可通过 $CONDITION 引用 condition 节表达式结果
+                                scripts:
+                                  type: string
