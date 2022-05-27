@@ -466,6 +466,14 @@ spec:
                                   text:
                                     type: string
 
+                        # 用户之前填写的数据
+                        recent:
+                          type: object
+                          properties:
+                            # 允许自动带出
+                            enabled: 
+                              type: boolean
+
                     # 《入口》列表定义
                     entries:
                       type: array
