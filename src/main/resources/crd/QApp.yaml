@@ -42,11 +42,13 @@ spec:
                   type: string
               
                 # 账号主体，默认使用租户级配置，参考 [Principal](Principal)  
-                principal:
+                principal: &PRINCIPAL
                   type: string
                   enum:
                     - openid
                     - usercode
+                    - username
+                  
 
                 # 定义需要哪些oauth的scope
                 oauth:
@@ -95,7 +97,6 @@ spec:
                             type: string
 
 
-
                 # 定义产品化程度
                 product:
                   type: object
@@ -124,7 +125,11 @@ spec:
                         # 应用市场代码
                         name: 
                           type: string 
-                
+                    # 该产品可支持的Principal列表，不配置表示支持所有
+                    principals:
+                      type: array
+                      items: *PRINCIPAL
+                        
                 # 应用依赖
                 dependencies:
                   type: object
