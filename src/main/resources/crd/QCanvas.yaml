@@ -740,6 +740,9 @@ spec:
                           # 入口描述
                           description:
                             type: string      
+                          # 入口标签
+                          tags:
+                            type: string      
 
                           # 支持屏，空集视为不限
                           screens: 
