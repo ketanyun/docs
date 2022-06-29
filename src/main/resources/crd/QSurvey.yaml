@@ -101,8 +101,11 @@ spec:
                       type: string
                       enum:
                         - Survey    # 问卷调查
-                        - Exam      # 考试
+                        - Exam      # 考试测评
                         - Checkin   # 签到打卡
+                        - Vote      # 投票评选
+                        - Registration  # 
+
                     # 显示名
                     text:
                       type: string
@@ -564,9 +567,85 @@ spec:
                               type: object
                               properties:
                                 # 动作分类，便于展示
-                                # 枚举值，如： visible、readOnly 等
+                                # 枚举值，如： Visible、ReadOnly 等
                                 kind:
                                   type: string
+                                  enum:
+                                    - Visible
+                                    - RangeVisible
                                 # 具体执行脚本。可通过 $CONDITION 引用 condition 节表达式结果
                                 scripts:
                                   type: string
+
+                    # 《提醒》定义
+                    notification:
+                      type: object
+                      properties:
+                        # 提醒列表
+                        items:
+                          type: array
+                          items: 
+                            type: object
+                            properties:
+                              # 是否启用 
+                              enabled: 
+                                type: boolean
+                              # 提醒类型
+                              kind:
+                                type: string
+                                enum:
+                                  - Todo     # 待办通知
+                                  - Summary  # 汇总通知
+                              # 提醒模版。可支持变量：
+                              # ${survey.text}     问卷名称
+                              # ${user.todo}       当前用户待办数量
+                              # ${result.todo}     当前批次待打卡数量（按数据管理权限过滤）
+                              # ${result.finished} 当前批次已提交数量（按数据管理权限过滤）
+                              template:
+                                type: object
+                                required:
+                                  - title
+                                  - content
+                                properties:
+                                  # 提醒标题
+                                  title: 
+                                    type: string
+                                  # 提醒内容
+                                  content:
+                                    type: string
+                              # 提醒渠道
+                              channels:
+                                type: array
+                                items:
+                                  type: string
+                              # 提醒用户列表，空集视为发送给全部可填写用户。如未指定可填写用户范围，不发送
+                              userFilters:
+                                type: array
+                                items:
+                                  type: string
+                              # 提醒时间列表
+                              timers:
+                                type: array
+                                items: 
+                                  type: object
+                                  properties:
+                                    # 相对事件
+                                    event:
+                                      type: string
+                                      enum:
+                                        - Started      # 批次开始时
+                                        - Completed    # 批次结束时
+                                        - Timestamp    # 自定义时间，offset从1970年1月1日开始计算
+                                    # 时间偏移秒数，可以为正、负、零
+                                    offset: 
+                                      type: integer
+                                    
+
+
+
+
+
+
+
+
+
