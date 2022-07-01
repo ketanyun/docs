@@ -505,7 +505,7 @@ spec:
                           items: 
                             type: object
                             properties:
-                              # 要求唯一，可使用 RES("images.${name}") 引用
+                              # images内唯一，可使用 RES("images.${name}") 引用
                               name: 
                                 type: string
                               # 图片名
