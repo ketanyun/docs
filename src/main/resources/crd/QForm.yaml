@@ -297,6 +297,7 @@ spec:
                                       # 提示信息
                                       text: 
                                         type: string
+                                
                                 # 样式（css）
                                 styles: *STYLES
 
@@ -345,6 +346,7 @@ spec:
                                       value:
                                         type: string
                                 
+                                # 序号
                                 numbering:
                                   type: object
                                   properties:
