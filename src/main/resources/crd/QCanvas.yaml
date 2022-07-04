@@ -370,7 +370,7 @@ spec:
                         logo:
                           type: object
                           properties:
-                            # 可支持表达式，如 =RES("image.logo").uri
+                            # 可支持表达式，如 =RES("image/logo").uri
                             uri:  
                               type: string
                         # 版权信息
@@ -451,7 +451,7 @@ spec:
                             properties:
                               # name: 菜单机读代码，本定义内唯一
                               <<: *ELEMENT_PROPERTIES
-                              # 菜单图标，可使用资源引用，例如：=R('images/logo')
+                              # 菜单图标，可使用资源引用，例如：=RES('images/logo').uri
                               icon:
                                 type: string
                               # 父菜单
@@ -505,7 +505,7 @@ spec:
                           items: 
                             type: object
                             properties:
-                              # images内唯一，可使用 RES("images.${name}") 引用
+                              # images内唯一，可使用 RES("images/${name}") 引用
                               name: 
                                 type: string
                               # 图片名
