@@ -115,8 +115,7 @@ spec:
                               # 内容
                               text:
                                 type: string
-                              
-                          
+     
                           # 样式（css）
                           styles: &STYLES
                             type: array
@@ -134,7 +133,6 @@ spec:
                               # 导航栏文字
                               text: 
                                 type: string
-
 
                           # 控件列表
                           renders:
@@ -381,7 +379,7 @@ spec:
                                           - readOnly      # 只读
                                           - itemReadOnly  # 只读（项）
                                           - tooltip       # 提示
-                                          - valiation     # 验证
+                                          - validation     # 验证
                                       # 属性值，支持表达式
                                       value:
                                         type: string

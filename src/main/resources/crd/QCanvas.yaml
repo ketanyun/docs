@@ -81,6 +81,20 @@ spec:
                                 type: integer
                               y:
                                 type: integer
+                              # 设计向导信息
+                              wizard:
+                                type: object 
+                                properties:
+                                  # 向导名称
+                                  name:
+                                    type: string
+                                  # 向导版本
+                                  version:
+                                    type: string
+                                  # 向导具体设置内容
+                                  settings:
+                                    type: string
+                              
 
                 # 定义本CRD的公共类型，不用于实际 CustomResource
                 types:
@@ -642,6 +656,21 @@ spec:
                           itemActions:
                             type: array
                             items: *ACTION
+
+                          # 表格5：其他选项信息
+                          options:
+                            type: object
+                            properties:
+                              emptyText:
+                                type: object
+                                properties:
+                                  # 单元格无数据时的显示模版，支持HTML
+                                  cell:
+                                    type: string
+                                  # 表格无数据时的显示模版，支持HTML
+                                  grid:
+                                    type: string
+
                           # 静态1: 静态内容格式
                           format:
                             type: string
