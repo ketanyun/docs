@@ -139,6 +139,8 @@ spec:
                             - lt
                             - lte
                             - like
+                            - bt     # 等价于：gte & lt，202208新增
+                            
                         value:
                           x-kubernetes-int-or-string: true
                         values:
@@ -621,11 +623,12 @@ spec:
                                 text:
                                   type: string
                                 filter: *FILTER 
+                                # 编辑模式下的控件定义
                                 input:  &INPUT
                                   type: object
                                   properties:
                                     <<: *CONTROL_PROPERTIES
-                                    # 控件类型，edit|check|select|suggester|...
+                                    # 控件类型，Edit|Check|Select|Suggester|DateRange|...
                                     kind:
                                       type: string
                                     validation:
@@ -639,6 +642,11 @@ spec:
                                 <<: *CONTROL_PROPERTIES
                                 field: *FIELD
                                 input: *INPUT
+                                # 查看模式下的控件属性
+                                label:
+                                  type: object
+                                  properties:
+                                    <<: *CONTROL_PROPERTIES
                                 sort:
                                   type: object
                                   properties:
