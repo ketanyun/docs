@@ -139,7 +139,7 @@ spec:
                             - lt
                             - lte
                             - like
-                            - bt     # 等价于：gte & lt，202208新增
+                            - bt     # 等价于：gte & lte，202208新增
                             
                         value:
                           x-kubernetes-int-or-string: true
