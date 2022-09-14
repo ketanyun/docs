@@ -167,6 +167,8 @@ spec:
                                     - Table           # 表
                                     - RepeatSection   # 重复节
                                     - RepeatTable     # 重复表
+                                    - TableRow        # 表行
+                                    - TableCell       # 表单元格
 
                                     # 业务控件（同数据控件，需绑定字段）
                                     - User            # 当前用户
@@ -201,7 +203,7 @@ spec:
                                     - Map         # 地图，用于显示位置或者让用户选取位置
                                     - Seal        # 印章，数字印章的选取和显示
                                     - Signature   # 签名，对指定表单数据进行签名和验证
-                                # 对应数据字段，仅 `数据控件` 支持
+                                # 对应数据字段（组），仅 `数据控件`、`重复节/表` 支持
                                 field: 
                                   type: string 
                                 # 是否必填，仅 `数据控件` 支持
@@ -222,6 +224,12 @@ spec:
                                 # 最大长度
                                 maxLength:
                                   type: integer
+                                # 最小值
+                                minValue:
+                                  type: string
+                                # 最大值
+                                maxValue:
+                                  type: string
                                 # 最大行数：用于TextArea
                                 lines:
                                   type: integer
@@ -387,6 +395,14 @@ spec:
                                       condition:
                                         type: string
                                         
+                                # 表格列定义
+                                columns:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties: 
+                                      styles: *STYLES
+
                                 # 子控件列表，仅 `布局控件` 支持
                                 renders:
                                   type: array
