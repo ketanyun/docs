@@ -104,7 +104,7 @@ spec:
                         - Exam      # 考试测评
                         - Checkin   # 签到打卡
                         - Vote      # 投票评选
-                        - Registration  # 
+                        - Registration  #
 
                     # 显示名
                     text:
@@ -143,20 +143,20 @@ spec:
                                     - SectionBreak      # 分节符（表单类型：全部）
 
                                     # 普通控件
-                                    - Option            # 单选/判断（表单类型：Exam、CheckIn）
-                                    - CheckList         # 多选（表单类型：Exam、CheckIn）
-                                    - Select            # 下拉（表单类型：Exam）
+                                    - Option            # 单选/判断（表单类型：全部）
+                                    - CheckList         # 多选（表单类型：全部）
+                                    - Select            # 下拉（表单类型：全部）
                                     - PictureOption     # 单选图片（表单类型：Exam）
                                     - PictureCheckList  # 多选图片（表单类型：Exam）
-                                    - Edit              # 填空（表单类型：Exam、CheckIn）
-                                    - TextArea          # 简答（表单类型：Exam、CheckIn）
+                                    - Edit              # 填空（表单类型：全部）
+                                    - TextArea          # 简答（表单类型：全部）
                                     - EditList          # 多项填空（表单类型：Exam）
-                                    - File              # 文件上传（表单类型：CheckIn）
-                                    - FileList          # 多文件上传（表单类型：CheckIn）
-                                    - Picture           # 图片上传（表单类型：CheckIn）
-                                    - PictureList       # 多图片上传（表单类型：CheckIn）
-                                    - Date              # 日期上传（表单类型：CheckIn）
-                                    - DateRange         # 日期范围上传（表单类型：CheckIn）
+                                    - File              # 文件上传（表单类型：除Exam外）
+                                    - FileList          # 多文件上传（表单类型：除Exam外）
+                                    - Picture           # 图片上传（表单类型：除Exam外）
+                                    - PictureList       # 多图片上传（表单类型：除Exam外）
+                                    - Date              # 日期上传（表单类型：除Exam外）
+                                    - DateRange         # 日期范围上传（表单类型：除Exam外）
 
                                     # 2021/10 新增
                                     - Rate              # 五星评分（表单类型：Survey）
@@ -165,6 +165,10 @@ spec:
                                     - NPS               # NPS 净推荐值（表单类型：Survey）
                                     - Sort              # 排序题（表单类型：Survey）
                                     - Ratio             # 比重题（表单类型：Survey）
+
+                                    # 2022/12 新增
+                                    - OptionMatrix      # 单选矩阵（表单类型：除Exam外）
+                                    - CheckMatrix       # 复选矩阵（表单类型：除Exam外）
 
                                     # 待增加：
                                     # 矩阵填空、自增表格、量表、投票、投票单选、图片投票单选、图片投票多选
@@ -238,6 +242,21 @@ spec:
                                             type: string
                                           score:
                                             type: integer
+
+                                # 矩阵选项列表
+                                dimensions:
+                                  type: array
+                                  required:
+                                    - text
+                                  items:
+                                    type: object
+                                    properties: 
+                                      # 选项ID
+                                      name:
+                                        type: string
+                                      # 选项显示值
+                                      text:
+                                        type: string
 
                     # 《指南》定义
                     guide:
@@ -457,7 +476,7 @@ spec:
                         user:
                           type: object
                           properties:
-                            enabled: 
+                            enabled:
                               type: boolean
                             fields:
                               type: array
@@ -474,7 +493,7 @@ spec:
                           type: object
                           properties:
                             # 允许自动带出
-                            enabled: 
+                            enabled:
                               type: boolean
 
                     # 《入口》列表定义
@@ -531,11 +550,11 @@ spec:
                           name:
                             type: string
                           # 权限类型
-                          kind: 
+                          kind:
                             type: string
                             enum:
                               # 管理问卷数据
-                              - Entry     
+                              - Entry
                           # 用户范围
                           userFilters:
                             type: array
@@ -546,7 +565,7 @@ spec:
                             type: object
                             properties:
                               # 是否启用，默认 false
-                              enabled: 
+                              enabled:
                                 type: boolean
 
                     # 《规则》列表定义
@@ -584,11 +603,11 @@ spec:
                         # 提醒列表
                         items:
                           type: array
-                          items: 
+                          items:
                             type: object
                             properties:
-                              # 是否启用 
-                              enabled: 
+                              # 是否启用
+                              enabled:
                                 type: boolean
                               # 提醒类型
                               kind:
@@ -608,7 +627,7 @@ spec:
                                   - content
                                 properties:
                                   # 提醒标题
-                                  title: 
+                                  title:
                                     type: string
                                   # 提醒内容
                                   content:
@@ -626,7 +645,7 @@ spec:
                               # 提醒时间列表
                               timers:
                                 type: array
-                                items: 
+                                items:
                                   type: object
                                   properties:
                                     # 相对事件
@@ -637,9 +656,9 @@ spec:
                                         - Completed    # 批次结束时
                                         - Timestamp    # 自定义时间，offset从1970年1月1日开始计算
                                     # 时间偏移秒数，可以为正、负、零
-                                    offset: 
+                                    offset:
                                       type: integer
-                                    
+
 
 
 

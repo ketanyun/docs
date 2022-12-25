@@ -640,8 +640,31 @@ spec:
                               type: object
                               properties:
                                 <<: *CONTROL_PROPERTIES
+                                # 字段与控件
                                 field: *FIELD
                                 input: *INPUT
+                                # 单元格模版，如果模版存在，忽略field和input属性
+                                template: 
+                                  type: object
+                                  properties:
+                                    # 显示模版
+                                    view: &TEMPLATE
+                                      type: object
+                                      properties:
+                                        # 模版类型
+                                        kind: 
+                                          type: string
+                                          enum:
+                                            - vue
+                                            - js
+                                            - freemarker
+                                            - thymeleaf
+                                        # 模版内容
+                                        content:
+                                          type: string
+                                    # 导出模版
+                                    export: *TEMPLATE
+
                                 # 查看模式下的控件属性
                                 label:
                                   type: object
