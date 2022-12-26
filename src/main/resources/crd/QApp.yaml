@@ -84,6 +84,9 @@ spec:
                 sso:
                   type: object
                   properties:
+                    # 统一登录回调地址模式串，格式举例：*://example.com/**
+                    redirect_uri_pattern:
+                      type: string
                     # 统一登出地址
                     logout_uri:
                       type: string
