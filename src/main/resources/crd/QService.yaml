@@ -63,6 +63,9 @@ spec:
                     # 后端实际地址，即 EndPoint 
                     backend: 
                       type: string
+                    # 后端实际地址的 ContextPath，可为空，用于`BootstrapAPI`等地址拼接 
+                    backendContextPath:
+                      type: string
                     # 账号主体，默认使用租户级配置，参考 [Principal](Principal)  
                     principal: 
                       type: string
