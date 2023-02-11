@@ -170,6 +170,10 @@ spec:
                                     - OptionMatrix      # 单选矩阵（表单类型：除Exam外）
                                     - CheckMatrix       # 复选矩阵（表单类型：除Exam外）
 
+                                    # 2023/02 新增
+                                    - Slider            # 滚动条评分（表单类型：除Exam外）
+                                    - SliderList        # 滚动条评分，多行（表单类型：除Exam外）
+
                                     # 待增加：
                                     # 矩阵填空、自增表格、量表、投票、投票单选、图片投票单选、图片投票多选
 
@@ -188,12 +192,18 @@ spec:
                                 # 控件无内容时的提示信息
                                 placeholder:
                                   type: string
-                                # 最小长度
+                                # 最小值/最小长度
                                 minLength:
                                   type: integer
-                                # 最大长度
+                                # 最大值/最小长度
                                 maxLength:
                                   type: integer
+                                # 最小值显示文字
+                                minText:
+                                  type: String
+                                # 最大值显示文字
+                                maxText:
+                                  type: String
                                 # 行数：用于TextArea
                                 lines:
                                   type: integer
