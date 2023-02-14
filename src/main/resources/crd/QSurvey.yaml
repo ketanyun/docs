@@ -602,6 +602,7 @@ spec:
                                   enum:
                                     - Visible
                                     - RangeVisible
+                                    - ToolTip           # 2023/02/14 新增
                                 # 具体执行脚本。可通过 $CONDITION 引用 condition 节表达式结果
                                 scripts:
                                   type: string
