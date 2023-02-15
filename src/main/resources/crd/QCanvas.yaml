@@ -226,6 +226,13 @@ spec:
                         arguments:
                           type: array
                           items: *ARGUMENT
+                        #《数据操作属性》
+                        attributes:
+                          type: object
+                          properties:
+                            # 是否支持分页结构
+                            pagination:
+                              type: boolean 
 
                     # 《控件》
                     _control: 
