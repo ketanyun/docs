@@ -173,6 +173,7 @@ spec:
                           # 服务名，对应 QService 服务
                           name: 
                             type: string
+
                           # GraphQL操作
                           operation: 
                             type: object
@@ -200,6 +201,29 @@ spec:
                                   pagination:
                                     type: boolean 
 
+                      # 人员主体，仅 kind 为 user 或 occupy 时需要，作为人员合重的依据
+                      principal:
+                        type: object
+                        required:
+                          - name
+                        properties:
+                          # 主体字段名
+                          name:
+                            type: string
+                            enum:
+                              # openid (occupy 特有，指通过 openid 找人)
+                              - OPENID
+                              # 用户名
+                              - USERNAME
+                              # 人员证件类型 + 人员证件号码
+                              - CARD_TYPE_NO
+                              # 人员证件号码
+                              - CARD_NO
+                              # 邮箱
+                              - EMAIL
+                              # 电话
+                              - CELLPHONE
+                            
                       # 字段映射
                       fields:
                         type: array
@@ -226,7 +250,11 @@ spec:
                             ## password：密码
                             ## cellphone：电话
                             ## email：邮箱
-                            
+                            ## avatar：头像文件
+                            ## avatarUrl ：头像
+                            ## avatarHashCode：头像hashcode
+                            ## avatarUpdateTime：头像更新时间
+
                             # 部门（kind：dept） 
                             ## code：代码
                             ## enName：英文名称
