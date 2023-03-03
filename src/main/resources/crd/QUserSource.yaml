@@ -149,22 +149,20 @@ spec:
                           incremental:
                             type: boolean 
 
-                      # 授权应用列表（仅推模式）
-                      apps:
-                        type: array
-                        items:
-                          type: object
-                          required:
-                            - name
-                          properties:
-                            # 应用标识（client_id）
-                            name: 
-                              type: string
-                            # 应用名称
-                            text: 
-                              type: string
+                      # 授权应用（仅推模式）
+                      app:
+                        type: object
+                        required:
+                          - name
+                        properties:
+                          # 应用标识（client_id）
+                          name: 
+                            type: string
+                          # 应用名称
+                          text: 
+                            type: string
 
-                      # 服务（仅拉模式）
+                      # 数据服务（仅拉模式）
                       service:
                         type: object
                         required:
@@ -293,12 +291,25 @@ spec:
                       rule:
                         type: object
                         properties:
+                          # 规则类型，默认 include 
+                          kind:
+                            type: string 
+                            enum:
+                              - include
+                              - exclude
                           # 是否启用，默认false
                           enabled: 
                             type: boolean
-                          # 挂载点，可选
+                          # 挂载点，仅 kind 为 dept/post 支持
                           mount:
-                            type: string
+                            type: object
+                            properties:
+                              # 挂载分类
+                              category:
+                                type: string
+                              # 挂载路径
+                              path:
+                                type: string
 
 
 
