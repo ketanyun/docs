@@ -121,9 +121,14 @@ spec:
                   items:
                     type: object
                     required:
+                      - name
                       - kind
+                      - mode
                       - service
                     properties:
+                      # 机读ID
+                      name:
+                        type: string
                       # 描述
                       text:
                         type: string 
