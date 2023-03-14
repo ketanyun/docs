@@ -144,8 +144,10 @@ spec:
                       mode:
                         type: string
                         enum:
-                          - pull
-                          - push
+                          - builtin # 内置模式
+                          - pull    # 拉取模式
+                          - push    # 推送模式
+                          
                       # 治理策略
                       strategies:
                         type: object
@@ -154,7 +156,16 @@ spec:
                           incremental:
                             type: boolean 
 
-                      # 授权应用（仅推模式）
+                      # 常量数据（仅 builtin 模式）
+                      data:
+                        type: object
+                        properties:
+                          # 常量字符串，json格式，必须为数组
+                          # 举例：[{ "code" : "ITAdmin", "name": "企业IT" }, { "code" : "DeptITAdmin", "name": "部门IT" }]
+                          value:
+                            type: string
+
+                      # 授权应用（仅 push 模式）
                       app:
                         type: object
                         required:
@@ -167,7 +178,7 @@ spec:
                           text: 
                             type: string
 
-                      # 数据服务（仅拉模式）
+                      # 数据服务（仅 pull 模式）
                       service:
                         type: object
                         required:
