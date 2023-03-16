@@ -15,8 +15,9 @@
 | [QSurvey](../../wiki/QSurvey) | `Yes` | 问卷定义 |
 | [QPatch](../../wiki/QPatch) | `?` | 应用补丁 |
 | [QLicense](../../wiki/QLicense) | `No` | 应用授权|
-| [QDataSource](../../wiki/QDataSource) | `yes` | 数据源定义 |
 | [QUserSource](../../wiki/QUserSource) | `yes` | 身份权威源定义 |
+| [QDataSource](../../wiki/QDataSource) | `yes` | 数据源定义 |
+| [QDataExchange](../../wiki/QDataExchange) | `yes` | 身份权威源定义 |
 
 
 # CRD 设计原则 
