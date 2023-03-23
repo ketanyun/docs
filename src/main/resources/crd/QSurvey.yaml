@@ -204,6 +204,12 @@ spec:
                                 # 最大值显示文字
                                 maxText:
                                   type: String
+                                # 列表数量最小值
+                                minItems: 
+                                  type: integer
+                                # 列表数量最大值
+                                maxItems: 
+                                  type: integer
                                 # 行数：用于TextArea
                                 lines:
                                   type: integer
