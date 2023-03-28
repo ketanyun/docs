@@ -52,6 +52,15 @@ spec:
                     # 内容变化时，已激活的租户中本应用是否自动升级 
                     autoUpgrade:
                       type: boolean 
+                    # 应用模版标签
+                    tags:
+                      type: string 
+                    # 应用模版名称，可覆盖QApp定义
+                    text:
+                      type: string
+                    # 应用模版描述，可覆盖QApp定义
+                    description: 
+                      type: string
 
                 # 设计器信息
                 designer: 
