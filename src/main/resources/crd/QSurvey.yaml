@@ -122,6 +122,14 @@ spec:
                             type: string
                           text:
                             type: string
+                          # 横幅栏
+                          banner:
+                            type: object
+                            properties:
+                              # 横幅图片地址
+                              uri:
+                                type: string
+
                           renders:
                             type: array
                             items: &CONTROL
@@ -200,15 +208,15 @@ spec:
                                   type: integer
                                 # 最小值显示文字
                                 minText:
-                                  type: String
+                                  type: string
                                 # 最大值显示文字
                                 maxText:
-                                  type: String
+                                  type: string
                                 # 列表数量最小值
-                                minItems: 
+                                minItems:
                                   type: integer
                                 # 列表数量最大值
-                                maxItems: 
+                                maxItems:
                                   type: integer
                                 # 行数：用于TextArea
                                 lines:
@@ -266,7 +274,7 @@ spec:
                                     - text
                                   items:
                                     type: object
-                                    properties: 
+                                    properties:
                                       # 选项ID
                                       name:
                                         type: string
@@ -571,6 +579,21 @@ spec:
                             enum:
                               # 管理问卷数据
                               - Entry
+                              # 功能点禁用：隐藏/只读
+                              # 功能点列表：
+                              #   kind：问卷类型
+                              #   dept：管理部门
+                              #   content.batches：批次设置
+                              #   content.entries：入口/选人
+                              #   content.notification：通知提醒
+                              #   content.permissions：数据权限
+                              #   content.selection：抽题设置
+                              #   content.xxx（同yaml结构）
+                              #
+                              # 可指定后缀控制禁用级别，比如：
+                              #   content.batches:hidden（默认），或者 content.batches:readonly
+                              #
+                              - Feature
                           # 用户范围
                           userFilters:
                             type: array
@@ -583,6 +606,11 @@ spec:
                               # 是否启用，默认 false
                               enabled:
                                 type: boolean
+                          # 权限对象
+                          objects:
+                            type: array
+                            items:
+                              type: string
 
                     # 《规则》列表定义
                     rules:
@@ -675,13 +703,4 @@ spec:
                                     # 时间偏移秒数，可以为正、负、零
                                     offset:
                                       type: integer
-
-
-
-
-
-
-
-
-
 
