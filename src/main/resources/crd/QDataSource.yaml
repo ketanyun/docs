@@ -37,7 +37,7 @@ spec:
                 - text
                 - url
                 - kind
-                - database
+                - schema
               properties:
                 # 数据源标识
                 name:
@@ -111,13 +111,12 @@ spec:
                                 type: string
 
                 # 数据库信息
-                database:
+                schema:
                   type: object
                   required:
                     - name
-                    - readonly
                   properties:
-                    # 数据库schema名称
+                    # 数据库 schema 名称
                     name: 
                       type: string
                     # 数据类型列表
@@ -175,9 +174,7 @@ spec:
                               type: object
                               required:
                                 - name
-                                - type
-                                - newName
-                                - builtInType
+                                - source
                               properties:
                                 # 接口字段名称
                                 name:
