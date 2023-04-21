@@ -1,0 +1,268 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  # name must match the spec fields below, and be in the form: <plural>.<group>
+  name: qdatasources.ketanyun.cn
+spec:
+  # group name to use for REST API: /apis/<group>/<version>
+  group: ketanyun.cn
+  # either Namespaced or Cluster
+  scope: Namespaced
+  names:
+    # plural name to be used in the URL: /apis/<group>/<version>/<plural>
+    plural: qdatasources
+    # singular name to be used as an alias on the CLI and for display
+    singular: qdatasource
+    # kind is normally the CamelCased singular type. Your resource manifests use this.
+    kind: QDataSource
+    # shortNames allow shorter string to match your resource on the CLI
+    # shortNames:
+    # - qapp
+  # list of versions supported by this CustomResourceDefinition
+  versions:
+    - name: v1alpha1
+      # Each version can be enabled/disabled by Served flag.
+      served: true
+      # One and only one version must be marked as the storage version.
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            # 标准定义
+            spec:
+              type: object
+              required:
+                - name
+                - text
+                - url
+                - kind
+                - database
+              properties:
+                # 数据源标识
+                name:
+                  type: string
+                # 数据源显示名
+                text:
+                  type: string
+                # 数据源地址，jdbc url
+                url:
+                  type: string
+                # 类型
+                kind:
+                  type: string
+                  enum:
+                    - mysql
+                    - oracle
+                    - mssql
+                    - tidb
+                    - postgrel
+                    - hive
+
+                # 安全信息
+                security:
+                  type: object
+                  properties:
+                    # 管理模式
+                    kind:
+                      type: string
+                      enum:
+                        - managed    # 由系统托管
+                        - password   # 指定用户名/口令 
+                    # 托管配置
+                    managed:
+                      type: object
+                      required:
+                        - datasource
+                      properties:
+                        # 上游数据源
+                        datasource:
+                          type: object
+                          required:
+                            - name
+                          properties:
+                            name:
+                              type: string
+
+                    # 账号列表
+                    users:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          # 数据源用户名
+                          username:
+                            type: string
+                          # 数据源密码，仅password模式需要
+                          password:
+                            type: string
+                          # 权限
+                          permission:
+                            type: string
+                            enum:
+                              - full      # 完整权限，DML & DDL
+                              - data      # 数据权限，仅DML
+                              - readonly  # 只读 
+                          # 定义如何生成 secret
+                          secretTemplate:
+                            type: string
+                            properites:
+                              name:
+                                type: string
+
+                # 数据库信息
+                database:
+                  type: object
+                  required:
+                    - name
+                    - readonly
+                  properties:
+                    # 数据库schema名称
+                    name: 
+                      type: string
+                    # 数据类型列表
+                    types:
+                      type: array
+                      items:
+                        type: object
+                        required:
+                          - name
+                          - source
+                        properties:
+                          # 数据类型名（机读）
+                          name:
+                            type: string
+                          # 显示名
+                          text:
+                            type: string
+                          # 数据来源信息
+                          source:
+                            type: object
+                            properties:
+                              kind:
+                                type: string
+                                enum:
+                                  - table
+                                  - view
+                                  - script  # 根据SQL生成
+                              # 数据表模式
+                              table:
+                                type: object
+                                properties:
+                                  name:
+                                    type: string
+                                  # 是否只读
+                                  readonly:
+                                    type: boolean
+                              # 视图模式
+                              view:
+                                type: object
+                                properties:
+                                  name:
+                                    type: string
+                              # 脚本模式
+                              script:
+                                type: object
+                                properties:
+                                  # 根据SQL生成
+                                  sql:
+                                    type: string
+
+                          # 字段映射
+                          fields:
+                            type: array
+                            items:
+                              type: object
+                              required:
+                                - name
+                                - type
+                                - newName
+                                - builtInType
+                              properties:
+                                # 接口字段名称
+                                name:
+                                  type: string
+                                # 字段备注
+                                text:
+                                  type: string
+                                # 数据来源信息
+                                source:
+                                  type: object
+                                  properites:
+                                    # 数据库字段名
+                                    name:
+                                      type: string
+                                    # 数据库字段类型
+                                    dataType:
+                                      type: string
+                                # 是否必填
+                                notNull:
+                                  type: boolean
+                                # 接口数据类型
+                                # ID、Int、String、Account、Dept、Timestamp、UnixTimestamp、Disabled、Base64、Tenant
+                                dataType:
+                                  type: string
+                                # 多租支持
+                                tenant:
+                                  type: object
+                                  properites:
+                                    # 租户标识字段名，如不定义，则当前类型不支持多租
+                                    field:
+                                      type: string
+                                    # 租户数据类型名称。如不定义，则直接使用底座租户标识过滤，否则根据租户标识查询此类型Tenant字段，使用租户表ID过滤
+                                    tenantType:
+                                      type: string
+
+                # 数据脚本任务，仅支持有写权限的数据库，要求 DDL 权限
+                tasks:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - name
+                      - kind
+                    properties:
+                      # 任务名称，机读，记录在当前数据库 QDataSource_History 表中，避免重复执行
+                      name:
+                        type: string
+                      # 脚本类型
+                      # 执行逻辑：
+                      # 1. 数据库不存在 & managed模式下：仅执行 init 脚本，并创建 QDataSource_History 表
+                      # 2. 数据库存在 & QDataSource_History 表存在，严格按 tasks 数组顺序执行 update 脚本，失败则终止后续执行
+                      # 3. 数据库存在 & QDataSource_History 表不存在，不执行任何脚本
+                      kind:
+                        type: string
+                        enum: 
+                          - init      # 初始化脚本
+                          - update    # 增量脚本
+                      # 脚本内容
+                      script:
+                        type: string
+                      # 外部引用脚本
+                      scriptFrom:
+                        type: object
+                        properties:
+                          configMapRef:
+                            type: object
+                            required:
+                              - name
+                            properties:
+                              # configmap 名称
+                              name:
+                                type: string
+                              # configmap key
+                              key:
+                                type: string
+
+                # QDataSource多租信息
+                tenant:
+                  type: object
+                  required:
+                    - multitenancy
+                  properties:
+                    # 租户编码
+                    name: 
+                      type: string
+                    # 是否支持多租。为true时，租户必须为 "localhost"
+                    multitenancy: 
+                      type: boolean
