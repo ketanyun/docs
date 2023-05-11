@@ -63,6 +63,15 @@ spec:
                     # 后端实际地址，即 EndPoint 
                     backend: 
                       type: string
+                    # 当有其他后端地址时，可增加。多个后端服务会按顺序拼接，优先级依次降低
+                    backends:
+                      type: array
+                      items: 
+                        type: object
+                        properties: 
+                          # 额外后端地址的 EndPoint 地址
+                          uri:
+                            type: string
                     # 后端实际地址的 ContextPath，可为空，用于`BootstrapAPI`等地址拼接 
                     backendContextPath:
                       type: string
