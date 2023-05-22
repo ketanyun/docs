@@ -105,8 +105,8 @@ spec:
                               - readonly  # 只读 
                           # 定义如何生成 secret
                           secretTemplate:
-                            type: string
-                            properites:
+                            type: object
+                            properties:
                               name:
                                 type: string
 
@@ -185,7 +185,7 @@ spec:
                                 # 数据来源信息
                                 source:
                                   type: object
-                                  properites:
+                                  properties:
                                     # 数据库字段名
                                     name:
                                       type: string
@@ -202,7 +202,7 @@ spec:
                                 # 多租支持
                                 tenant:
                                   type: object
-                                  properites:
+                                  properties:
                                     # 租户标识字段名，如不定义，则当前类型不支持多租
                                     field:
                                       type: string
