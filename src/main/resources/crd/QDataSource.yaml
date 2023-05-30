@@ -76,7 +76,7 @@ spec:
                         - datasource
                       properties:
                         # 上游数据源
-                        datasource:
+                        datasourceRef:
                           type: object
                           required:
                             - name
@@ -85,17 +85,44 @@ spec:
                               type: string
 
                     # 账号列表
+                    # 每个账号生成一个secret，生成规则：
+                    # data 类型生成 qdatasource-{name}-secret-0 ...
+                    # full 类型生成 qdatasource-{name}-secret-full-0 ...
+                    # readonly 类型生成 qdatasource-{name}-secret-readonly-0 ... 
+                    # secret 字段名：
+                    #   url：数据库连接字符串
+                    #   username: 用户名
+                    #   password: 密码
+                    #   protocol: 协议部分，比如 "jdbc:mariadb://" 
+                    #   host：主机名
+                    #   port：端口号
+                    #   database: 数据库表名
+                    #   query: 查询字符串
                     users:
                       type: array
                       items:
                         type: object
+                        required:
+                          - username
+                          - permission
                         properties:
                           # 数据源用户名
                           username:
                             type: string
                           # 数据源密码，仅password模式需要
-                          password:
-                            type: string
+                          passwordFrom:
+                            type: object
+                            properties:
+                              # 通过 secret 引用
+                              secretRef:
+                                type: object
+                                properties:
+                                  # secret名
+                                  name: 
+                                    type: string
+                                  # 密码字段key
+                                  key:
+                                    type: string
                           # 权限
                           permission:
                             type: string
@@ -103,12 +130,7 @@ spec:
                               - full      # 完整权限，DML & DDL
                               - data      # 数据权限，仅DML
                               - readonly  # 只读 
-                          # 定义如何生成 secret
-                          secretTemplate:
-                            type: object
-                            properties:
-                              name:
-                                type: string
+
 
                 # 数据库信息
                 schema:
