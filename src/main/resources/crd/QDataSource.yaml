@@ -73,7 +73,7 @@ spec:
                     managed:
                       type: object
                       required:
-                        - datasource
+                        - datasourceRef
                       properties:
                         # 上游数据源
                         datasourceRef:
