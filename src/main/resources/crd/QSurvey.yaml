@@ -112,6 +112,14 @@ spec:
                     description:
                       type: string
 
+                    # 封面
+                    cover:
+                      type: object
+                      properties:
+                        # 封面图片地址
+                        uri:
+                          type: string
+
                     # 《视图》 列表定义
                     views:
                       type: array
@@ -582,7 +590,9 @@ spec:
                               # 功能点禁用：隐藏/只读
                               # 功能点列表：
                               #   kind：问卷类型
-                              #   dept：管理部门
+                              #   dept：管理部门，含协管部门
+                              #   tags: 问卷标签
+                              #   description: 问卷描述
                               #   content.batches：批次设置
                               #   content.entries：入口/选人
                               #   content.notification：通知提醒
