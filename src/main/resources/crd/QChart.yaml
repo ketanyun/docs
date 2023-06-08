@@ -44,12 +44,6 @@ spec:
                     # 所属应用的 QApp 的 metadata.name
                     name:
                       type: string
-                    # 新建租户时是否需要自动激活
-                    autoActivate:
-                      type: boolean
-                    # 内容变化时，已激活的租户中本应用是否自动升级
-                    autoUpgrade:
-                      type: boolean
 
                 # 设计器信息
                 designer:
@@ -82,7 +76,7 @@ spec:
                     description: 
                       type: string
 
-                    # 
+                    # 《视图》配置
                     view: 
                       type: object
                       properties:
@@ -145,7 +139,7 @@ spec:
                                   options:
                                     type: string 
                               # 分组。使用方式：
-                              # Line、Bar、Pie、Guage: 仅使用[0]作为x轴（invert后为y轴）
+                              # Line、Bar、Pie、Guage、KPI: 仅使用group[0]作为x轴（invert后为y轴）
                               # DataTable：作为表列（不支持invert）
                               # PivotTable：度量值作为表列（invert后为表行）
                               groups:
@@ -176,7 +170,7 @@ spec:
                                       type: string
                               # 度量值
                               # Line、Bar: 可多值
-                              # Guage、Pie: 单值
+                              # KPI、Guage、Pie: 单值
                               # DataTable: 作为表列
                               # PivotTable：作为表内容
                               values: 
@@ -251,7 +245,13 @@ spec:
                                   source:
                                     type: object
                                     properties:
-                                      # 数据源名称，来自数据网关
+                                      # 数据源类型
+                                      kind:
+                                        type: string
+                                        enum:
+                                          - hub   # 从数据源选择，包括关系型数据库、ElasticSearch、Prometheus、REST 等
+                                          - bus   # 从数据网关选择
+                                      # 数据源名称（来自hub）或者服务名（来自bus）
                                       name: 
                                         type: string
                                       text:
@@ -266,8 +266,10 @@ spec:
                                           - sql
                                           - elastic_search
                                           - prometheus
+                                          - graphql
                                       statement:
-                                        type: string 
+                                        type: string
+                                      
                                   # 《维度》列表
                                   dimensions:
                                     type: array
@@ -290,5 +292,6 @@ spec:
                                           type: string 
                                         text: 
                                           type: string 
+                                        # 对于SQL，直接对应字段名；对于GraphQL和REST，可使用路径指定字段，比如 data[0].totalCount
                                         field:
                                           type: string
