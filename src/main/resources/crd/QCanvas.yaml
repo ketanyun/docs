@@ -494,13 +494,46 @@ spec:
                                 type: string 
                               # 菜单动作
                               action: *ACTION
-                              # 菜单项关联的数据，仅如下数据有效： 
+                              # 菜单项关联的数据
+                              # 2023/05/06 之前为 *DATA，仅如下数据有效： 
                               # accesses[].name
                               # accesses[].text
                               # accesses[].operation[].filter[]
+                              # 2023/05/06 之后定义细化，以及可以直接表示网关数据（非内置DATA数据）
                               accesses: 
                                 type: array
-                                items: *DATA
+                                items: 
+                                  type: object
+                                  properties:
+                                    # 关联数据类型
+                                    kind:
+                                      type: string
+                                      enum: 
+                                        - type # 网关 GraphQL 的类型
+                                        - data # 数据，引用 spec.canvas.data[].name
+                                    # 数据类型引用名，对于 kind 为 type 时，支持指定服务前缀，如 "iam/User"
+                                    name: 
+                                      type: string
+                                    # 显示名，仅用于非内部引用类型 
+                                    text:
+                                      type: string
+                                    # 关联的 operation 列表
+                                    operation:
+                                      type: array
+                                      items: *OPERATION
+                        # 行级数据过滤器
+                        dataFilters:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              # 过滤器机读名称
+                              name:
+                                type: string
+                              # 过滤器人读名称
+                              text:
+                                type: string
+
 
                     # 《资源》 列表定义 
                     resources:
@@ -660,6 +693,7 @@ spec:
                                 field: *FIELD
                                 input: *INPUT
                                 # 单元格模版，如果模版存在，忽略field和input属性
+                                # TODO: 模版列如何支持代码表（LEFT JOIN的第三方结构）的其他属性？
                                 template: 
                                   type: object
                                   properties:
