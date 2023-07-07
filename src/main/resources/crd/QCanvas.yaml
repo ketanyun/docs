@@ -132,7 +132,7 @@ spec:
                       #  - required:
                       #    - value
                       #    - values
-                      #    - experssion
+                      #    - expression
                       properties:
                         field:
                           type: string
@@ -156,7 +156,7 @@ spec:
                           type: array
                           items:
                             x-kubernetes-int-or-string: true
-                        experssion:
+                        expression:
                           type: string
 
                     # 行级数据过滤器
