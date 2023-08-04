@@ -110,7 +110,7 @@ spec:
                               text:
                                 type: string
      
-                          # 样式（css）
+                          # 样式（css-styles）
                           styles: &STYLES
                             type: array
                             items:
@@ -119,7 +119,20 @@ spec:
                                 # 如：width: 200px;
                                 value:
                                   type: string
+                                # 样式应用层级，默认 self，指当前空间
+                                scope:
+                                  type: string 
 
+                          # 样式类（css-classes）
+                          classes: &CLASSES
+                            type: array
+                            items:                                     
+                              type: object
+                              properties:
+                                # 样式类名
+                                name:
+                                  type: string
+                                    
                           # 视图导航栏
                           navigation: 
                             type: object
@@ -155,14 +168,18 @@ spec:
                                     - SectionBreak    # 分节符
                                     - Text            # 文本内容，支持Markdown格式
                                     - Guideline       # 填表指南的条目
+                                    - Icon            # 图标
 
                                     # 布局控件
+                                    - Container       # 简单容器
                                     - Section         # 节
                                     - Table           # 表
                                     - RepeatSection   # 重复节
                                     - RepeatTable     # 重复表
                                     - TableRow        # 表行
                                     - TableCell       # 表单元格
+                                    - Tabs            # 多标签
+                                    - Popup           # 弹框
 
                                     # 业务控件（同数据控件，需绑定字段）
                                     - User            # 当前用户
@@ -186,17 +203,19 @@ spec:
                                     - Hidden      # 隐藏字段，隐藏内容，不显示
                                     - Anchor      # 链接，超链接，可以多种方式打开
                                     - File        # 文件，文件上传
+                                    - Upload      # 更大的文件上传控件，功能同 File
                                     - Image       # 图片显示，显示图片
                                     - Picture     # 图片上传，图片上传
                                     - Help        # 帮助，显示一个帮助图标，点上去出帮助提示
                                     - Button      # 按钮，显示一个按钮，点击后会触发后台fieldChange
                                     - LinkButton  # 链接按钮，显示一个链接，点击后会触发后台fieldChange
-                                    - CheckButton # check按钮，显示一个按钮，有选中和不选中两种状态
+                                    - CheckButton # 复选按钮，显示一个按钮，有选中和不选中两种状态
                                     - Thing       # 物品，输入物品
                                     - IFrame      # iframe，用于设计第三方控件
                                     - Map         # 地图，用于显示位置或者让用户选取位置
                                     - Seal        # 印章，数字印章的选取和显示
                                     - Signature   # 签名，对指定表单数据进行签名和验证
+
                                 # 对应数据字段（组），仅 `数据控件`、`重复节/表` 支持
                                 field: 
                                   type: string 
@@ -269,10 +288,15 @@ spec:
                                 # 标签选项
                                 label: *LABEL
 
-                                # 响应时布局
+                                # 布局方式
                                 layout:
                                   type: object
                                   properties:
+                                    kind:
+                                      type: string
+                                      enum:
+                                        - responsive  # 响应式布局
+                                        - linear      # 线性布局
                                     # 所占列数，默认全宽（PC: 24）
                                     columns: 
                                       type: integer
@@ -298,8 +322,11 @@ spec:
                                       text: 
                                         type: string
                                 
-                                # 样式（css）
+                                # 样式（css-styles）
                                 styles: *STYLES
+
+                                # 样式类（css-classes）
+                                classes: *CLASSES
 
                                 # 数据源，用于 Select 等
                                 source: 
