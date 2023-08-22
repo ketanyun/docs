@@ -138,8 +138,9 @@ spec:
                                   # 可额外属性定义，JSON语法，覆盖默认配置 
                                   options:
                                     type: string 
-                              # 分组。使用方式：
-                              # Line、Bar、Pie、Guage、KPI: 仅使用group[0]作为x轴（invert后为y轴）
+                              # 分组。使用方式
+                              # Guage、KPI：
+                              # Line、Bar、Pie: 仅使用group[0]作为x轴（invert后为y轴）
                               # DataTable：作为表列（不支持invert）
                               # PivotTable：度量值作为表列（invert后为表行）
                               groups:
@@ -169,8 +170,8 @@ spec:
                                     total:
                                       type: string
                               # 度量值
-                              # Line、Bar: 可多值
-                              # KPI、Guage、Pie: 单值
+                              # Line、Bar、Guage、KPI: 可多值
+                              # Pie: 单值
                               # DataTable: 作为表列
                               # PivotTable：作为表内容
                               values: 
@@ -210,6 +211,21 @@ spec:
                                             type: array
                                             items:
                                               type: string
+                                    # 定义图标
+                                    icons:
+                                      type: array
+                                      items:
+                                        type: object
+                                        properties:
+                                          # 位置
+                                          dock:
+                                            type: string
+                                            enum:
+                                              - left
+                                              - right
+                                          # 图标值
+                                          value:
+                                            type: string
                                               
                               # 轴线
                               axes: 
@@ -295,3 +311,4 @@ spec:
                                         # 对于SQL，直接对应字段名；对于GraphQL和REST，可使用路径指定字段，比如 data[0].totalCount
                                         field:
                                           type: string
+
