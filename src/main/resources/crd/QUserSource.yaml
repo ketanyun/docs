@@ -114,6 +114,9 @@ spec:
                 # 展示颜色，可选
                 color:
                   type: string
+                # 是否启用，默认 true
+                enabled: 
+                  type: boolean
 
                 # 权威源类型定义列表
                 sources:
@@ -146,7 +149,7 @@ spec:
                           - builtin # 内置模式
                           - pull    # 拉取模式
                           - push    # 推送模式
-                          
+                      
                       # 治理策略
                       strategies:
                         type: object
@@ -303,29 +306,30 @@ spec:
                                   type: string
 
                       # 对应的治理规则
-                      rule:
-                        type: object
-                        properties:
-                          # 规则类型，默认 include 
-                          kind:
-                            type: string 
-                            enum:
-                              - include
-                              - exclude
-                          # 是否启用，默认false
-                          enabled: 
-                            type: boolean
-                          # 挂载点，仅 kind 为 dept/post 支持
-                          mount:
-                            type: object
-                            properties:
-                              # 挂载分类
-                              category:
-                                type: string
-                              # 挂载路径
-                              path:
-                                type: string
-
+                      rules:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            # 规则类型，默认 include 
+                            kind:
+                              type: string 
+                              enum:
+                                - include
+                                - exclude
+                            # 是否启用，默认false
+                            enabled: 
+                              type: boolean
+                            # 挂载点，仅 kind 为 dept/post 支持
+                            mount:
+                              type: object
+                              properties:
+                                # 挂载分类
+                                category:
+                                  type: string
+                                # 挂载路径
+                                path:
+                                  type: string
 
 
                 # 多租信息
