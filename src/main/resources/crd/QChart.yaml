@@ -119,6 +119,29 @@ spec:
                               # 外部链接
                               uri:
                                 type: string
+                              # 图表标题栏设置
+                              header:
+                                type: object
+                                properties:
+                                  # 标题文字
+                                  text:
+                                    type: string
+                                  # 文字对齐方式
+                                  dock: &DOCK
+                                    type: string
+                                    enum:
+                                      - left
+                                      - right
+                                  # 图标
+                                  icon: &ICON
+                                    type: object
+                                    properties:
+                                      # 位置
+                                      dock: *DOCK
+                                      # 图标值
+                                      value:
+                                        type: string
+
                               # 位置，（x, y, w, h）
                               position:
                                 type: object
@@ -214,18 +237,7 @@ spec:
                                     # 定义图标
                                     icons:
                                       type: array
-                                      items:
-                                        type: object
-                                        properties:
-                                          # 位置
-                                          dock:
-                                            type: string
-                                            enum:
-                                              - left
-                                              - right
-                                          # 图标值
-                                          value:
-                                            type: string
+                                      items: *ICON
                                               
                               # 轴线
                               axes: 

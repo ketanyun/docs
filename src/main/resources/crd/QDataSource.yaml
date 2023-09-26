@@ -58,6 +58,8 @@ spec:
                     - tidb
                     - postgrel
                     - hive
+                    - prometheus
+                    - elasticsearch
 
                 # 安全信息
                 security:
