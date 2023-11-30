@@ -51,7 +51,16 @@ spec:
                       features: 
                         type: array
                         items:
-                          type: string
+                          type: object
+                          properites:
+                            name:
+                              type: string
+                            dataType:
+                              type: string
+                            # 授权值，注意此处类型均为 string，实际类型应以 dataType 为准。
+                            value:
+                              type: string
+
                       # 超时时间，Unix时间戳
                       expire:
                         type: integer
