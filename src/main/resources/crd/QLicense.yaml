@@ -43,7 +43,7 @@ spec:
                   type: array
                   items:
                     type: object 
-                    properites:
+                    properties:
                       # 服务名
                       name: 
                         type: string
@@ -52,7 +52,7 @@ spec:
                         type: array
                         items:
                           type: object
-                          properites:
+                          properties:
                             name:
                               type: string
                             dataType:
