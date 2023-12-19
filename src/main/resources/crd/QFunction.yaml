@@ -1,0 +1,243 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  # name must match the spec fields below, and be in the form: <plural>.<group>
+  name: qsurveys.ketanyun.cn
+spec:
+  # group name to use for REST API: /apis/<group>/<version>
+  group: ketanyun.cn
+  # either Namespaced or Cluster
+  scope: Namespaced
+  names:
+    # plural name to be used in the URL: /apis/<group>/<version>/<plural>
+    plural: qfunctions
+    # singular name to be used as an alias on the CLI and for display
+    singular: qfunction
+    # kind is normally the CamelCased singular type. Your resource manifests use this.
+    kind: QFunction
+    # shortNames allow shorter string to match your resource on the CLI
+    shortNames:
+      - qfun
+  # list of versions supported by this CustomResourceDefinition
+  versions:
+    - name: v1alpha1
+      # Each version can be enabled/disabled by Served flag.
+      served: true
+      # One and only one version must be marked as the storage version.
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              # 事件定义
+              events:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    # 事件名称
+                    name: 
+                      type: string
+                    # 事件描述
+                    text: 
+                      type: string
+
+                    # 事件来源定义
+                    source:
+                      type: object
+                      properties:
+                        # 事件来源类型
+                        kind:
+                          type: string
+                          enum:
+                            - crontab     # 定时任务
+                            - message     # 消息队列
+                            - messenger   # 流程事件
+                        # 事件来源表达式，格式举例：
+                        #   定时任务："10 * * * * *"
+                        #   消息队列："user.created"
+                        #   流程事件："WorkflowCode:INSTANCE_STARTING"
+                        expression:
+                          type: string
+
+                    # 事件目标定义
+                    target:
+                      type: object
+                      properties:
+                        # 目标类型
+                        kind:
+                          type: string
+                          enum: 
+                            - service   # 服务
+                            - function  # 函数
+                        # 事件目标表达式，格式举例：
+                        # 服务：服务名/服务
+                        # 函数：函数名
+                        expression:
+                          type: string
+                    
+                    # 格式转换
+                    transform:
+                      type: object
+                      properties:
+                        # 参数转换
+                        arguments:
+                          type: object
+                          properties:
+                            # 转换方式
+                            kind:
+                              type: string
+                              enum:
+                                - auto
+                        # 结果转换
+                        result:
+                          type: object
+                          properties:
+                            # 转换方式
+                            kind:
+                              type: string
+                              enum:
+                                - auto
+
+              # 服务进程
+              process: 
+                type: object 
+                properties:
+                  # 服务进程名称
+                  name:
+                    type: string
+                  # 服务进程描述
+                  text:
+                    type: string
+                  # 服务进程原型
+                  prototype:
+                    type: string
+                    enum:
+                      - springboot
+
+                  # 函数列表
+                  functions:
+                    type: array
+                    items: 
+                      type: object
+                      properties:
+                        # 函数名
+                        name:
+                          type: string
+                        # 函数注释
+                        text:
+                          type: string
+                        # 函数类型
+                        kind:
+                          type: string
+                          enmu:
+                            - private     # 私有函数，不对外提供服务
+                            - query       # GraphQL查询
+                            - mutation    # GraphQL变更
+                            - messenger   # 流程平台事件处理函数
+                        # 返回值类型
+                        result:
+                          type: object
+                          properties:
+                            # 模型引用
+                            modelRef:
+                              type: string
+                            # 修饰符
+                            modifiers:
+                              type: array
+                              items:
+                                type: string
+                                enmu:
+                                  - List
+                        # 参数列表
+                        arguments: 
+                          type: array
+                          items: 
+                            type: object
+                            properties:
+                              # 参数名
+                              name:
+                                type: string 
+                              # 参数注释
+                              text:
+                                type: string
+                              # 数据类型，原子类型或模型名
+                              type: 
+                                type: string
+                        # 函数体
+                        body:
+                          type: object
+                          properties:
+                            # 源代码
+                            source: 
+                              type: string
+
+                  # 依赖列表
+                  dependencies:
+                    type: array
+                    items: 
+                      type: object
+                      properties:
+                        value:
+                          type: string
+
+                  # 模型列表
+                  models:
+                    type: array
+                    items: 
+                      type: object
+                      properties:
+                        # 模型名
+                        name:
+                          type: string
+                        # 模型类型
+                        kind:
+                          type: string
+                          enum:
+                            - data    # 数据实体
+                            - input   # 输入参数
+                            - result  # 输出结果
+                        # 字段列表
+                        fields:
+                          type: array
+                          items: &FIELD
+                            type: object
+                            properties:
+                              # 字段名
+                              name:
+                                type: string
+                              # 字段数据类型
+                              type:
+                                type: string
+                  # 全局导出列表
+                  imports:
+                    type: array
+                    items: 
+                      type: object
+                      properties:
+                        value:
+                          type: string
+
+                  # 配置列表
+                  properties:
+                    type: array
+                    items: 
+                      type: object
+                      properties:
+                        # 配置项名称
+                        name:
+                          type: string
+                        # 数据类型
+                        type:
+                          type: string
+                          enum:
+                            - String
+                            - Integer
+                            - cn.ketanyun.QDataSource   # 数据源引用
+                            - cn.ketanyun.QService      # 服务发现
+                        # 来源，常量或环境变量
+                        value:
+                          type: string
+                          

@@ -210,10 +210,10 @@ spec:
                                   type: string
                                 # 最小值/最小长度
                                 minLength:
-                                  type: integer
+                                  type: number
                                 # 最大值/最小长度
                                 maxLength:
-                                  type: integer
+                                  type: number
                                 # 最小值显示文字
                                 minText:
                                   type: string
@@ -226,6 +226,9 @@ spec:
                                 # 列表数量最大值
                                 maxItems:
                                   type: integer
+                                # 步长，用于定义 [最小值, 最小值] 之间的可选项
+                                tick:
+                                  type: number
                                 # 行数：用于TextArea
                                 lines:
                                   type: integer
@@ -484,6 +487,7 @@ spec:
                         # 显示答案，默认false
                         answer:
                           type: boolean
+                        # 评语
                         reviews:
                           type: array
                           items:
