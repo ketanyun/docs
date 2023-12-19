@@ -18,6 +18,7 @@
 | [QUserSource](../../wiki/QUserSource) | `yes` | 身份权威源定义 |
 | [QDataSource](../../wiki/QDataSource) | `yes` | 数据源定义 |
 | [QDataExchange](../../wiki/QDataExchange) | `yes` | 身份权威源定义 |
+| [QFunction](../../wiki/QFunction) | `yes` | 云函数定义 |
 
 
 # CRD 设计原则 
