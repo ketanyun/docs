@@ -60,6 +60,7 @@ spec:
                     - hive
                     - prometheus
                     - elasticsearch
+                    - http
 
                 # 安全信息
                 security:
@@ -71,6 +72,7 @@ spec:
                       enum:
                         - managed    # 由系统托管
                         - password   # 指定用户名/口令 
+                        - http       # 通过 HTTP 方式认证
                     # 托管配置
                     managed:
                       type: object
@@ -85,6 +87,69 @@ spec:
                           properties:
                             name:
                               type: string
+                    # HTTP方式认证配置
+                    http: 
+                      type: object
+                      properties:
+                        # HTTP请求
+                        request:    &REQUEST
+                          type: object
+                          properties:
+                            # 认证地址
+                            uri:
+                              type: string
+                            # HTTP方法
+                            method: 
+                              type: string
+                            # HTTP头
+                            headers:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  # HTTP头名称
+                                  name:
+                                    type: string
+                                  # HTTP头取值
+                                  value:
+                                    type: string
+                            # HTTP请求体
+                            body:
+                              type: string
+                            # HTTP参数，用于 QueryString 或 Form
+                            parameters:
+                              type: array
+                              items:
+                                type: object
+                                required:
+                                  - name
+                                properties:
+                                  # 参数名
+                                  name:
+                                    type: string
+                                  # 人读描述
+                                  text:
+                                    type: string
+                                  # 参数值，等号开头为表达式
+                                  value:
+                                    type: string
+
+                        # HTTP响应
+                        response:   &RESPONSE
+                          type: object
+                          properties:
+                            # 变量解析
+                            variables:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  # 变量名，如 "access_token"
+                                  name:
+                                    type: string
+                                  # 变量解析路径，如 "result.access_token"
+                                  path:
+                                    type: string
 
                     # 账号列表
                     # 每个账号生成一个secret，生成规则：
@@ -137,8 +202,6 @@ spec:
                 # 数据库信息
                 schema:
                   type: object
-                  required:
-                    - name
                   properties:
                     # 数据库 schema 名称
                     name: 
@@ -168,6 +231,7 @@ spec:
                                   - table
                                   - view
                                   - script  # 根据SQL生成
+                                  - http    # 根据HTTP请求生成
                               # 数据表模式
                               table:
                                 type: object
@@ -190,6 +254,23 @@ spec:
                                   # 根据SQL生成
                                   sql:
                                     type: string
+                              # HTTP模式
+                              http:
+                                type: object
+                                properties:
+                                  # HTTP请求
+                                  request: *REQUEST
+                                  # HTTP响应
+                                  response: *RESPONSE
+                                  paginition:
+                                    type: object
+                                    properties:
+                                      kind:
+                                        type: string
+                                        enum:
+                                          - none    # 不支持分页
+                                          - page    # 页码模式
+                                          - cursor  # 游标模式
 
                           # 字段映射
                           fields:

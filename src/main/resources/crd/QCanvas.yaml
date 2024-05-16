@@ -163,10 +163,10 @@ spec:
                     _dataFilter: &DATA_FILTER
                       type: object
                       properties:
-                        # 过滤器机读名称
+                        # 数据过滤器机读名称
                         name:
                           type: string
-                        # 过滤器人读名称
+                        # 数据过滤器人读名称
                         text:
                           type: string
 

@@ -1,0 +1,283 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  # name must match the spec fields below, and be in the form: <plural>.<group>
+  name: qsitemaps.ketanyun.cn
+spec:
+  # group name to use for REST API: /apis/<group>/<version>
+  group: ketanyun.cn
+    # either Namespaced or Cluster
+  scope: Namespaced
+  names:
+    # plural name to be used in the URL: /apis/<group>/<version>/<plural>
+    plural: qsitemaps
+    # singular name to be used as an alias on the CLI and for display
+    singular: qsitemap
+    # kind is normally the CamelCased singular type. Your resource manifests use this.
+    kind: QSitemap
+    # shortNames allow shorter string to match your resource on the CLI
+    #shortNames:
+    #  - qrole
+  # list of versions supported by this CustomResourceDefinition
+  versions:
+    - name: v1alpha1
+      # Each version can be enabled/disabled by Served flag.
+      served: true
+      # One and only one version must be marked as the storage version.
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              required:
+                - menu
+                - roles
+              properties:
+                # 《菜单》（含功能点）定义
+                menu:
+                  type: object
+                  properties:
+                    items:
+                      type: array
+                      items: &MENUITEM
+                        type: object
+                        required:
+                          - name
+                          - text 
+                        properties:
+                          # 菜单名（权限字）
+                          name:
+                            type: string
+                          # 菜单文字
+                          text:
+                            type: string
+                          # 自定义编码
+                          code: 
+                            type: string
+                          # 菜单图标。可使用表达式。例如：=URL('https://example.com/favicon.png')
+                          icon:
+                            type: string
+                          # 父菜单
+                          parent:
+                            type: string
+                          # 自定义扩展属性
+                          attributes: &ATTRIBUTES
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                # 属性标识
+                                name: 
+                                  type: string
+                                # 属性描述
+                                text:
+                                  type: string
+                                # 属性值
+                                value:
+                                  type: string
+                          # 菜单动作
+                          action:
+                            type: object
+                            properties:
+                              # 可组装插槽
+                              slot: &SLOT
+                                type: object
+                                properties:
+                                  # 插槽标识
+                                  name: 
+                                    type: string
+                                  # 插槽描述
+                                  text:
+                                    type: string
+                                  # 插槽类型，仅支持 link 类型
+                                  kind:
+                                    type: string
+                                    enum:
+                                      - link  # 链接
+                                  # 已组装内容
+                                  plug:
+                                    type: object
+                                    properties:
+                                      # 是否只读。只读模式不允许外部组装
+                                      readonly:
+                                        type: boolean
+                                      # 值，可为表达式
+                                      value: 
+                                        type: string
+                                      # 其他扩展属性
+                                      attributes: *ATTRIBUTES
+
+
+                          # 菜单项关联的数据
+                          accesses: 
+                            type: array
+                            items: 
+                              type: object
+                              properties:
+                                # 数据类型引用名，对于 kind 为 type 时，支持指定服务前缀，如 "iam/User"
+                                name: 
+                                  type: string
+                                # 显示名，仅用于非内部引用类型 
+                                text:
+                                  type: string
+                                # 关联的 operation 列表
+                                operations:
+                                  type: array
+                                  items: &OPERATION
+                                    # 《操作》: GraphQL 的 query/mutation/subscription
+                                    type: object
+                                    properties:
+                                      kind:
+                                        type: string
+                                        enum:
+                                          - query
+                                          - mutation
+                                          - subscription
+                                          - "*"           # 不限
+                                      name:
+                                        type: string
+                                      # 该《数据操作》所需Filter
+                                      # 参考：https://github.com/infoplus/canvas-docs/wiki/Filter
+                                      filters:
+                                        type: array
+                                        items: &FILTER
+                                          type: object
+                                          required:
+                                            - field
+                                          properties:
+                                            field:
+                                              type: string
+                                            match:
+                                              type: string
+                                              enum:
+                                                - eq 
+                                                - neq
+                                                - in
+                                                - nin
+                                                - gt
+                                                - gte
+                                                - lt
+                                                - lte
+                                                - like
+                                                - bt     # 等价于：gte & lte
+                                            value:
+                                              x-kubernetes-int-or-string: true
+                                            values:
+                                              type: array
+                                              items:
+                                                x-kubernetes-int-or-string: true
+                                            expression:
+                                              type: string 
+
+                                      # 定义该类型支持哪些 DataFilter
+                                      dataFilters:
+                                        type: array
+                                        items: &DATA_FILTER
+                                          type: object
+                                          properties:
+                                            # 过滤器机读名称
+                                            name:
+                                              type: string
+                                            # 过滤器人读名称
+                                            text:
+                                              type: string
+                                      # 该《数据操作》所需参数
+                                      arguments:
+                                        type: array
+                                        items: &ARGUMENT
+                                          type: object
+                                          required:
+                                            - name
+                                            - value
+                                          properties:
+                                            # 字段数据类型，引用到 spec.canvas.data[].name
+                                            type:
+                                              type: string
+                                            # 参数名
+                                            name:
+                                              type: string
+                                            value:
+                                              x-kubernetes-int-or-string: true
+                                            defaultValue:
+                                              x-kubernetes-int-or-string: true
+                                            # 《修饰符》(非空、数组）
+                                            # 参考 https://graphql.org/learn/schema/type-modifiers
+                                            modifiers: &MODIFIERS
+                                              type: array
+                                              items:
+                                                type: string
+                                                enmu:
+                                                  - NotNull
+                                                  - List
+
+                                      #《数据操作属性》
+                                      attributes:
+                                        type: object
+                                        properties:
+                                          # 是否支持分页结构
+                                          pagination:
+                                            type: boolean 
+
+                # 《角色》定义
+                # 参考：https://github.com/ketanyun/docs/wiki/QRole
+                roles:
+                  type: array
+                  items:
+                    type: object 
+                    properties:
+                      # 角色机读名称，应用内唯一
+                      name: 
+                        type: string
+                       # 角色人读名称
+                      text:
+                        type: string
+                      # 角色描述
+                      description:
+                        type: string
+                      # 权限主体（主语）
+                      subjects:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            # 用户筛选器。语法参考：[UserFilter](https://github.com/infoplus/docs/wiki/UserFilter)
+                            userFilter:
+                              type: string
+                      # 角色保护级别（系统、用户自定义）
+                      ring:
+                        type: string
+                        enum:
+                          - system  # 系统角色，不允许用户修改其权限部分
+                          - user    # 用户自定义角色
+                      rules:
+                        type: array
+                        items:
+                          type: object
+                          required:
+                            - objects
+                          properties:
+                            # 权限对象（宾语）
+                            objects: 
+                              type: array
+                              items:
+                                type: object
+                                required:
+                                  - kind
+                                  - name
+                                properties:
+                                  # 菜单名
+                                  name: 
+                                    type: string
+                                  # 显示名，仅用于非内部引用类型 
+                                  text:
+                                    type: string
+                                  # 是否限定菜单对应的数据(accesses)的部门，用于控制是否为ACL追加Filter
+                                  limitDeptAccess:
+                                    type: boolean 
+                                  # 是否限制数据过滤器，用于控制是否为ACL追加Filter
+                                  limitDataFilters:
+                                    type: array
+                                    items:
+                                      type: string

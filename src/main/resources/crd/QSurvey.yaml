@@ -609,6 +609,8 @@ spec:
                               #   content.batches:hidden（默认），或者 content.batches:readonly
                               #
                               - Feature
+                              # 修订问卷数据，20240424新增，仅判断存在与否
+                              - Revise
                           # 用户范围
                           userFilters:
                             type: array
@@ -652,6 +654,7 @@ spec:
                                     - Visible
                                     - RangeVisible
                                     - ToolTip           # 2023/02/14 新增
+                                    - Validation        # 2024/01/03 新增
                                 # 具体执行脚本。可通过 $CONDITION 引用 condition 节表达式结果
                                 scripts:
                                   type: string
