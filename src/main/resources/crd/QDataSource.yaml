@@ -139,7 +139,7 @@ spec:
                           type: object
                           properties:
                             # 变量解析
-                            variables:
+                            variables:  &VARIABLES
                               type: array
                               items:
                                 type: object
@@ -270,7 +270,37 @@ spec:
                                         enum:
                                           - none    # 不支持分页
                                           - page    # 页码模式
-                                          - cursor  # 游标模式
+                                          - cursor  # 游标模式 
+
+                                  # 操作列表定义，用于GraphQL映射。可选。
+                                  operations:
+                                    type: array
+                                    items:
+                                      type: object
+                                      properites:
+                                        # 操作名
+                                        name: 
+                                          type: string
+                                        # 操作类型
+                                        kind:
+                                          type: string
+                                          enum:
+                                            - query
+                                            - mutation
+                                        # 该操作的HTTP请求重载
+                                        override:
+                                          type: object
+                                          properties:
+                                            # HTTP方法
+                                            method:
+                                              type: string
+                                        # 变量列表
+                                        # 比如，对于请求地址：https://example.com/api/{path}，可定义多个操作 => 变量
+                                        #   操作1: path = "users"
+                                        #   操作2: path = "user/{id}"
+                                        variables: *VARIABLES
+                                        
+
 
                           # 字段映射
                           fields:
