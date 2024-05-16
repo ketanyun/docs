@@ -139,7 +139,7 @@ spec:
                           type: object
                           properties:
                             # 变量解析
-                            variables:  &VARIABLES
+                            variables: 
                               type: array
                               items:
                                 type: object
@@ -298,10 +298,18 @@ spec:
                                         # 比如，对于请求地址：https://example.com/api/{path}，可定义多个操作 => 变量
                                         #   操作1: path = "users"
                                         #   操作2: path = "user/{id}"
-                                        variables: *VARIABLES
+                                        variables: 
+                                          type: array
+                                          items:
+                                            type: object
+                                            properties:
+                                              # 变量名
+                                              name:
+                                                type: string
+                                              # 变量值，支持表达式
+                                              value:
+                                                type: string
                                         
-
-
                           # 字段映射
                           fields:
                             type: array
