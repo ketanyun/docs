@@ -9,6 +9,7 @@
 | [QService](../../wiki/QService) | `Yes` | 服务注册 |
 | [QRole](../../wiki/QRole) | `No` | 描述ACL |
 | [QCanvas](../../wiki/QCanvas) | `Yes` | 数据应用 |
+| [QSitemap](../../wiki/QCanvas) | `Yes` | 站点地图 |
 | [QWorkflow](../../wiki/QWorkflow) | `Yes` | 流程应用 |
 | [QForm](../../wiki/QForm) | `Yes` | 表单界面定义，被数据应用、流程应用等所引用 |
 | [QChart](../../wiki/QChart) | `Yes` | 图表定义，被数据应用引用 |
