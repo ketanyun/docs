@@ -33,8 +33,25 @@ spec:
               type: object
               required:
                 - menu
-                - roles
+
               properties:
+
+                # 所属应用(QApp)
+                app:
+                  type: object
+                  required:
+                    - name
+                  properties:
+                    # 所属应用的 QApp 的 metadata.name 
+                    name: 
+                      type: string   
+                    # 新建租户时是否需要自动激活 
+                    autoActivate:
+                      type: boolean 
+                    # 内容变化时，已激活的租户中本应用是否自动升级 
+                    autoUpgrade:
+                      type: boolean 
+
                 # 《菜单》（含功能点）定义
                 menu:
                   type: object
@@ -53,6 +70,9 @@ spec:
                           # 菜单文字
                           text:
                             type: string
+                          # 菜单描述
+                          description:
+                            type: string
                           # 自定义编码
                           code: 
                             type: string
@@ -62,6 +82,33 @@ spec:
                           # 父菜单
                           parent:
                             type: string
+                          # 可见性
+                          visible: 
+                            type: boolean 
+
+                          # 应用入口
+                          entry: 
+                            type: object
+                            properties:
+                              # 是否启用，默认 false
+                              enabled: 
+                                type: boolean
+                              # 入口名，可选，覆盖菜单名
+                              text:
+                                type: string
+                              # 标签
+                              tags:
+                                type: string
+                              # 支持屏，空集视为不限
+                              screens: 
+                                type: array
+                                items:
+                                  type: string
+                                  enum:
+                                    - desktop    # 桌面端
+                                    - mobile     # 移动端（所有非桌面端）
+                                    - wechat     # 微信（包括企业微信）
+
                           # 自定义扩展属性
                           attributes: &ATTRIBUTES
                             type: array
@@ -77,6 +124,7 @@ spec:
                                 # 属性值
                                 value:
                                   type: string
+
                           # 菜单动作
                           action:
                             type: object
@@ -107,8 +155,9 @@ spec:
                                       value: 
                                         type: string
                                       # 其他扩展属性
+                                      # 对于 link 类型，支持属性：
+                                      # target: "_self" 或 "_blank"
                                       attributes: *ATTRIBUTES
-
 
                           # 菜单项关联的数据
                           accesses: 
@@ -116,7 +165,7 @@ spec:
                             items: 
                               type: object
                               properties:
-                                # 数据类型引用名，对于 kind 为 type 时，支持指定服务前缀，如 "iam/User"
+                                # 数据类型引用名，如 "iam/User"
                                 name: 
                                   type: string
                                 # 显示名，仅用于非内部引用类型 
@@ -147,6 +196,9 @@ spec:
                                           required:
                                             - field
                                           properties:
+                                            # 机读名称，无意义，用于QPatch
+                                            name:
+                                              type: string
                                             field:
                                               type: string
                                             match:
@@ -170,7 +222,6 @@ spec:
                                                 x-kubernetes-int-or-string: true
                                             expression:
                                               type: string 
-
                                       # 定义该类型支持哪些 DataFilter
                                       dataFilters:
                                         type: array
@@ -183,34 +234,6 @@ spec:
                                             # 过滤器人读名称
                                             text:
                                               type: string
-                                      # 该《数据操作》所需参数
-                                      arguments:
-                                        type: array
-                                        items: &ARGUMENT
-                                          type: object
-                                          required:
-                                            - name
-                                            - value
-                                          properties:
-                                            # 字段数据类型，引用到 spec.canvas.data[].name
-                                            type:
-                                              type: string
-                                            # 参数名
-                                            name:
-                                              type: string
-                                            value:
-                                              x-kubernetes-int-or-string: true
-                                            defaultValue:
-                                              x-kubernetes-int-or-string: true
-                                            # 《修饰符》(非空、数组）
-                                            # 参考 https://graphql.org/learn/schema/type-modifiers
-                                            modifiers: &MODIFIERS
-                                              type: array
-                                              items:
-                                                type: string
-                                                enmu:
-                                                  - NotNull
-                                                  - List
 
                                       #《数据操作属性》
                                       attributes:
@@ -236,6 +259,14 @@ spec:
                       # 角色描述
                       description:
                         type: string
+                      
+                      # 角色保护级别（系统、用户自定义）
+                      ring:
+                        type: string
+                        enum:
+                          - system  # 系统角色，不允许用户修改其权限部分
+                          - user    # 用户自定义角色
+
                       # 权限主体（主语）
                       subjects:
                         type: array
@@ -245,39 +276,26 @@ spec:
                             # 用户筛选器。语法参考：[UserFilter](https://github.com/infoplus/docs/wiki/UserFilter)
                             userFilter:
                               type: string
-                      # 角色保护级别（系统、用户自定义）
-                      ring:
-                        type: string
-                        enum:
-                          - system  # 系统角色，不允许用户修改其权限部分
-                          - user    # 用户自定义角色
-                      rules:
+
+                      # 权限对象（宾语）
+                      objects: 
                         type: array
                         items:
                           type: object
                           required:
-                            - objects
+                            - name
                           properties:
-                            # 权限对象（宾语）
-                            objects: 
+                            # 菜单名
+                            name: 
+                              type: string
+                            # 显示名，仅用于非内部引用类型 
+                            text:
+                              type: string
+                            # 是否限定菜单对应的数据(accesses)的部门，用于控制是否为ACL追加Filter
+                            limitDeptAccess:
+                              type: boolean 
+                            # 是否限制数据过滤器，用于控制是否为ACL追加Filter
+                            limitDataFilters:
                               type: array
                               items:
-                                type: object
-                                required:
-                                  - kind
-                                  - name
-                                properties:
-                                  # 菜单名
-                                  name: 
-                                    type: string
-                                  # 显示名，仅用于非内部引用类型 
-                                  text:
-                                    type: string
-                                  # 是否限定菜单对应的数据(accesses)的部门，用于控制是否为ACL追加Filter
-                                  limitDeptAccess:
-                                    type: boolean 
-                                  # 是否限制数据过滤器，用于控制是否为ACL追加Filter
-                                  limitDataFilters:
-                                    type: array
-                                    items:
-                                      type: string
+                                type: string
