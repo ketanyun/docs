@@ -317,7 +317,6 @@ spec:
                               type: object
                               required:
                                 - name
-                                - source
                               properties:
                                 # 接口字段名称
                                 name:
