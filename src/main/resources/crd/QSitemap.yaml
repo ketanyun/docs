@@ -36,7 +36,7 @@ spec:
 
               properties:
 
-                # 所属应用(QApp)
+                # 所属应用
                 app:
                   type: object
                   required:
@@ -45,12 +45,15 @@ spec:
                     # 所属应用的 QApp 的 metadata.name 
                     name: 
                       type: string   
-                    # 新建租户时是否需要自动激活 
+                    # 新建租户时是否需要自动激活，仅对QApp有效
                     autoActivate:
                       type: boolean 
-                    # 内容变化时，已激活的租户中本应用是否自动升级 
+                    # 内容变化时，已激活的租户中本应用是否自动升级，仅对QApp有效
                     autoUpgrade:
                       type: boolean 
+                    # 应用标签/分类
+                    tags:
+                      type: string
 
                 # 《菜单》（含功能点）定义
                 menu:
@@ -165,8 +168,11 @@ spec:
                             items: 
                               type: object
                               properties:
-                                # 数据类型引用名，如 "iam/User"
-                                name: 
+                                # 机读标识
+                                name:
+                                  type: string
+                                # 数据类型，如 "iam/User"，参考 https://github.com/ketanyun/docs/wiki/TypeFilter
+                                typeFilter: 
                                   type: string
                                 # 显示名，仅用于非内部引用类型 
                                 text:
