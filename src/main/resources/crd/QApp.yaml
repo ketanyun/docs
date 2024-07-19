@@ -110,6 +110,19 @@ spec:
                     # 产品代码，仅产品化需要
                     name: 
                       type: string
+                    # Helm chart 信息
+                    chart:
+                      type: object
+                      properties:
+                        # Chart标识
+                        name:
+                          type: string
+                        # Chart版本号
+                        version:
+                          type: string
+                        # 发布名，一个 Chart可以有多次发布。命名空间内唯一
+                        release:
+                          type: string
                     version:
                       type: object
                       properties:
