@@ -1,0 +1,104 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  # name must match the spec fields below, and be in the form: <plural>.<group>
+  name: qcopilots.ketanyun.cn
+spec:
+  # group name to use for REST API: /apis/<group>/<version>
+  group: ketanyun.cn
+    # either Namespaced or Cluster
+  scope: Namespaced
+  names:
+    # plural name to be used in the URL: /apis/<group>/<version>/<plural>
+    plural: qcopilots
+    # singular name to be used as an alias on the CLI and for display
+    singular: qcopilot
+    # kind is normally the CamelCased singular type. Your resource manifests use this.
+    kind: QCopilot
+    # shortNames allow shorter string to match your resource on the CLI
+    #shortNames:
+    #  - qrole
+  # list of versions supported by this CustomResourceDefinition
+  versions:
+    - name: v1alpha1
+      # Each version can be enabled/disabled by Served flag.
+      served: true
+      # One and only one version must be marked as the storage version.
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                # 所属应用
+                app:
+                  type: object
+                  required:
+                    - name
+                  properties:
+                    # 所属应用的 QApp 的 metadata.name 
+                    name: 
+                      type: string   
+                    # 新建租户时是否需要自动激活，仅对QApp有效
+                    autoActivate:
+                      type: boolean 
+                    # 内容变化时，已激活的租户中本应用是否自动升级，仅对QApp有效
+                    autoUpgrade:
+                      type: boolean
+
+                # 副驾驶定义
+                copilot:
+                  type: object
+                  properties:
+                    # 机器人显示名
+                    text: 
+                      type: string
+                    # 机器人描述
+                    description: 
+                      type: string
+                    # 机器人应用标签
+                    tags:
+                      type: string
+                    # 机器人图标。可使用表达式。例如：=URL('https://example.com/favicon.png')
+                    icon:
+                      type: string
+                    # 提示词
+                    prompt:
+                      type: string
+                    # 欢迎语
+                    welcome:
+                      type: string
+                    # 默认回答
+                    reply:
+                      type: string
+
+                    # 后端AI服务
+                    backends:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          # 后端名称
+                          name:
+                            type: string
+                          # 后端显示名
+                          text:
+                            type: string
+                          # 后端类别
+                          kind:
+                            type: string
+                            enum:
+                              - llm
+                              - embedding
+                              - speech
+
+
+
+
+                      
+                      
+
+                  
+
