@@ -58,12 +58,18 @@ spec:
                     description: 
                       type: string
                     # 带命名空间的服务标签组，参考：https://github.com/ketanyun/docs/wiki/Tags
+                    
                     # 标准分类的标签定义：
                     # #Category:Platform 平台
                     # #Category:Code     代码
                     # #Category:Tool     工具
                     # #Category:Workflow 流程
                     # #Category:Identity 身份
+
+                    # 服务种族的标签定义：
+                    # #Spec:Assemble    组装API  
+                    # #Spec:Bootstrap   自展API
+                    # #Spec:Workspace   工作区API
                     labels:
                       type: array
                       items:
