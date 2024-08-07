@@ -74,6 +74,44 @@ spec:
                     reply:
                       type: string
 
+                    # 任务列表
+                    tasks:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          # 任务标识
+                          name:
+                            type: string
+                          # 任务名称
+                          text:
+                            type: string
+                          # 任务描述，用于大模型匹配
+                          description:
+                            type: string
+                          # 任务类型，枚举，暂未使用，保留
+                          kind:
+                            type: string
+                          # 参数列表
+                          parameters:
+                            type: array
+                            items: 
+                              type: object
+                              properties:
+                                # 参数标识
+                                name:
+                                  type: string
+                                # 参数描述
+                                description: 
+                                  type: string
+                                # 参数数据类型
+                                dataType:
+                                  type: string
+                                # 参数是否必填，默认false
+                                required:
+                                  type: boolean
+                                  
+
                     # 后端AI服务
                     backends:
                       type: array
@@ -93,6 +131,7 @@ spec:
                               - llm
                               - embedding
                               - speech
+
 
 
 
