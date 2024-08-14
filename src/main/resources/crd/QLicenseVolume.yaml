@@ -1,0 +1,88 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  # name must match the spec fields below, and be in the form: <plural>.<group>
+  name: qlicensevolumes.ketanyun.cn
+spec:
+  # group name to use for REST API: /apis/<group>/<version>
+  group: ketanyun.cn
+    # either Namespaced or Cluster
+  scope: Namespaced
+  names:
+    # plural name to be used in the URL: /apis/<group>/<version>/<plural>
+    plural: qlicensevolumes
+    # singular name to be used as an alias on the CLI and for display
+    singular: qlicensevolume
+    # kind is normally the CamelCased singular type. Your resource manifests use this.
+    kind: QLicenseVolume
+    # shortNames allow shorter string to match your resource on the CLI
+    shortNames:
+      - qlicvol
+  # list of versions supported by this CustomResourceDefinition
+  versions:
+    - name: v1alpha1
+      # Each version can be enabled/disabled by Served flag.
+      served: true
+      # One and only one version must be marked as the storage version.
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              required:
+                - text
+              properties:
+                # 描述
+                text:
+                  type: string
+                
+                # 客户信息
+                tenant:
+                  type: object
+                  properties:
+                    # 租户ID
+                    name: 
+                      type: string
+
+                # 请求授权的范围，比如服务、菜单等
+                scopes:
+                  type: array
+                  items: 
+                    type: object 
+                    properties:
+                      # 授权对象，可以通配，通配符为 * 或 ALL
+                      name: 
+                        type: string 
+                      # 超时时间，Unix时间戳
+                      expire:
+                        type: integer
+                      # 授权更新策略
+                      renewal:
+                        type: object
+                        properties:
+                          # 最长允许授权周期，单位为秒
+                          maxPeriod:
+                            type: integer
+                          # 最长允许授权次数，默认1次
+                          maxCount:
+                            type: integer
+
+                # 授权签名，JWT格式
+                license:
+                  type: string
+
+                # 授权链内容
+                chain:
+                  type: object
+                  properties:
+                    # 公钥
+                    publicKey:
+                      type: string
+
+
+
+
+
+

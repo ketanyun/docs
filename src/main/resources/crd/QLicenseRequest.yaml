@@ -2,7 +2,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   # name must match the spec fields below, and be in the form: <plural>.<group>
-  name: qlicenses.ketanyun.cn
+  name: qlicenserequests.ketanyun.cn
 spec:
   # group name to use for REST API: /apis/<group>/<version>
   group: ketanyun.cn
@@ -10,14 +10,14 @@ spec:
   scope: Namespaced
   names:
     # plural name to be used in the URL: /apis/<group>/<version>/<plural>
-    plural: qlicenses
+    plural: qlicenserequests
     # singular name to be used as an alias on the CLI and for display
-    singular: qlicense
+    singular: qlicenserequest
     # kind is normally the CamelCased singular type. Your resource manifests use this.
-    kind: QLicense
+    kind: QLicenseRequest
     # shortNames allow shorter string to match your resource on the CLI
     shortNames:
-      - qlic
+      - qlicreq
   # list of versions supported by this CustomResourceDefinition
   versions:
     - name: v1alpha1
@@ -33,22 +33,22 @@ spec:
               type: object
               required:
                 - text
-                - license
               properties:
                 # 描述
                 text:
                   type: string
 
-                # 请求授权的范围，比如服务、菜单等，仅用于描述/人读，不影响实际授权
+                # 请求授权的范围
                 scopes:
+
                   type: array
-                  items: &GRANT
+                  items: 
                     type: object 
                     properties:
-                      # 授权对象名，如服务名、站点地图名等
+                      # 请求授权的对象ID
                       name: 
                         type: string
-                      
+                        
                       # 请求授权的对象类型
                       kind:
                         type: string
@@ -66,24 +66,18 @@ spec:
                               type: string
                             dataType:
                               type: string
-                            # 授权值，注意此处类型均为 string，实际类型应以 dataType 为准。
+                            # 授权值，此处类型均为 string，实际类型应以 dataType 为准。
                             value:
-                              type: string 
+                              type: string
+                              
+                      # 授权请求内容
+                      renewal:
+                        type: object
+                        properties:
+                          # 请求授权的有效期时长，精确到秒
+                          period: 
+                            type: integer
 
-                      # 超时时间，Unix时间戳
-                      expire:
-                        type: integer
-
-                # 授权OAuth应用，仅用于描述/人读，不影响实际授权
-                clients:
-                  type: array
-                  items: *GRANT
-
-
-                # 授权信息，JWT格式
-                license:
-                  type: string 
-                  
                 # 多租信息
                 tenant:
                   type: object

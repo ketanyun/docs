@@ -155,6 +155,7 @@ spec:
                                       readonly:
                                         type: boolean
                                       # 值，可为表达式
+                                      # 因插槽类型而异；支持变量，格式 ${VAR}，变量内容需根据实际环境从网关按 label=assemble 读取
                                       value: 
                                         type: string
                                       # 其他扩展属性
@@ -249,8 +250,21 @@ spec:
                                           pagination:
                                             type: boolean 
 
+                          # 所属菜单功能点
+                          features:
+                            type: array
+                            items:
+                              type: object
+                              required:
+                                - name
+                              properties:
+                                name:
+                                  type: string
+
+
                 # 《角色》定义
                 # 参考：https://github.com/ketanyun/docs/wiki/QRole
+                
                 roles:
                   type: array
                   items:
@@ -305,3 +319,24 @@ spec:
                               type: array
                               items:
                                 type: string
+
+                # 定义菜单涉及哪些功能点，用于 QLicense 授权
+                features:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - name
+                    properites:
+                      name:
+                        type: string   # 功能点名称，要求服务内唯一，用于 QLicense 授权
+                      text:
+                        type: string   # 功能点显示名，人读
+                      description: 
+                        type: string   # 功能点描述，人读
+                      dataType: 
+                        type: string
+                        enum:
+                          - boolean    # 默认，该功能是否授权，可通过 menu 的 feature 属性指定验证
+                          - integer    # 该功能的授权值，需服务自身验证，可通过同名 argument 参数传递
+                          - string     # 该功能的授权值，需服务自身验证，可通过同名 argument 参数传递 
