@@ -42,7 +42,7 @@ spec:
                 # 请求授权的范围，比如服务、菜单等，仅用于描述/人读，不影响实际授权
                 scopes:
                   type: array
-                  items: &GRANT
+                  items: 
                     type: object 
                     properties:
                       # 授权对象名，如服务名、站点地图名等
@@ -74,16 +74,19 @@ spec:
                       expire:
                         type: integer
 
-                # 授权OAuth应用，仅用于描述/人读，不影响实际授权
-                clients:
-                  type: array
-                  items: *GRANT
-
 
                 # 授权信息，JWT格式
                 license:
                   type: string 
-                  
+
+                # 授权颁发者信息
+                issuer:
+                  type: object
+                  properties:
+                    # 授权链名称
+                    chain:
+                      type: string
+
                 # 多租信息
                 tenant:
                   type: object
