@@ -79,12 +79,12 @@ spec:
                 license:
                   type: string 
 
-                # 授权颁发者信息
-                issuer:
+                # 授权链信息
+                chain:
                   type: object
                   properties:
-                    # 授权链名称
-                    chain:
+                    # 授权颁发者信息，批量授权名称
+                    issuer:
                       type: string
 
                 # 多租信息
