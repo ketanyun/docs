@@ -74,19 +74,68 @@ spec:
                     reply:
                       type: string
 
-                    # 提示词模版，用于内容生成接口
-                    prompts:
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          # 提示词模版标识
-                          name:
-                            type: string
-                          #
-                          # 提示词模版内容
-                          template:
-                            type: string
+                    # 会话配置
+                    session:
+                      type: object
+                      properties:
+                        # 会话类型
+                        kind:
+                          type: string
+                          enum:
+                            - backend   # 后端保持
+                            - frontend  # 前端保持
+                        # 上下文
+                        context:
+                          type: object
+                          properties:
+                            # 回溯条数
+                            backtrack:
+                              type: integer
+                        # 超时
+                        timeout:
+                          type: integer
+
+
+                    # 知识库配置
+                    knowledge: 
+                      type: object
+                      properties:
+                        # 检索设置
+                        retrieval:
+                          type: object
+                          properties:
+                            # 类型
+                            kind:
+                              type: string
+                              enum:
+                                - doc
+                                - faq
+                            # 检索数量
+                            count:
+                              type: integer
+                            # 检索相似度，0-1之间，0最高
+                            distance:
+                              type: number
+                            # 是否通过大模型增强，仅对 faq 类型有效
+                            augment:
+                              type: boolean
+
+                    # 内容生成配置
+                    generation: 
+                      type: object
+                      properties:
+                          # 提示词模版，用于内容生成接口
+                          prompts:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                # 提示词模版标识
+                                name:
+                                  type: string
+                                # 提示词模版内容
+                                template:
+                                  type: string
 
                     # 任务列表
                     tasks:
