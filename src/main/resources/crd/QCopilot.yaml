@@ -64,7 +64,7 @@ spec:
                     # 机器人图标。可使用表达式。例如：=URL('https://example.com/favicon.png')
                     icon:
                       type: string
-                    # 提示词
+                    # 默认提示词，用于知识库
                     prompt:
                       type: string
                     # 欢迎语
@@ -73,6 +73,20 @@ spec:
                     # 默认回答
                     reply:
                       type: string
+
+                    # 提示词模版，用于内容生成接口
+                    prompts:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          # 提示词模版标识
+                          name:
+                            type: string
+                          #
+                          # 提示词模版内容
+                          template:
+                            type: string
 
                     # 任务列表
                     tasks:
@@ -92,6 +106,13 @@ spec:
                           # 任务类型，枚举，暂未使用，保留
                           kind:
                             type: string
+                            
+                          # 任务适合的用户集
+                          userFilters:
+                            type: array
+                            items:
+                              type: string
+
                           # 参数列表
                           parameters:
                             type: array
@@ -110,7 +131,7 @@ spec:
                                 # 参数是否必填，默认false
                                 required:
                                   type: boolean
-                                  
+
 
                     # 后端AI服务
                     backends:
