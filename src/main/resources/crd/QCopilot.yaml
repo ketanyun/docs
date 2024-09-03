@@ -64,15 +64,11 @@ spec:
                     # 机器人图标。可使用表达式。例如：=URL('https://example.com/favicon.png')
                     icon:
                       type: string
-                    # 默认提示词，用于知识库
-                    prompt:
-                      type: string
+
                     # 欢迎语
                     welcome:
                       type: string
-                    # 默认回答
-                    reply:
-                      type: string
+
 
                     # 会话配置
                     session:
@@ -102,40 +98,65 @@ spec:
                       properties:
                         # 检索设置
                         retrieval:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              # 类型
+                              kind:
+                                type: string
+                                enum:
+                                  - doc
+                                  - faq
+                              # 是否启用，默认 true
+                              enabled:
+                                type: boolean
+                              # 检索数量
+                              count:
+                                type: integer
+                              # 检索相似度，0-1之间，0最高
+                              distance:
+                                type: number
+                              # 是否通过大模型增强，仅对 faq 类型有效
+                              augment:
+                                type: boolean
+
+                        # 提示词设置
+                        prompt:
                           type: object
                           properties:
-                            # 类型
-                            kind:
+                            # 默认值
+                            defaultValue:
                               type: string
-                              enum:
-                                - doc
-                                - faq
-                            # 检索数量
-                            count:
-                              type: integer
-                            # 检索相似度，0-1之间，0最高
-                            distance:
-                              type: number
-                            # 是否通过大模型增强，仅对 faq 类型有效
-                            augment:
+
+                        # 恢复设置
+                        reply:
+                          type: object
+                          properties:
+                            # 如禁用，无知识库命中时也会调用大模型生成
+                            enabled:
                               type: boolean
+                            # 默认值
+                            defaultValue:
+                              type: string
+
 
                     # 内容生成配置
                     generation: 
                       type: object
                       properties:
-                          # 提示词模版，用于内容生成接口
-                          prompts:
-                            type: array
-                            items:
-                              type: object
-                              properties:
-                                # 提示词模版标识
-                                name:
-                                  type: string
-                                # 提示词模版内容
-                                template:
-                                  type: string
+                        # 提示词模版，用于内容生成接口
+                        prompts:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              # 提示词模版标识
+                              name:
+                                type: string
+                              # 提示词模版内容
+                              template:
+                                type: string
 
                     # 任务列表
                     tasks:
