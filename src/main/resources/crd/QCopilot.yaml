@@ -64,11 +64,17 @@ spec:
                     # 机器人图标。可使用表达式。例如：=URL('https://example.com/favicon.png')
                     icon:
                       type: string
-
                     # 欢迎语
                     welcome:
                       type: string
-
+                    # 推荐度，零标识不推荐
+                    recommend:
+                      type: integer
+                    # 允许访问的用户集
+                    userFilters:
+                      type: array
+                      items:
+                        type: string
 
                     # 会话配置
                     session:
@@ -90,7 +96,6 @@ spec:
                         # 超时
                         timeout:
                           type: integer
-
 
                     # 知识库配置
                     knowledge: 
@@ -139,7 +144,6 @@ spec:
                             # 默认值
                             defaultValue:
                               type: string
-
 
                     # 内容生成配置
                     generation: 
@@ -202,7 +206,6 @@ spec:
                                 required:
                                   type: boolean
 
-
                     # 后端AI服务
                     backends:
                       type: array
@@ -223,7 +226,13 @@ spec:
                               - embedding
                               - speech
 
-
+                    # 人工服务
+                    helpdesk:
+                      type: object
+                      properties:
+                        # 是否启用
+                        enabled: 
+                          type: boolean
 
 
 

@@ -65,10 +65,7 @@ spec:
                           # 最长允许授权周期，单位为秒
                           maxPeriod:
                             type: integer
-                          # 最长允许授权次数，默认1次
-                          maxCount:
-                            type: integer
-
+                            
                 # 授权签名，JWT格式
                 license:
                   type: string
