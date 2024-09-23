@@ -1,0 +1,831 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  # name must match the spec fields below, and be in the form: <plural>.<group>
+  name: qworkflows.ketanyun.cn
+spec:
+  # group name to use for REST API: /apis/<group>/<version>
+  group: ketanyun.cn
+  # either Namespaced or Cluster
+  scope: Namespaced
+  names:
+    # plural name to be used in the URL: /apis/<group>/<version>/<plural>
+    plural: qworkflows
+    # singular name to be used as an alias on the CLI and for display
+    singular: qworkflow
+    # kind is normally the CamelCased singular type. Your resource manifests use this.
+    kind: QWorkflow
+    # shortNames allow shorter string to match your resource on the CLI
+    shortNames:
+      - qwf
+  # list of versions supported by this CustomResourceDefinition
+  versions:
+    - name: v1alpha1
+      # Each version can be enabled/disabled by Served flag.
+      served: true
+      # One and only one version must be marked as the storage version.
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              required:
+                - workflow
+              properties:
+                workflow:
+                  type: object
+                  properties:
+                    # 流程名
+                    _name:
+                      type: string
+                    # 流程代码
+                    _code:
+                      type: string
+                    # 主表单标识
+                    _form:
+                      type: string
+                    # 默认流水优先级
+                    _priority:
+                      type: integer
+                    # 实例名模版
+                    _instanceName:
+                      type: string
+                    # 标签
+                    _tags:
+                      type: string
+                    # 是否启用数据绑定
+                    _binding:
+                      type: boolean
+                    # 是否允许发起人终止
+                    _allowOwnerTerminate:
+                      type: boolean
+                    # 流程描述
+                    description:
+                      type: string
+                    # 流程图标
+                    icon:
+                      type: string
+                    # 流水级超时脚本
+                    timeoutScript:
+                      type: string
+                    # 流水级打印视图
+                    printView:
+                      type: object
+                      properties:
+                        # 标识
+                        _id:
+                          type: string
+                        # 显示名
+                        _name:
+                          type: string
+                    # 发起视图
+                    startView:
+                      type: object
+                      properties:
+                        _alwaysShow:
+                          type: boolean
+                        # 标识
+                        _id:
+                          type: string
+                        # 显示名
+                        _name:
+                          type: string
+                    # 流水级导出模版
+                    wordTemplate:
+                      type: object
+                      properties:
+                        # 只读导出为PDF
+                        _exportReadOnly:
+                          type: boolean
+                        # 是否需要电子签名后归档
+                        _signatureArchive:
+                          type: boolean
+                        # 标识
+                        _id:
+                          type: string
+                        # 显示名
+                        _name:
+                          type: string
+                    # 《导出模版》列表
+                    words:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          # 标识
+                          _id:
+                            type: string
+                          # 显示名
+                          _name:
+                            type: string
+                    # 《子流程数据映射》列表
+                    dataMappings:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          # 父流程代码
+                          _code:
+                            type: string
+                          # 继承前序实例数据
+                          _inheritPrevInstanceData:
+                            type: boolean
+                          # 字段映射，每行1个或1对字段，逗号分隔
+                          map:
+                            type: string
+                    # 《事件》列表
+                    events:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          _address:
+                            type: string
+                          _addressDev:
+                            type: string
+                          _contract:
+                            type: string
+                          _binding:
+                            type: string
+                          _description:
+                            type: string
+                          _enabled:
+                            type: boolean
+                          masks:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                # 触发掩码
+                                _mask:
+                                  type: integer
+                                # 阻塞掩码
+                                _blockMask:
+                                  type: integer
+                                # 步骤标识
+                                _step:
+                                  type: integer
+                                # 步骤编码
+                                _stepCode:
+                                  type: string
+                          # 标识
+                          _id:
+                            type: string
+                          # 显示名
+                          _name:
+                            type: string
+                    # 《资源》列表
+                    resources:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          _id:
+                            type: string
+                          _code:
+                            type: string
+                          _name:
+                            type: string
+                          _type:
+                            type: string
+                          _scope:
+                            type: string
+                          _enabled:
+                            type: boolean
+                          _authUri:
+                            type: string
+                          _tokenUri:
+                            type: string
+                          _key:
+                            type: string
+                          _secret:
+                            type: string
+                          steps:
+                            type: array
+                            items:
+                              type: integer
+                    # 《流水级权限》列表
+                    perms:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          _type:
+                            type: string
+                          displayView:
+                            type: object
+                            properties:
+                              # 标识
+                              _id:
+                                type: string
+                              # 显示名
+                              _name:
+                                type: string
+                          permPosts:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                _id:
+                                  type: string
+                                _time:
+                                  type: string
+                                _exceptActions:
+                                  type: string
+                                posts:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      _id:
+                                        type: string
+                                      text:
+                                        type: string
+                                executors:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      _type:
+                                        type: integer
+                                      _value:
+                                        type: string
+                                      _closure:
+                                        type: integer
+                                      _bizType:
+                                        type: string
+                                departments:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      _type:
+                                        type: integer
+                                      _value:
+                                        type: string
+                                      _closure:
+                                        type: integer
+                                      _bizType:
+                                        type: string
+                                bizes:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      _type:
+                                        type: integer
+                                      _value:
+                                        type: string
+                                      _closure:
+                                        type: integer
+                                      _bizType:
+                                        type: string
+                                blockers:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      _type:
+                                        type: integer
+                                      _value:
+                                        type: string
+                                      _closure:
+                                        type: integer
+                                      _bizType:
+                                        type: string
+                    # 《人工步骤》列表
+                    steps:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          _executorSelection:
+                            type: integer
+                          _binding:
+                            type: boolean
+                          _parallel:
+                            type: boolean
+                          _allowProcessContinuously:
+                            type: boolean
+                          _allowChangePriority:
+                            type: boolean
+                          _printAfterAction:
+                            type: boolean
+                          _printAfterActions:
+                            type: string
+                          _wordTemplate:
+                            type: string
+                          _exportSignature:
+                            type: boolean
+                          _exportReadOnly:
+                            type: boolean
+                          _signatureField:
+                            type: string
+                          _signatureLocation:
+                            type: string
+                          _signatureKeyword:
+                            type: string
+                          _signatureCommentTemplate:
+                            type: string
+                          _signatureCommentLocation:
+                            type: string
+                          _signatureCommentKeyword:
+                            type: string
+                          _useSnapshotData:
+                            type: boolean
+                          _thingField:
+                            type: string
+                          printView:
+                            type: object
+                            properties:
+                              # 标识
+                              _id:
+                                type: string
+                              # 显示名
+                              _name:
+                                type: string
+                          displayView:
+                            type: object
+                            properties:
+                              # 标识
+                              _id:
+                                type: string
+                              # 显示名
+                              _name:
+                                type: string
+                          reviewView:
+                            type: object
+                            properties:
+                              # 标识
+                              _id:
+                                type: string
+                              # 显示名
+                              _name:
+                                type: string
+                          # 步骤通知
+                          notifications:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                _id:
+                                  type: string
+                                _type:
+                                  type: string
+                                _channel:
+                                  type: string
+                                _desc:
+                                  type: string
+                                _repeat:
+                                  type: integer
+                                _workdayOnly:
+                                  type: boolean
+                                _exceptActions:
+                                  type: string
+                                deadlineScript:
+                                  type: string
+                                setting:
+                                  type: string
+                                template:
+                                  type: string
+                                receivers:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      _target:
+                                        type: integer
+                                      _type:
+                                        type: integer
+                                      _value:
+                                        type: string
+                                parallelFinishScript:
+                                  type: string
+                          parallelFinishScript:
+                            type: string
+                          # 步骤权限
+                          perms:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                _type:
+                                  type: string
+                                displayView:
+                                  type: object
+                                  properties:
+                                    # 标识
+                                    _id:
+                                      type: string
+                                    # 显示名
+                                    _name:
+                                      type: string
+                                permPosts:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      _id:
+                                        type: string
+                                      _time:
+                                        type: string
+                                      _exceptActions:
+                                        type: string
+                                      posts:
+                                        type: array
+                                        items:
+                                          type: object
+                                          properties:
+                                            _id:
+                                              type: string
+                                            text:
+                                              type: string
+                                      executors:
+                                        type: array
+                                        items:
+                                          type: object
+                                          properties:
+                                            _type:
+                                              type: integer
+                                            _value:
+                                              type: string
+                                            _closure:
+                                              type: integer
+                                            _bizType:
+                                              type: string
+                                      departments:
+                                        type: array
+                                        items:
+                                          type: object
+                                          properties:
+                                            _type:
+                                              type: integer
+                                            _value:
+                                              type: string
+                                            _closure:
+                                              type: integer
+                                            _bizType:
+                                              type: string
+                                      bizes:
+                                        type: array
+                                        items:
+                                          type: object
+                                          properties:
+                                            _type:
+                                              type: integer
+                                            _value:
+                                              type: string
+                                            _closure:
+                                              type: integer
+                                            _bizType:
+                                              type: string
+                                      blockers:
+                                        type: array
+                                        items:
+                                          type: object
+                                          properties:
+                                            _type:
+                                              type: integer
+                                            _value:
+                                              type: string
+                                            _closure:
+                                              type: integer
+                                            _bizType:
+                                              type: string
+                          _unstructured:
+                            type: boolean
+                          _allowTransferFrom:
+                            type: string
+                          allowTransferScript:
+                            type: string
+                          _extDisplayName:
+                            type: string
+                          _allowSystemExecute:
+                            type: boolean
+                          _allowTerminate:
+                            type: boolean
+                          _autoArchive:
+                            type: boolean
+                          remarkConfigs:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                _step:
+                                  type: integer
+                                _visibility:
+                                  type: string
+                                _userVisibility:
+                                  type: string
+                                _remarkVisibility:
+                                  type: string
+                                _carbonVisibility:
+                                  type: string
+                          timeoutScript:
+                            type: string
+                          timeoutScriptSetting:
+                            type: string
+                          promiseTimeoutScript:
+                            type: string
+                          promiseTimeoutScriptSetting:
+                            type: string
+                          powers:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                _column:
+                                  type: string
+                                _value:
+                                  type: integer
+                          _name:
+                            type: string
+                          _displayName:
+                            type: string
+                          _picturePath:
+                            type: string
+                          _seqNo:
+                            type: integer
+                          _x:
+                            type: integer
+                          _y:
+                            type: integer
+                          _defaultInitial:
+                            type: boolean
+                          _milestone:
+                            type: boolean
+                          _milestoneOnArrive:
+                            type: boolean
+                          _milestoneTitle:
+                            type: string
+                          _milestoneNo:
+                            type: integer
+                          _milestoneGroup:
+                            type: string
+                    # 《子流程》列表
+                    subs:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          # 子流程代码
+                          _workflow:
+                            type: string
+                          _unstructured:
+                            type: boolean
+                          _allowTransferFrom:
+                            type: string
+                          allowTransferScript:
+                            type: string
+                          _extDisplayName:
+                            type: string
+                          _allowSystemExecute:
+                            type: boolean
+                          _allowTerminate:
+                            type: boolean
+                          _autoArchive:
+                            type: boolean
+                          remarkConfigs:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                _step:
+                                  type: integer
+                                _visibility:
+                                  type: string
+                                _userVisibility:
+                                  type: string
+                                _remarkVisibility:
+                                  type: string
+                                _carbonVisibility:
+                                  type: string
+                          timeoutScript:
+                            type: string
+                          timeoutScriptSetting:
+                            type: string
+                          promiseTimeoutScript:
+                            type: string
+                          promiseTimeoutScriptSetting:
+                            type: string
+                          powers:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                _column:
+                                  type: string
+                                _value:
+                                  type: integer
+                          _name:
+                            type: string
+                          _displayName:
+                            type: string
+                          _picturePath:
+                            type: string
+                          _seqNo:
+                            type: integer
+                          _x:
+                            type: integer
+                          _y:
+                            type: integer
+                          _defaultInitial:
+                            type: boolean
+                          _milestone:
+                            type: boolean
+                          _milestoneOnArrive:
+                            type: boolean
+                          _milestoneTitle:
+                            type: string
+                          _milestoneNo:
+                            type: integer
+                          _milestoneGroup:
+                            type: string
+                    # 《自动步骤》列表
+                    autoSteps:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          script:
+                            type: string
+                          _name:
+                            type: string
+                          _displayName:
+                            type: string
+                          _picturePath:
+                            type: string
+                          _seqNo:
+                            type: integer
+                          _x:
+                            type: integer
+                          _y:
+                            type: integer
+                          _defaultInitial:
+                            type: boolean
+                          _milestone:
+                            type: boolean
+                          _milestoneOnArrive:
+                            type: boolean
+                          _milestoneTitle:
+                            type: string
+                          _milestoneNo:
+                            type: integer
+                          _milestoneGroup:
+                            type: string
+                    # 《判断节点》列表
+                    decisions:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          script:
+                            type: string
+                          _name:
+                            type: string
+                          _displayName:
+                            type: string
+                          _picturePath:
+                            type: string
+                          _seqNo:
+                            type: integer
+                          _x:
+                            type: integer
+                          _y:
+                            type: integer
+                          _defaultInitial:
+                            type: boolean
+                          _milestone:
+                            type: boolean
+                          _milestoneOnArrive:
+                            type: boolean
+                          _milestoneTitle:
+                            type: string
+                          _milestoneNo:
+                            type: integer
+                          _milestoneGroup:
+                            type: string
+                    # 《并行拆分节点》列表
+                    splits:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          # 动态并行组名
+                          _group:
+                            type: string
+                          # 动态串行
+                          _serial:
+                            type: boolean
+                          _name:
+                            type: string
+                          _displayName:
+                            type: string
+                          _picturePath:
+                            type: string
+                          _seqNo:
+                            type: integer
+                          _x:
+                            type: integer
+                          _y:
+                            type: integer
+                          _defaultInitial:
+                            type: boolean
+                          _milestone:
+                            type: boolean
+                          _milestoneOnArrive:
+                            type: boolean
+                          _milestoneTitle:
+                            type: string
+                          _milestoneNo:
+                            type: integer
+                          _milestoneGroup:
+                            type: string
+                    # 《并行合并节点》列表
+                    joins:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          script:
+                            type: string
+                          _name:
+                            type: string
+                          _displayName:
+                            type: string
+                          _picturePath:
+                            type: string
+                          _seqNo:
+                            type: integer
+                          _x:
+                            type: integer
+                          _y:
+                            type: integer
+                          _defaultInitial:
+                            type: boolean
+                          _milestone:
+                            type: boolean
+                          _milestoneOnArrive:
+                            type: boolean
+                          _milestoneTitle:
+                            type: string
+                          _milestoneNo:
+                            type: integer
+                          _milestoneGroup:
+                            type: string
+                    # 《动作》列表
+                    edges:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          _name:
+                            type: string
+                          _displayName:
+                            type: string
+                          _source:
+                            type: integer
+                          _target:
+                            type: integer
+                          _type:
+                            type: string
+                          _splitNo:
+                            type: string
+                          _seqNo:
+                            type: integer
+                          _description:
+                            type: string
+                          _descriptionAfterAction:
+                            type: string
+                          _orderNo:
+                            type: string
+                          _skipValidation:
+                            type: boolean
+                          _remarkRequired:
+                            type: boolean
+                          _remarkRequiredTip:
+                            type: string
+                          _remarkDefaultValue:
+                            type: string
+                          _hideOnForm:
+                            type: boolean
+                          _withdraw:
+                            type: boolean
+                          _shortcut:
+                            type: boolean
+                          _hideConfirmWhenNoNextStep:
+                            type: boolean
+                          _hidePrintPrompt:
+                            type: boolean
+                          _keepDraft:
+                            type: boolean
+                          _skipSignature:
+                            type: boolean
+                          _clearSignature:
+                            type: boolean
+                          restrictScript:
+                            type: string
+                          script:
+                            type: string
