@@ -81,6 +81,11 @@ spec:
                       currentVersion:
                         type: object
                         properties:
+                        
+                          # 当前版本机读标识
+                          name:
+                            type: string
+
                           # 根部件项
                           item: &PART_ITEM
                             type: object

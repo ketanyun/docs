@@ -354,11 +354,11 @@ spec:
                             - read
                             - update
                             - delete
-                            - list
+                            - list    # 执行查询
                             - print
                             - import
                             - export
-                            - search 
+                            - search  # 关键字搜索
                         # 定义服务端交互 (server-side API invocations)
                         operation: *OPERATION
                         # 定义客户端交互 (client-side UI interactions)
