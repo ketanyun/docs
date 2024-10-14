@@ -40,7 +40,7 @@ spec:
                 # 车间名称
                 text:
                   type: string
-                
+
                 # 车间部件
                 parts:
                   type: array
@@ -62,6 +62,104 @@ spec:
                       # 类型，包含于 AssembleConfiguration.partKinds
                       kind: 
                         type: string
+                      # OAuth应用，引用自resources节
+                      client:
+                        type: string
+
+                      # 环境列表
+                      environments:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            kind: 
+                              type: string
+                              # 环境类型
+                              enum:
+                                - production
+                                - development
+                              # 对应版本
+                              version:
+                                type: string
+
+                      # 版本列表
+                      versions:
+                        type: array
+                        items: 
+                          type: object
+                          properties:
+                          
+                            # 当前版本机读标识
+                            name:
+                              type: string
+
+                            # 根部件项
+                            item: &PART_ITEM
+                              type: object
+                              properties:
+                                # 部件项标识
+                                name:
+                                  type: string
+                                # 部件项名称
+                                text:
+                                  type: string
+                                # 父项
+                                parent:
+                                  type: string
+                                # 类型
+                                kind:
+                                  type: string
+                                # 插槽列表
+                                slots:
+                                  type: array
+                                  items: &PART_SLOT
+                                    type: object  
+                                    properties:
+                                      # 插槽标识
+                                      name:
+                                        type: string
+                                      # 插槽文字
+                                      text:
+                                        type: string
+                                      # 插槽类型
+                                      kind:
+                                        type: string
+                                        enum:
+                                          - link
+                                      # 引用部件
+                                      partRef:
+                                        type: object
+                                        properties:
+                                          # 部件名称
+                                          name:
+                                            type: string
+                                          # 插槽取值，因插槽类型而异；支持变量，格式 ${VAR}，变量内容需根据实际环境从网关按 label=assemble 读取
+                                          value:
+                                            type: string
+                                            
+                                # 依赖列表
+                                dependencies:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      # 依赖标识
+                                      name:
+                                        type: string
+                                      # 类型，支持 UserFilter 和 TypeFilter
+                                      kind:
+                                        type: string
+                                      # 依赖名称
+                                      text:
+                                        type: string
+                                      # 值，因类型而异
+                                      value:
+                                        type: string
+
+                            # 部件项列表
+                            items:
+                              type: array
+                              items: *PART_ITEM
 
                       # 布局
                       layout:
@@ -77,90 +175,13 @@ spec:
                           expand:
                             type: boolean
 
-                      # 当前版本
-                      currentVersion:
-                        type: object
-                        properties:
-                        
-                          # 当前版本机读标识
-                          name:
-                            type: string
-
-                          # 根部件项
-                          item: &PART_ITEM
-                            type: object
-                            properties:
-                              # 部件项标识
-                              name:
-                                type: string
-                              # 部件项名称
-                              text:
-                                type: string
-                              # 父项
-                              parent:
-                                type: string
-                              # 类型
-                              kind:
-                                type: string
-                              # 插槽列表
-                              slots:
-                                type: array
-                                items: &PART_SLOT
-                                  type: object  
-                                  properties:
-                                    # 插槽标识
-                                    name:
-                                      type: string
-                                    # 插槽文字
-                                    text:
-                                      type: string
-                                    # 插槽类型
-                                    kind:
-                                      type: string
-                                      enum:
-                                        - link
-                                    # 引用部件
-                                    partRef:
-                                      type: object
-                                      properties:
-                                        # 部件名称
-                                        name:
-                                          type: string
-                                        # 插槽取值，因插槽类型而异；支持变量，格式 ${VAR}，变量内容需根据实际环境从网关按 label=assemble 读取
-                                        value:
-                                          type: string
-                              # 依赖列表
-                              dependencies:
-                                type: array
-                                items:
-                                  type: object
-                                  properties:
-                                    # 依赖标识
-                                    name:
-                                      type: string
-                                    # 类型，支持 UserFilter 和 TypeFilter
-                                    kind:
-                                      type: string
-                                    # 依赖名称
-                                    text:
-                                      type: string
-                                    # 值，因类型而异
-                                    value:
-                                      type: string
-
-                          # 部件项列表
-                          items:
-                            type: array
-                            items: *PART_ITEM
-
-
                 # 车间可使用的资源列表
                 resources:
                   type: object
                   properties:
 
                     # OAuth应用列表
-                    apps:
+                    clients:
                       type: array
                       items:
                         type: object
@@ -171,6 +192,30 @@ spec:
                           # 应用名称
                           text:
                             type: string
+                          # 授权范围
+                          scopes:
+                            type: array
+                            description: OAuth scopes used
+                            items:
+                              type: object
+                              required:
+                                - name
+                              properties:
+                                name: 
+                                  type: string
+                                  description: OAuth scope name
+                                grant_types:
+                                  type: object 
+                                  properties: 
+                                    authorization_code: &GRANT
+                                      type: string
+                                      enum:
+                                        - required
+                                        - optional 
+                                    client_credentials: *GRANT
+                                    implicit: *GRANT
+                                    password: *GRANT
+
 
                     # 人员身份列表
                     users:
