@@ -225,6 +225,19 @@ spec:
                               - llm
                               - embedding
                               - speech
+                              - agent
+                          # Agent类型的额外配置
+                          agent:
+                            type: object
+                            properties:
+                              # agent-id
+                              name:
+                                type: string
+                              # agent-token
+                              token:
+                                type: string
+
+                          
 
                     # 人工服务
                     helpdesk:
