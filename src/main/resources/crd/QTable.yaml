@@ -111,6 +111,12 @@ spec:
                                     # 字段名
                                     name:
                                       type: string
+                                    # 字段显示信息
+                                    text:
+                                      type: string
+                                    # 字段描述
+                                    description:
+                                      type: string
                                     # 字段类型，GraphQL类型
                                     dataType:
                                       type: string
