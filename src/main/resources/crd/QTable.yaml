@@ -78,6 +78,14 @@ spec:
                       - data
                       - views
                     properties:
+                      
+                      # 工作表标识
+                      name:
+                        type: string
+                      # 工作表描述
+                      text:
+                        type: string
+
                       # 数据来源
                       data:
                         type: object
@@ -120,208 +128,207 @@ spec:
                                     operation:
                                       type: string
 
-
-                    # 视图列表
-                    views:
-                      type: array
-                      items:
-                        type: object
-                        required:
-                          - name
-                          - kind
-                        properties:
-                          # 视图名
-                          name: 
-                            type: string
-                          # 视图类型
-                          kind:
-                            type: string
-                            enum:
-                              - grid    # 表格
-                              - card    # 看版
-                          # 显示文字
-                          text:
-                            type: string
-                          
-                          # 列定义
-                          columns:
-                            type: array
-                            items:
-                              type: object
-                              properties:
-                                # 列标识
-                                name:
-                                  type: string
-                                # 列头文字
-                                text:
-                                  type: string
-                                # 字段
-                                field: 
-                                  type: object
-                                  properties:
-                                    name:
-                                      type: string
-                                # 控件
-                                input:
-                                  type: object
-                                  properties:
-                                    name:
-                                      type: string
-                                    # 控件类型
-                                    kind:
-                                      type: string
-                                      enum:
-                                        # 基础类型
-                                        - Text       # 文本
-                                        - Number     # 数字
-                                        - Radio      # 单选
-                                        - CheckList  # 多选
-                                        - Anchor     # 链接
-                                        - DateTime   # 日期
-                                        - Check      # 复选框
-                                        - Picture    # 图片
-                                        - File       # 文件
-                                        - Phone      # 电话
-                                        - Email      # 邮箱
-                                        - Percent    # 进度
-                                        - User       # 用户
-                                        - Location   # 位置
-                                        # 复杂类型
-                                        - Template   # 公式
-                                        - Join       # 关联
-                                        - Reference  # 应用
-                                        # 内置类型
-                                        - Created    # 创建时间
-                                        - Updated    # 更新时间
-                                        - Creator    # 创建人 
-                                        - Updater    # 更新人
-                                    # 格式串，因控件类型而异，比如：
-                                    # 时间：yyyy-MM-dd HH:mm
-                                    # 数字：###,###.##
-                                    format:
-                                      type: string
-                                    # 可见性
-                                    visible: 
-                                      type: boolean
-                                    # 控件子项
-                                    items:
-                                      type: array
-                                      required:
-                                        - text
+                      # 视图列表
+                      views:
+                        type: array
+                        items:
+                          type: object
+                          required:
+                            - name
+                            - kind
+                          properties:
+                            # 视图名
+                            name: 
+                              type: string
+                            # 视图类型
+                            kind:
+                              type: string
+                              enum:
+                                - grid    # 表格
+                                - card    # 看版
+                            # 显示文字
+                            text:
+                              type: string
+                            
+                            # 列定义
+                            columns:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  # 列标识
+                                  name:
+                                    type: string
+                                  # 列头文字
+                                  text:
+                                    type: string
+                                  # 字段
+                                  field: 
+                                    type: object
+                                    properties:
+                                      name:
+                                        type: string
+                                  # 控件
+                                  input:
+                                    type: object
+                                    properties:
+                                      name:
+                                        type: string
+                                      # 控件类型
+                                      kind:
+                                        type: string
+                                        enum:
+                                          # 基础类型
+                                          - Text       # 文本
+                                          - Number     # 数字
+                                          - Radio      # 单选
+                                          - CheckList  # 多选
+                                          - Anchor     # 链接
+                                          - DateTime   # 日期
+                                          - Check      # 复选框
+                                          - Picture    # 图片
+                                          - File       # 文件
+                                          - Phone      # 电话
+                                          - Email      # 邮箱
+                                          - Percent    # 进度
+                                          - User       # 用户
+                                          - Location   # 位置
+                                          # 复杂类型
+                                          - Template   # 公式
+                                          - Join       # 关联
+                                          - Reference  # 应用
+                                          # 内置类型
+                                          - Created    # 创建时间
+                                          - Updated    # 更新时间
+                                          - Creator    # 创建人 
+                                          - Updater    # 更新人
+                                      # 格式串，因控件类型而异，比如：
+                                      # 时间：yyyy-MM-dd HH:mm
+                                      # 数字：###,###.##
+                                      format:
+                                        type: string
+                                      # 可见性
+                                      visible: 
+                                        type: boolean
+                                      # 控件子项
                                       items:
+                                        type: array
+                                        required:
+                                          - text
+                                        items:
+                                          type: object
+                                          properties:
+                                            # 值
+                                            name:
+                                              type: string
+                                            # 显示值
+                                            text:
+                                              type: string
+                                            # 颜色
+                                            color:
+                                              type: string
+
+                                      # 分组，对于 Card 类型，仅第一组生效
+                                      grouping:
                                         type: object
                                         properties:
-                                          # 值
-                                          name:
-                                            type: string
-                                          # 显示值
-                                          text:
-                                            type: string
-                                          # 颜色
-                                          color:
-                                            type: string
-
-                                    # 分组，对于 Card 类型，仅第一组生效
-                                    grouping:
-                                      type: object
-                                      properties:
-                                        # 分组列表
-                                        groups:
-                                          type: array
-                                          items:
-                                            type: object
-                                            properties:
-                                              # 列 name 引用
-                                              column:
-                                                type: string
-                                              # 排序
-                                              order:
-                                                type: string
-                                                enum:
-                                                  - asc
-                                                  - desc
-                                    
-                                    # 筛选
-                                    filtering:
-                                      type: object
-                                      properties:
-                                        # 是否启用，默认 true
-                                        enabled:
-                                          type: boolean
-                                        # 括号
-                                        brackets:
-                                          type: array
-                                          items:
-                                            type: object
-                                            properties:
-                                              # 括号名
-                                              name:
-                                                type: string
-                                              # 集合运算方式
-                                              logic:
-                                                type: string
-                                                enum:
-                                                  - and 
-                                                  - or
-                                              # 父括号，不给出视为根括号
-                                              parent:
-                                                type: string
-                                              # 筛选条件列表
-                                              filters:
-                                                type: array
-                                                items:
-                                                  type: object
-                                                  properties:
-                                                    # 列 name 引用
-                                                    column:
-                                                      type: string
-                                                    # 运算符
-                                                    match:
-                                                      type: string
-                                                      enum:
-                                                        - eq 
-                                                        - neq
-                                                        - in
-                                                        - nin
-                                                        - gt
-                                                        - gte
-                                                        - lt
-                                                        - lte
-                                                        - like
-                                                        - bt  
-                                                        # 后续运算符调用接口时需做前端转化
-                                                        - nil   # NULL
-                                                        - nnil  # NOT NULL
-                                                        - em    # 空 (NULL或空串)
-                                                        - nem   # 非空
-                                                    # 值                        
-                                                    value:
-                                                      x-kubernetes-int-or-string: true
-                                                    values:
-                                                      type: array
-                                                      items:
+                                          # 分组列表
+                                          groups:
+                                            type: array
+                                            items:
+                                              type: object
+                                              properties:
+                                                # 列 name 引用
+                                                column:
+                                                  type: string
+                                                # 排序
+                                                order:
+                                                  type: string
+                                                  enum:
+                                                    - asc
+                                                    - desc
+                                      
+                                      # 筛选
+                                      filtering:
+                                        type: object
+                                        properties:
+                                          # 是否启用，默认 true
+                                          enabled:
+                                            type: boolean
+                                          # 括号
+                                          brackets:
+                                            type: array
+                                            items:
+                                              type: object
+                                              properties:
+                                                # 括号名
+                                                name:
+                                                  type: string
+                                                # 集合运算方式
+                                                logic:
+                                                  type: string
+                                                  enum:
+                                                    - and 
+                                                    - or
+                                                # 父括号，不给出视为根括号
+                                                parent:
+                                                  type: string
+                                                # 筛选条件列表
+                                                filters:
+                                                  type: array
+                                                  items:
+                                                    type: object
+                                                    properties:
+                                                      # 列 name 引用
+                                                      column:
+                                                        type: string
+                                                      # 运算符
+                                                      match:
+                                                        type: string
+                                                        enum:
+                                                          - eq 
+                                                          - neq
+                                                          - in
+                                                          - nin
+                                                          - gt
+                                                          - gte
+                                                          - lt
+                                                          - lte
+                                                          - like
+                                                          - bt  
+                                                          # 后续运算符调用接口时需做前端转化
+                                                          - nil   # NULL
+                                                          - nnil  # NOT NULL
+                                                          - em    # 空 (NULL或空串)
+                                                          - nem   # 非空
+                                                      # 值                        
+                                                      value:
                                                         x-kubernetes-int-or-string: true
-                                                    expression:
-                                                      type: string
+                                                      values:
+                                                        type: array
+                                                        items:
+                                                          x-kubernetes-int-or-string: true
+                                                      expression:
+                                                        type: string
 
-                                    # 排序
-                                    ordering:
-                                      type: object
-                                      properties:
-                                        orders:
-                                          type: array
-                                          items:
-                                            type: object
-                                            properties:
-                                              # 排序列
-                                              column:
-                                                type: string
-                                              # 排序
-                                              order:
-                                                type: string
-                                                enum:
-                                                  - asc
-                                                  - desc
+                                      # 排序
+                                      ordering:
+                                        type: object
+                                        properties:
+                                          orders:
+                                            type: array
+                                            items:
+                                              type: object
+                                              properties:
+                                                # 排序列
+                                                column:
+                                                  type: string
+                                                # 排序
+                                                order:
+                                                  type: string
+                                                  enum:
+                                                    - asc
+                                                    - desc
 
 
 

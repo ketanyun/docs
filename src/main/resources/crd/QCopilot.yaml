@@ -236,7 +236,6 @@ spec:
                               # agent-token
                               token:
                                 type: string
-
                           
 
                     # 人工服务
@@ -246,6 +245,13 @@ spec:
                         # 是否启用
                         enabled: 
                           type: boolean
+                        # 使用的提示词模版配置
+                        prompt:
+                          type: object
+                          properties:
+                            # 提示词模版name的引用
+                            name:
+                              type: string
 
 
 
