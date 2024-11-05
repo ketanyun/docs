@@ -30,7 +30,6 @@ spec:
           type: object
           properties:
             spec:
-              spec:
               type: object
               required:
                 - designer
@@ -104,7 +103,9 @@ spec:
                                   - BarChart    # 柱状图
                                   - PieChart    # 饼图
                                   - Gauge       # 仪表盘
-                                  - KPI         # KPI
+                                  - KPI         # KPI 
+                                  - Funnel      # 漏斗图
+                                  # 数据表 
                                   - DataTable   # 数据表 
                                   - PivotTable  # 透视表 
                               # 标题
@@ -154,6 +155,7 @@ spec:
                                     type: integer
                                   h:
                                     type: integer
+                              
                               # ECharts 高级设置
                               echarts:
                                 type: object
@@ -161,6 +163,7 @@ spec:
                                   # 可额外属性定义，JSON语法，覆盖默认配置 
                                   options:
                                     type: string 
+
                               # 分组。使用方式
                               # Guage、KPI：
                               # Line、Bar、Pie: 仅使用group[0]作为x轴（invert后为y轴）
@@ -177,6 +180,72 @@ spec:
                                     # 维度名（用于显示）
                                     textDimension:
                                       type: string
+                                    # 显示名（来自引用查询）
+                                    textReference:
+                                      type: object
+                                      properties:
+                                        # 数据类型名
+                                        data:
+                                          type: string
+                                        # 数据操作
+                                        operation:
+                                          type: object
+                                          required:
+                                            - name
+                                            - fields
+                                          properties:
+                                            # 操作名
+                                            name: 
+                                              type: string
+                                            # 筛选器配置
+                                            filter:
+                                              type: object
+                                              properties:
+                                                # filter的类型名
+                                                type: 
+                                                  type: string
+                                                # 是否标量实现
+                                                scalar:
+                                                  type: boolean
+                                            # 筛选器列表
+                                            filters:
+                                              type: array
+                                              items:
+                                                type: object
+                                                required:
+                                                  - field
+                                                properties:
+                                                  field:
+                                                    type: string
+                                                  match:
+                                                    type: string
+                                            # 返回字段列表
+                                            fields:
+                                              type: array
+                                              items:
+                                                type: object
+                                                properties:
+                                                  # 字段名
+                                                  name:
+                                                    type: string
+                                                  # 字段数据类型
+                                                  type:
+                                                    type: string 
+                                                  # 对如何使用改字段的暗示
+                                                  kind:
+                                                    type: string
+                                                    enum:
+                                                      - text
+                                                      - value
+                                                      - icon
+                                                      - tooltip
+                                            # 数据操作其他属性 
+                                            attributes:
+                                              type: object
+                                              properties:
+                                                # 是否支持分页结构
+                                                pagination:
+                                                  type: boolean 
                                     # 行列反转
                                     invert:
                                       type: boolean
@@ -192,6 +261,7 @@ spec:
                                     # 总显示量，超出显示量时显示为"其他"
                                     total:
                                       type: string
+                              
                               # 度量值
                               # Line、Bar、Guage、KPI: 可多值
                               # Pie: 单值
@@ -238,7 +308,24 @@ spec:
                                     icons:
                                       type: array
                                       items: *ICON
-                                              
+
+                              # 下钻设置
+                              drill:
+                                type: object
+                                properties:
+                                  # 链接模版
+                                  uri:
+                                    type: string
+                                  # 参数列表
+                                  params:
+                                    type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        # 一个查询条件，比如: kind=${field}
+                                        expression:
+                                          type: string
+
                               # 轴线
                               axes: 
                                 type: array
