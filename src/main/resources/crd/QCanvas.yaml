@@ -238,6 +238,16 @@ spec:
                         filters:
                           type: array
                           items: *FILTER
+                        # 该《数据操作》的《数据过滤器》配置
+                        filter:
+                          type: object
+                          properties:
+                            # filter的类型名
+                            type: 
+                              type: string
+                            # 是否标量实现
+                            scalar:
+                              type: boolean
                         # 定义该类型支持哪些 DataFilter
                         dataFilters:
                           type: array
