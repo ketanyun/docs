@@ -86,6 +86,7 @@ spec:
                           enum:
                             - backend   # 后端保持
                             - frontend  # 前端保持
+                            
                         # 上下文
                         context:
                           type: object
@@ -93,6 +94,10 @@ spec:
                             # 回溯条数
                             backtrack:
                               type: integer
+                            # 根据上下文改写当前提问
+                            rewrite:
+                              type: boolean
+
                         # 超时
                         timeout:
                           type: integer
@@ -134,7 +139,7 @@ spec:
                             defaultValue:
                               type: string
 
-                        # 恢复设置
+                        # 回复设置
                         reply:
                           type: object
                           properties:
@@ -237,7 +242,6 @@ spec:
                               token:
                                 type: string
                           
-
                     # 人工服务
                     helpdesk:
                       type: object
