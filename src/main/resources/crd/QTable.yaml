@@ -234,91 +234,91 @@ spec:
                                             color:
                                               type: string
 
-                                      # 分组，对于 Card 类型，仅第一组生效
-                                      grouping:
-                                        type: object
-                                        properties:
-                                          # 分组列表
-                                          groups:
-                                            type: array
-                                            items:
-                                              type: object
-                                              properties:
-                                                # 列 name 引用
-                                                column:
-                                                  type: string
-                                                # 排序
-                                                order:
-                                                  type: string
-                                                  enum:
-                                                    - asc
-                                                    - desc
-                                      
-                                      # 筛选
-                                      filtering:
-                                        type: object
-                                        properties:
-                                          # 是否启用，默认 true
-                                          enabled:
-                                            type: boolean
-                                          # 括号
-                                          brackets:
-                                            type: array
-                                            items:
-                                              type: object
-                                              properties:
-                                                # 括号名
-                                                name:
-                                                  type: string
-                                                # 集合运算方式
-                                                logic:
-                                                  type: string
-                                                  enum:
-                                                    - and 
-                                                    - or
-                                                # 父括号，不给出视为根括号
-                                                parent:
-                                                  type: string
-                                                # 筛选条件列表
-                                                filters:
-                                                  type: array
-                                                  items:
-                                                    type: object
-                                                    properties:
-                                                      # 列 name 引用
-                                                      column:
-                                                        type: string
-                                                      # 运算符
-                                                      match:
-                                                        type: string
-                                                        enum:
-                                                          - eq 
-                                                          - neq
-                                                          - in
-                                                          - nin
-                                                          - gt
-                                                          - gte
-                                                          - lt
-                                                          - lte
-                                                          - like
-                                                          - bt  
-                                                          # 后续运算符调用接口时需做前端转化
-                                                          - nil   # NULL
-                                                          - nnil  # NOT NULL
-                                                          - em    # 空 (NULL或空串)
-                                                          - nem   # 非空
-                                                      # 值                        
-                                                      value:
-                                                        x-kubernetes-int-or-string: true
-                                                      values:
-                                                        type: array
-                                                        items:
-                                                          x-kubernetes-int-or-string: true
-                                                      expression:
-                                                        type: string
-
+                            # 分组，对于 Card 类型，仅第一组生效
+                            grouping:
+                              type: object
+                              properties:
+                                # 分组列表
+                                groups:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      # 列 name 引用
+                                      column:
+                                        type: string
                                       # 排序
-                                      ordering:
+                                      order:
+                                        type: string
+                                        enum:
+                                          - asc
+                                          - desc
+                            
+                            # 筛选
+                            filtering:
+                              type: object
+                              properties:
+                                # 是否启用，默认 true
+                                enabled:
+                                  type: boolean
+                                # 括号
+                                brackets:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      # 括号名
+                                      name:
+                                        type: string
+                                      # 集合运算方式
+                                      logic:
+                                        type: string
+                                        enum:
+                                          - and 
+                                          - or
+                                      # 父括号，不给出视为根括号
+                                      parent:
+                                        type: string
+                                      # 筛选条件列表
+                                      filters:
+                                        type: array
+                                        items:
+                                          type: object
+                                          properties:
+                                            # 列 name 引用
+                                            column:
+                                              type: string
+                                            # 运算符
+                                            match:
+                                              type: string
+                                              enum:
+                                                - eq 
+                                                - neq
+                                                - in
+                                                - nin
+                                                - gt
+                                                - gte
+                                                - lt
+                                                - lte
+                                                - like
+                                                - bt  
+                                                # 后续运算符调用接口时需做前端转化
+                                                - nil   # NULL
+                                                - nnil  # NOT NULL
+                                                - em    # 空 (NULL或空串)
+                                                - nem   # 非空
+                                            # 值                        
+                                            value:
+                                              x-kubernetes-int-or-string: true
+                                            values:
+                                              type: array
+                                              items:
+                                                x-kubernetes-int-or-string: true
+                                            expression:
+                                              type: string
+
+                            # 排序
+                            ordering:
                                         type: object
                                         properties:
                                           orders:

@@ -34,6 +34,16 @@ spec:
               required:
                 - workflow
               properties:
+                # 设计器信息
+                designer:
+                  type: object
+                  properties:
+                    # 设计器标识
+                    name:
+                      type: string
+                    # 设计器版本
+                    version:
+                      type: string
                 workflow:
                   type: object
                   properties:
@@ -829,3 +839,4 @@ spec:
                             type: string
                           script:
                             type: string
+                            
