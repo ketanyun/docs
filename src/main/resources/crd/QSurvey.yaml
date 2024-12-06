@@ -695,6 +695,21 @@ spec:
                                   # 提醒内容
                                   content:
                                     type: string
+                                  # 其他格式提醒内容
+                                  contents:
+                                    type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        # 类型
+                                        kind:
+                                          type: string
+                                          enum:
+                                            - card
+                                        # 内容
+                                        value:
+                                          type: string
+                                  
                               # 提醒渠道
                               channels:
                                 type: array
