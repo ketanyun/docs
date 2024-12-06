@@ -705,8 +705,8 @@ spec:
                                         kind:
                                           type: string
                                           enum:
-                                            - Text
-                                            - Card
+                                            - Text  # 文本，字符串，同外层 content
+                                            - Card  # 卡片，JSON，属性包括 description/url/app，内容/链接/系统名
                                         # 内容
                                         value:
                                           type: string
