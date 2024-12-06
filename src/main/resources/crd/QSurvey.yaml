@@ -705,7 +705,8 @@ spec:
                                         kind:
                                           type: string
                                           enum:
-                                            - card
+                                            - Text
+                                            - Card
                                         # 内容
                                         value:
                                           type: string
