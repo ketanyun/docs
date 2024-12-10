@@ -163,6 +163,9 @@ spec:
                               # 提示词模版标识
                               name:
                                 type: string
+                              # 提示词模版名称
+                              text:
+                                type: string
                               # 提示词模版内容
                               template:
                                 type: string
@@ -185,7 +188,6 @@ spec:
                           # 任务类型，枚举，暂未使用，保留
                           kind:
                             type: string
-                            
                           # 任务适合的用户集
                           userFilters:
                             type: array
@@ -210,6 +212,109 @@ spec:
                                 # 参数是否必填，默认false
                                 required:
                                   type: boolean
+                          
+                          # 指令和别名指令
+                          commands:
+                            type: array
+                            items:
+                              type: string
+
+                          # 对应的GraphQL操作
+                          operation:
+                            type: object
+                            properties:
+
+                              # 服务名
+                              service: 
+                                type: object
+                                properties:
+                                  # 服务名
+                                  name:
+                                    type: string
+
+                              # 操作标识（操作名）
+                              name:
+                                type: string
+
+                              # 请求体
+                              request:
+                                type: object
+                                properties:
+                                  # 参数列表
+                                  parameters:
+                                    type: array
+                                    items:
+                                      type: object
+                                      required:
+                                        - name
+                                      properties:
+                                        # 参数名
+                                        name:
+                                          type: string
+                                        # 人读描述
+                                        text:
+                                          type: string
+                                        # 参数值，等号开头为表达式
+                                        value:
+                                          type: string
+
+                              # 响应
+                              response:
+                                type: object
+                                properites:
+                                  # 变量解析
+                                  variables: 
+                                    type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        # 变量名，如 "users"
+                                        name:
+                                          type: string
+                                        # 变量解析路径，如 "result.data.users.edges"
+                                        path:
+                                          type: string
+
+                          # 回复设置
+                          reply:
+                            type: object
+                            properties:
+                              # 答复消息
+                              message:
+                                type: object
+                                properties:
+                                  # 内容
+                                  content: &CONTENT
+                                    type: object
+                                    properties: 
+                                      kind:
+                                        type: string
+                                        enum:
+                                          - markdown
+                                      # 内容模版
+                                      template:
+                                        type: string
+
+                              # 额外前端指令
+                              actions:
+                                type: object
+                                properties:
+                                  # 动作类型
+                                  kind:
+                                    type: string
+                                    enum:
+                                      - popup   # 弹框
+                                      - window  # 新窗
+                                  # 页面
+                                  page:
+                                    type: object
+                                    properties:
+                                      # 链接模版
+                                      url:
+                                        type: string 
+                                      # 内容
+                                      content: *CONTENT
+
 
                     # 后端AI服务
                     backends:
