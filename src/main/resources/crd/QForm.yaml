@@ -186,35 +186,36 @@ spec:
                                     - Dept            # 当前用户所属部门
 
                                     # 数据控件
-                                    - Label       # 标签，标签显示内容，不可输入
-                                    - Edit        # 文本框，单行文本 
-                                    - TextArea    # 大文本框，多行文本
-                                    - RichText    # 富文本框，输入富文本
-                                    - Remark      # 备注文本框，可输入多行文本，但只显示一个图标表示有无输入
-                                    - Date        # 日期，以yyyy-mm-dd的格式输入日期
-                                    - Time        # 时间，以mm:ss的格式输入时间
-                                    - Check       # 复选框，复选项
-                                    - Switch      # 切换开关，切换状态开关
-                                    - CheckList   # 复选框，以代码表作为复选项
-                                    - Option      # 单选框，单选项
-                                    - OptionList  # 单选框，以代码表作为单选项
-                                    - Select      # 下拉框，下拉输入
-                                    - Suggester   # 提示输入框，带有智能提示的输入文本框
-                                    - Hidden      # 隐藏字段，隐藏内容，不显示
-                                    - Anchor      # 链接，超链接，可以多种方式打开
-                                    - File        # 文件，文件上传
-                                    - Upload      # 更大的文件上传控件，功能同 File
-                                    - Image       # 图片显示，显示图片
-                                    - Picture     # 图片上传，图片上传
-                                    - Help        # 帮助，显示一个帮助图标，点上去出帮助提示
-                                    - Button      # 按钮，显示一个按钮，点击后会触发后台fieldChange
-                                    - LinkButton  # 链接按钮，显示一个链接，点击后会触发后台fieldChange
-                                    - CheckButton # 复选按钮，显示一个按钮，有选中和不选中两种状态
-                                    - Thing       # 物品，输入物品
-                                    - IFrame      # iframe，用于设计第三方控件
-                                    - Map         # 地图，用于显示位置或者让用户选取位置
-                                    - Seal        # 印章，数字印章的选取和显示
-                                    - Signature   # 签名，对指定表单数据进行签名和验证
+                                    - Label           # 标签，标签显示内容，不可输入
+                                    - Edit            # 文本框，单行文本 
+                                    - TextArea        # 大文本框，多行文本
+                                    - RichText        # 富文本框，输入富文本
+                                    - Remark          # 备注文本框，可输入多行文本，但只显示一个图标表示有无输入
+                                    - Date            # 日期，以yyyy-mm-dd的格式输入日期
+                                    - Time            # 时间，以mm:ss的格式输入时间
+                                    - Check           # 复选框，复选项
+                                    - Switch          # 切换开关，切换状态开关
+                                    - CheckList       # 复选框，以代码表作为复选项
+                                    - Option          # 单选框，单选项
+                                    - OptionList      # 单选框，以代码表作为单选项
+                                    - Select          # 下拉框，下拉输入
+                                    - Suggester       # 提示输入框，带有智能提示的输入文本框
+                                    - TreeSuggester   # 多级提示输入框，
+                                    - Hidden          # 隐藏字段，隐藏内容，不显示
+                                    - Anchor          # 链接，超链接，可以多种方式打开
+                                    - File            # 文件，文件上传
+                                    - Upload          # 更大的文件上传控件，功能同 File
+                                    - Image           # 图片显示，显示图片
+                                    - Picture         # 图片上传，图片上传
+                                    - Help            # 帮助，显示一个帮助图标，点上去出帮助提示
+                                    - Button          # 按钮，显示一个按钮，点击后会触发后台fieldChange
+                                    - LinkButton      # 链接按钮，显示一个链接，点击后会触发后台fieldChange
+                                    - CheckButton     # 复选按钮，显示一个按钮，有选中和不选中两种状态
+                                    - Thing           # 物品，输入物品
+                                    - IFrame          # iframe，用于设计第三方控件
+                                    - Map             # 地图，用于显示位置或者让用户选取位置
+                                    - Seal            # 印章，数字印章的选取和显示
+                                    - Signature       # 签名，对指定表单数据进行签名和验证
 
                                 # 对应数据字段（组），仅 `数据控件`、`重复节/表` 支持
                                 field: 
@@ -243,6 +244,13 @@ spec:
                                 # 最大值
                                 maxValue:
                                   type: string
+                                # 最小层级
+                                minLevel:
+                                  type: string
+                                # 最大层级
+                                maxLevel:
+                                  type: string
+                                  
                                 # 最大行数：用于TextArea
                                 lines:
                                   type: integer
@@ -408,7 +416,9 @@ spec:
                                           - readOnly      # 只读
                                           - itemReadOnly  # 只读（项）
                                           - tooltip       # 提示
-                                          - validation     # 验证
+                                          - validation    # 验证
+                                          - sourceFilter  # 数据源筛选值
+
                                       # 属性值，支持表达式
                                       value:
                                         type: string
