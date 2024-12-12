@@ -212,6 +212,17 @@ spec:
                                 # 参数是否必填，默认false
                                 required:
                                   type: boolean
+                                # 枚举值
+                                enums:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properites:
+                                      # 枚举编码，用于接口调用
+                                      code: string
+                                      # 枚举内容，用于大模型识别
+                                      text: string
+
                           
                           # 指令和别名指令
                           commands:
@@ -292,8 +303,14 @@ spec:
                                         enum:
                                           - markdown
                                       # 内容模版
+                                      # 支持变量举例（查询学生成绩）：
+                                      #   ${result.data.score}：接口调用返回值
+                                      #   ${params["subject"].code}：学科代码
+                                      #   ${params["subject"].name}：学科名称
+                                      #   ${user.name}: 当前用户名，id_token格式
                                       template:
                                         type: string
+
 
                               # 额外前端指令
                               actions:
