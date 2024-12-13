@@ -314,23 +314,25 @@ spec:
 
                               # 额外前端指令
                               actions:
-                                type: object
-                                properties:
-                                  # 动作类型
-                                  kind:
-                                    type: string
-                                    enum:
-                                      - popup   # 弹框
-                                      - window  # 新窗
-                                  # 页面
-                                  page:
-                                    type: object
-                                    properties:
-                                      # 链接模版
-                                      url:
-                                        type: string 
-                                      # 内容
-                                      content: *CONTENT
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    # 动作类型
+                                    kind:
+                                      type: string
+                                      enum:
+                                        - popup   # 弹框
+                                        - window  # 新窗
+                                    # 页面
+                                    page:
+                                      type: object
+                                      properties:
+                                        # 链接模版
+                                        url:
+                                          type: string 
+                                        # 内容
+                                        content: *CONTENT
 
 
                     # 后端AI服务
