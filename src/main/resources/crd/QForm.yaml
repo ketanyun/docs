@@ -246,10 +246,10 @@ spec:
                                   type: string
                                 # 最小层级
                                 minLevel:
-                                  type: string
+                                  type: integer
                                 # 最大层级
                                 maxLevel:
-                                  type: string
+                                  type: integer
                                   
                                 # 最大行数：用于TextArea
                                 lines:
@@ -417,7 +417,7 @@ spec:
                                           - itemReadOnly  # 只读（项）
                                           - tooltip       # 提示
                                           - validation    # 验证
-                                          - sourceFilter  # 数据源筛选值
+                                          - parent        # 数据源父代码表值
 
                                       # 属性值，支持表达式
                                       value:
