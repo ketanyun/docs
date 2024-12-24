@@ -35,6 +35,19 @@ spec:
                 - menu
 
               properties:
+              
+                # 多租信息
+                tenant:
+                  type: object
+                  required:
+                    - multitenancy
+                  properties:
+                    # 租户编码
+                    name: 
+                      type: string
+                    # 是否支持多租。为true时，租户必须为 "localhost"
+                    multitenancy: 
+                      type: boolean
 
                 # 所属应用
                 app:
@@ -44,7 +57,7 @@ spec:
                   properties:
                     # 所属应用的 QApp 的 metadata.name 
                     name: 
-                      type: string   
+                      type: string
                     # 新建租户时是否需要自动激活，仅对QApp有效
                     autoActivate:
                       type: boolean 
@@ -54,6 +67,16 @@ spec:
                     # 应用标签/分类
                     tags:
                       type: string
+                    # 权限更新策略
+                    flushPrivilege:
+                      type: string
+                      enum:
+                        - app   # 默认按应用全量更新
+                        - res
+                    # 是否改应用的主站点地图，默认true
+                    primary:
+                      type: boolean
+                      
 
                 # 《菜单》（含功能点）定义
                 menu:
@@ -261,10 +284,8 @@ spec:
                                 name:
                                   type: string
 
-
                 # 《角色》定义
                 # 参考：https://github.com/ketanyun/docs/wiki/QRole
-                
                 roles:
                   type: array
                   items:

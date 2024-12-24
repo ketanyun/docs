@@ -34,13 +34,28 @@ spec:
               required:
                 - designer
               properties:
+
+                # 多租信息
+                tenant:
+                  type: object
+                  required:
+                    - multitenancy
+                  properties:
+                    # 租户编码
+                    name: 
+                      type: string
+                    # 是否支持多租。为true时，租户必须为 "localhost"
+                    multitenancy: 
+                      type: boolean
+
                 # 所属应用(QApp)
                 app:
                   type: object
                   properties:
                     # 所属应用的 QApp 的 metadata.name
                     name:
-                      type: string
+                      type: string 
+                      
                 # 设计器信息
                 designer:
                   type: object
