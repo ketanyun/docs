@@ -277,7 +277,7 @@ spec:
                                     type: array
                                     items:
                                       type: object
-                                      properites:
+                                      properties:
                                         # 操作名
                                         name: 
                                           type: string
