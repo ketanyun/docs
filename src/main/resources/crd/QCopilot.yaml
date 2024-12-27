@@ -334,7 +334,6 @@ spec:
                                         # 内容
                                         content: *CONTENT
 
-
                     # 后端AI服务
                     backends:
                       type: array
@@ -381,8 +380,24 @@ spec:
                             name:
                               type: string
 
-
-
+                    # 自动完成配置
+                    completion:
+                      type: object
+                      properties:
+                        # 感知相似任务
+                        task:
+                          type: object
+                          properties:
+                            # 是否启用
+                            enabled:
+                              type: boolean
+                        # 感知相似问答
+                        knowledge:
+                          type: object
+                          properties:
+                            # 是否启用
+                            enabled:
+                              type: boolean
                       
                       
 
