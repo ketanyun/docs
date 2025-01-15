@@ -149,7 +149,34 @@ spec:
                             # 默认值
                             defaultValue:
                               type: string
+                            # 引用设置
+                            reference:
+                              type: object
+                              properties:
+                                # 业务对象引用
+                                ontologies:
+                                  type: array
+                                  items:
+                                    type: string
 
+                        # 业务对象类型
+                        # 可用于关联知识文档
+                        ontologies:
+                          type: array
+                          items:
+                            type: object
+                            properites:
+                              # 业务对象类型代码
+                              # 内置类型包括:
+                              #  - Workflow：工作流
+                              #  - News: 新闻公告
+                              name:
+                                type: string
+                              # 中文描述
+                              text:
+                                type: string
+                        
+                        
                     # 内容生成配置
                     generation: 
                       type: object
@@ -184,6 +211,9 @@ spec:
                             type: string
                           # 任务描述，用于大模型匹配
                           description:
+                            type: string
+                          # 任务的欢迎语，用于引导用户
+                          welcome:
                             type: string
                           # 任务类型，枚举，暂未使用，保留
                           kind:
