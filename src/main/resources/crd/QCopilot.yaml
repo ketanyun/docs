@@ -370,6 +370,36 @@ spec:
                                         # 内容
                                         content: *CONTENT
 
+                          # 事件处理
+                          events:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                # 事件类型
+                                kind:
+                                  type: string
+                                  enum:
+                                    # GraphQL执行前，更新上下文变量
+                                    - executing   
+                                    # GraphQL执行后，更新上下文变量
+                                    - executed    
+                                # 事件处理程序
+                                # 格式：handler(event, context)
+                                # 参数（event）: 事件对象，event.kind 为事件类型
+                                # 参数（context）: 事件上下文，可通过 context.变量名 获取或设置变量
+                                handler:
+                                  type: object
+                                  properties:
+                                    # 事件处理程序类型
+                                    kind:
+                                      type: string
+                                      enum:
+                                        - javascript
+                                    # 事件处理程序代码
+                                    script:
+                                      type: string
+
                     # 后端AI服务
                     backends:
                       type: array
