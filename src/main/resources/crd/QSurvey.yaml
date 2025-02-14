@@ -152,6 +152,7 @@ spec:
                                     - User               # 用户（表单类型：全部）
                                     - Dept               # 部门（表单类型：全部）
                                     - UserInfo           # 用户基本信息（表单类型：全部）
+                                    - DeptList           # 部门列表（表单类型：全部）
 
                                     # 描述分页
                                     - HorizontalRule    # 分割线（表单类型：全部）
@@ -225,6 +226,12 @@ spec:
                                   type: integer
                                 # 列表数量最大值
                                 maxItems:
+                                  type: integer
+                                # 树结构最少选择层级
+                                minLevel:
+                                  type: integer
+                                # 树结构最多选择层级，部门控件按独立部门算1级
+                                maxLevel:
                                   type: integer
                                 # 步长，用于定义 [最小值, 最小值] 之间的可选项
                                 tick:

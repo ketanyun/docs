@@ -420,6 +420,7 @@ spec:
                               - embedding
                               - speech
                               - agent
+                              - reasoning
                           # Agent类型的额外配置
                           agent:
                             type: object
