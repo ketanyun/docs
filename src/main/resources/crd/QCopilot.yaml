@@ -106,6 +106,7 @@ spec:
                     knowledge: 
                       type: object
                       properties:
+
                         # 检索设置
                         retrieval:
                           type: array
@@ -176,6 +177,14 @@ spec:
                               text:
                                 type: string
                         
+                        # 知识库限制
+                        limits:
+                          type: object
+                          properties:
+                            # 最大允许字符数
+                            maxCharacters:
+                              type: integer
+
                         
                     # 内容生成配置
                     generation: 
