@@ -166,7 +166,7 @@ spec:
                           type: array
                           items:
                             type: object
-                            properites:
+                            properties:
                               # 业务对象类型代码
                               # 内置类型包括:
                               #  - Workflow：工作流
@@ -262,7 +262,7 @@ spec:
                                   type: array
                                   items:
                                     type: object
-                                    properites:
+                                    properties:
                                       # 枚举编码，用于接口调用
                                       code: string
                                       # 枚举内容，用于大模型识别
@@ -317,7 +317,7 @@ spec:
                               # 响应
                               response:
                                 type: object
-                                properites:
+                                properties:
                                   # 变量解析
                                   variables: 
                                     type: array
