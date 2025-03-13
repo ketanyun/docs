@@ -339,7 +339,7 @@ spec:
                                 # 数据源，用于 Select 等
                                 source: 
                                   type: object
-                                  properites:
+                                  properties:
                                     kind: 
                                       type: string
                                       enum:
@@ -529,13 +529,13 @@ spec:
                   type: array
                   items:
                     type: object
-                    properites:
+                    properties:
                       # 代码表名
                       name:
                         type: string
                       data:
                         type: object
-                        properites:
+                        properties:
                           # 数据类型，来自父级 DesignerAPI
                           name: 
                             type: string
@@ -545,7 +545,7 @@ spec:
                       # 数据操作（GraphQL查询）
                       operation:
                         type: object
-                        properites:
+                        properties:
                           kind:
                             type: string
                             enum:
@@ -557,7 +557,7 @@ spec:
                             type: array
                             items: 
                               type: object 
-                              properites:
+                              properties:
                                 # 使用方式暗示
                                 kind:
                                   type: string
