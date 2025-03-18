@@ -262,6 +262,8 @@ spec:
                                         type: integer
                                       _value:
                                         type: string
+                                      _text:
+                                        type: string
                                       _closure:
                                         type: integer
                                       _bizType:
@@ -274,6 +276,8 @@ spec:
                                       _type:
                                         type: integer
                                       _value:
+                                        type: string
+                                      _text:
                                         type: string
                                       _closure:
                                         type: integer
@@ -288,6 +292,8 @@ spec:
                                         type: integer
                                       _value:
                                         type: string
+                                      _text:
+                                        type: string
                                       _closure:
                                         type: integer
                                       _bizType:
@@ -300,6 +306,8 @@ spec:
                                       _type:
                                         type: integer
                                       _value:
+                                        type: string
+                                      _text:
                                         type: string
                                       _closure:
                                         type: integer
@@ -320,6 +328,9 @@ spec:
                           _allowProcessContinuously:
                             type: boolean
                           _allowChangePriority:
+                            type: boolean
+                          # 允许用户修改后续流程拓扑
+                          _allowChangeTopology:
                             type: boolean
                           _printAfterAction:
                             type: boolean
@@ -374,6 +385,26 @@ spec:
                               # 显示名
                               _name:
                                 type: string
+                          # 步骤人工智能配置
+                          intelligence:
+                            type: object
+                            properties:
+                              # 是否启用
+                              _enabled:
+                                type: boolean
+                              # 功能描述
+                              description:
+                                type: string
+                              # 启用的字段配置
+                              powers:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    _column:
+                                      type: string
+                                    _value:
+                                      type: integer
                           # 步骤通知
                           notifications:
                             type: array
@@ -461,6 +492,8 @@ spec:
                                               type: integer
                                             _value:
                                               type: string
+                                            _text:
+                                              type: string
                                             _closure:
                                               type: integer
                                             _bizType:
@@ -473,6 +506,8 @@ spec:
                                             _type:
                                               type: integer
                                             _value:
+                                              type: string
+                                            _text:
                                               type: string
                                             _closure:
                                               type: integer
@@ -487,6 +522,8 @@ spec:
                                               type: integer
                                             _value:
                                               type: string
+                                            _text:
+                                              type: string
                                             _closure:
                                               type: integer
                                             _bizType:
@@ -499,6 +536,8 @@ spec:
                                             _type:
                                               type: integer
                                             _value:
+                                              type: string
+                                            _text:
                                               type: string
                                             _closure:
                                               type: integer
@@ -557,6 +596,9 @@ spec:
                           _picturePath:
                             type: string
                           _seqNo:
+                            type: integer
+                          # 运行时修改拓扑的步骤号
+                          _seqNoCreatedFrom:
                             type: integer
                           _x:
                             type: integer
@@ -637,6 +679,9 @@ spec:
                             type: string
                           _seqNo:
                             type: integer
+                          # 运行时修改拓扑的步骤号
+                          _seqNoCreatedFrom:
+                            type: integer
                           _x:
                             type: integer
                           _y:
@@ -669,6 +714,9 @@ spec:
                             type: string
                           _seqNo:
                             type: integer
+                          # 运行时修改拓扑的步骤号
+                          _seqNoCreatedFrom:
+                            type: integer
                           _x:
                             type: integer
                           _y:
@@ -700,6 +748,9 @@ spec:
                           _picturePath:
                             type: string
                           _seqNo:
+                            type: integer
+                          # 运行时修改拓扑的步骤号
+                          _seqNoCreatedFrom:
                             type: integer
                           _x:
                             type: integer
@@ -737,6 +788,9 @@ spec:
                             type: string
                           _seqNo:
                             type: integer
+                          # 运行时修改拓扑的步骤号
+                          _seqNoCreatedFrom:
+                            type: integer
                           _x:
                             type: integer
                           _y:
@@ -768,6 +822,9 @@ spec:
                           _picturePath:
                             type: string
                           _seqNo:
+                            type: integer
+                          # 运行时修改拓扑的步骤号
+                          _seqNoCreatedFrom:
                             type: integer
                           _x:
                             type: integer
@@ -839,4 +896,3 @@ spec:
                             type: string
                           script:
                             type: string
-                            
