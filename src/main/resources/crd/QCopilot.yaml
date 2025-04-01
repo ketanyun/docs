@@ -227,6 +227,10 @@ spec:
                           # 任务类型，枚举，暂未使用，保留
                           kind:
                             type: string
+                            enum:
+                              - function    # 工具调用
+                              - chatflow    # 流程编排
+                              - text2sql    # 文本转SQL
                           # 是否启用
                           enabled:
                             type: boolean
@@ -268,7 +272,6 @@ spec:
                                       # 枚举内容，用于大模型识别
                                       text: string
 
-                          
                           # 指令和别名指令
                           commands:
                             type: array
@@ -330,6 +333,116 @@ spec:
                                         # 变量解析路径，如 "result.data.users.edges"
                                         path:
                                           type: string
+
+                          # 流程编排
+                          chatflow:
+                            type: object
+                            properties:
+                              # 流程编排类型
+                              kind:
+                                type: string
+                                enum:
+                                  - tinyflow
+                              # 流程编排内容
+                              content:
+                                type: string
+
+
+                          # 数据集定义
+                          datasets:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                # 数据集机读名称
+                                name:
+                                  type: string
+                                # 数据集人读名称
+                                text:
+                                  type: string
+                                # 数据集描述
+                                description:
+                                  type: string
+
+                                # 数据源引用
+                                datasource:
+                                  type: object
+                                  properties:
+                                    # 数据源类型
+                                    nameRef:
+                                      type: string
+                                    # 数据源名称
+                                    text:
+                                      type: string
+
+                                # 数据库表
+                                tables:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      # 数据库表机读名称
+                                      name:
+                                        type: string
+                                      # 数据库表人读名称
+                                      text:
+                                        type: string
+                                      # 数据库表描述
+                                      description:
+                                        type: string 
+                                      # 字段列表
+                                      fields:
+                                        type: array
+                                        items:
+                                          type: object
+                                          properties:
+                                            # 字段机读名称
+                                            name:
+                                              type: string
+                                            # 字段人读名称
+                                            text:
+                                              type: string
+                                            # 字段描述
+                                            description:
+                                              type: string
+                                            # 字段数据类型
+                                            dataType:
+                                              type: string
+                                      # 数据库表约束
+                                      constraints:
+                                        type: array
+                                        items:
+                                          type: object
+                                          properties:
+                                            # 约束类型
+                                            kind:
+                                              type: string
+                                              enum:
+                                                - primaryKey
+                                                - foreignKey
+                                            # 约束名称
+                                            name:
+                                              type: string
+                                            # 约束描述
+                                            description:
+                                              type: string
+                                            # 约束字段列表
+                                            fields:
+                                              type: array
+                                              items:
+                                                type: string
+                                            # 约束引用表
+                                            reference:
+                                              type: object
+                                              properties:
+                                                # 约束引用表名称
+                                                name:
+                                                  type: string
+                                                # 约束引用表字段列表
+                                                fields:
+                                                  type: array
+                                                  items:
+                                                    type: string
 
                           # 回复设置
                           reply:
