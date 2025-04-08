@@ -48,20 +48,26 @@ spec:
                     autoUpgrade:
                       type: boolean
 
-                # 副驾驶定义
+                # 智能体定义
                 copilot:
                   type: object
                   properties:
-                    # 机器人显示名
+                    # 智能体形态
+                    kind:
+                      type: string
+                      enum:
+                        - chat     # 聊天（默认）
+                        - app      # 应用
+                    # 智能体显示名
                     text: 
                       type: string
-                    # 机器人描述
+                    # 智能体描述
                     description: 
                       type: string
-                    # 机器人应用标签
+                    # 智能体应用标签
                     tags:
                       type: string
-                    # 机器人图标。可使用表达式。例如：=URL('https://example.com/favicon.png')
+                    # 智能体图标。可使用表达式。例如：=URL('https://example.com/favicon.png')
                     icon:
                       type: string
                     # 欢迎语
