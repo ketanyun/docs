@@ -460,7 +460,18 @@ spec:
                                             # 启用
                                             enabled:
                                               type: boolean
-
+                                    # 提取
+                                    extract:
+                                      type: object
+                                      properties:
+                                        # 启用
+                                        enabled:
+                                          type: boolean
+                                        # 提取字段列表
+                                        fields:
+                                          type: array
+                                          items:
+                                            type: string
                                       
                                 # 子控件列表，仅 `布局控件` 支持
                                 renders:
