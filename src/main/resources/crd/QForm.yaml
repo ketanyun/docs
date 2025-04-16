@@ -109,6 +109,8 @@ spec:
                               # 内容
                               text:
                                 type: string
+                              # 标签样式
+                              styles: *STYLES
      
                           # 样式（css-styles）
                           styles: &STYLES
