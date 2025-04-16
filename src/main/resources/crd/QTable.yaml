@@ -400,16 +400,18 @@ spec:
                                 kind:
                                   type: string
                                   enum:
-                                    - sheet
-                                    - view
+                                    - sheet   # 表单
+                                    - view    # 视图
+                                    - field   # 字段
                                 # 权限对象名称
+                                # 支持 "ALL"
                                 name:
                                   type: string
                                 # 权限字
                                 # r：只读
                                 # w：可写
-                                # x：可授权
-                                permission:
+                                # x：可授权等其他操作，包括但不限于(s:结构修改、g:授权、i:新建表单/视图、d：删除表单/视图)
+                                operations:
                                   type: string
 
 
