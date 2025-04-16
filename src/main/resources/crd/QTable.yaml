@@ -351,19 +351,66 @@ spec:
                                                     - asc
                                                     - desc
 
-
-
-
-
-
-
-
-
-                                  
-
-                    
-
-
+                # 权限信息
+                permission:
+                  type: object
+                  properties:
+                    # 角色列表
+                    roles:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          # 角色编码
+                          # 包括预设和手工创建两类，其中预设角色包括：
+                          # - Owner：创建人，权限同 Admin
+                          # - Admin：可分级授权
+                          # - Editor：可编辑
+                          # - Viewer：仅查看
+                          # - Everyone：组织内所有人
+                          # 单独添加的用户，可在预设的 Admin/Editor/Viewer 三种角色中选择
+                          name: 
+                            type: string
+                          # 角色名称
+                          text: 
+                            type: string
+                          # 角色人员构成
+                          subjects:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                # 用户筛选器
+                                userFilter:
+                                  type: object
+                                  properties:
+                                    # 筛选器表达式，语法参考：[UserFilter](https://github.com/infoplus/docs/wiki/UserFilter)
+                                    filter:
+                                      type: string
+                                    # 中文，可选，用于方便回显
+                                    text:
+                                      type: string
+                          # 权限对象
+                          objects: 
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                # 权限对象类型
+                                kind:
+                                  type: string
+                                  enum:
+                                    - sheet
+                                    - view
+                                # 权限对象名称
+                                name:
+                                  type: string
+                                # 权限字
+                                # r：只读
+                                # w：可写
+                                # x：可授权
+                                permission:
+                                  type: string
 
 
 
