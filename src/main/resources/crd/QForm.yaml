@@ -89,28 +89,6 @@ spec:
                           # 视图显示名
                           text: 
                             type: string
-                          # 控件标签通用属性
-                          label: &LABEL
-                            type: object
-                            properties:
-                              # 可见性，支持表达式
-                              visible:
-                                type: string
-                              # 标签停靠位置
-                              dock:
-                                type: string
-                                enum:
-                                  - auto
-                                  - left
-                                  - top
-                              # 宽度
-                              width:
-                                type: integer
-                              # 内容
-                              text:
-                                type: string
-                              # 标签样式
-                              styles: *STYLES
      
                           # 样式（css-styles）
                           styles: &STYLES
@@ -134,7 +112,30 @@ spec:
                                 # 样式类名
                                 name:
                                   type: string
-                                    
+                          
+                          # 控件标签通用属性
+                          label: &LABEL
+                            type: object
+                            properties:
+                              # 可见性，支持表达式
+                              visible:
+                                type: string
+                              # 标签停靠位置
+                              dock:
+                                type: string
+                                enum:
+                                  - auto
+                                  - left
+                                  - top
+                              # 宽度
+                              width:
+                                type: integer
+                              # 内容
+                              text:
+                                type: string
+                              # 标签样式
+                              styles: *STYLES
+
                           # 视图导航栏
                           navigation: 
                             type: object
