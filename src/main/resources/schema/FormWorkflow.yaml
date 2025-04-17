@@ -1,0 +1,103 @@
+openapi: 3.0.3
+info:
+  title: Workflow Schema
+  version: 1.0.0
+
+components:
+  schemas:
+    workflow:
+      type: object
+      properties:
+        # 流程名称
+        name:
+          type: string
+        # 流程描述
+        description:
+          type: string
+        # 流程步骤列表
+        steps:
+          type: array
+          items:
+            type: object
+            properties:
+              # 步骤名
+              text:
+                type: string
+              # 角色列表，那些角色可办理步骤
+              roles:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    # 角色名称
+                    name:
+                      type: string
+                      enum:
+                        - 校长
+                        - 教师
+                        - 学生
+                        - 本科生
+                        - 研究生
+                        - 大学新生
+                        - 辅导员
+                        - 教务处
+                        - 财务处
+                        - 人事处
+                        - 外事处
+                        - 学工处
+                        - 部门领导
+                        - 部门教学干事
+                        - 部门人事干事
+                        - 部门外事干事
+                        - 部门科研干事
+                        - 部门财务干事
+                        - 部门学工干事
+                        - 部门党务干事
+              # 步骤类型
+              type:
+                type: string
+                enum:
+                  - 流程发起
+                  - 办理
+                  - 审批
+                  - 流程结束
+              # 盖步骤的表单
+              form:
+                type: object
+                properties:
+                  # 表单字段列表
+                  fields:
+                    type: array
+                    items: 
+                      type: object
+                      properties:
+                        # 表单控件名称
+                        name:
+                          type: string
+                        # 控件填写提示信息
+                        prompt:
+                          type: string
+                        # 是否必填
+                        required:
+                          type: boolean
+                        # 表单控件类型
+                        type:
+                          type: string
+                          enum:
+                            - Title           # 标题控件
+                            - Text            # 文本内容
+                            - User            # 当前用户
+                            - Dept            # 当前用户所属部门
+                            - Label           # 标签，标签显示内容，不可输入
+                            - Edit            # 文本框，单行文本 
+                            - TextArea        # 大文本框，多行文本
+                            - Date            # 日期，以yyyy-MM-dd的格式输入日期
+                            - DateRange       # 日期范围范围，格式为 yyyy-MM-dd,yyyy-MM-dd
+                            - DateTime        # 日期时间，以yyyy-MM-dd HH:mm:ss的格式输入日期时间
+                            - Check           # 复选框，复选项
+                            - CheckList       # 复选框，以代码表作为复选项
+                            - Select          # 下拉框，下拉输入
+                            - UserSelector    # 选人控件
+                            - File            # 文件，文件上传
+
+
