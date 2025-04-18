@@ -1,8 +1,8 @@
+
 openapi: 3.0.3
 info:
-  title: Workflow Schema
+  title: 智能流程格式定义
   version: 1.0.0
-
 components:
   schemas:
     workflow:
@@ -61,6 +61,49 @@ components:
                   - 办理
                   - 审批
                   - 流程结束
+              # 前置步骤列表
+              preSteps:
+                type: array
+                items:
+                  type: string
+                  description: "前置步骤的名称，前置步骤的名称必须是唯一的"
+              # 前置条件
+              preCondition:
+                description: "前置条件的表达式"
+                type: object
+                properites: 
+                  # 表达式项之间的与或逻辑，仅有多个表达式项时需要
+                  logical:
+                    type: string
+                    enum:
+                      - and   # 各表达式项之间为与的关系
+                      - or    # 各表达式项之间为或的关系
+                  # 前置条件表达式项列表
+                  terms:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      # 表达式变量，来自表单字段名称
+                      name:
+                        type: string
+                      # 表达式算符
+                      operator:
+                        type: string
+                        enum:
+                          - eq             # 等于
+                          - ne             # 不等于
+                          - gt             # 大于
+                          - ge             # 大于等于
+                          - lt             # 小于
+                          - le             # 小于等于
+                          - in             # 在列表中
+                          - notin          # 不在列表中
+                          - like           # 模糊匹配
+                          - notlike        # 不模糊匹配
+                      # 表达式参数值
+                      value:
+                        type: string
               # 盖步骤的表单
               form:
                 type: object
@@ -99,5 +142,3 @@ components:
                             - Select          # 下拉框，下拉输入
                             - UserSelector    # 选人控件
                             - File            # 文件，文件上传
-
-
