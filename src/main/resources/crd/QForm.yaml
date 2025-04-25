@@ -281,7 +281,11 @@ spec:
                                   type: array
                                   items:
                                     type: string
-                                
+                                    
+                                # User控件：是否允许用户遍历
+                                userTraversal:
+                                  type: boolean
+
                                 # Anchor控件：弹窗模式
                                 windowMode:
                                   type: string
