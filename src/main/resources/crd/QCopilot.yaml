@@ -593,7 +593,7 @@ spec:
                             enabled:
                               type: boolean
                     
-                    # 主题配置
+                    # 主题列表，从第一个主题开始匹配screens，以匹配到第一个为准
                     themes:
                       type: array
                       items:
@@ -608,13 +608,15 @@ spec:
                           # 主题颜色，格式 #009933
                           color:
                             type: string
-                          # 终端类型
-                          screen:
-                            type: string
-                            enum:
-                              - desktop
-                              - mobile
-                              - wechat
+                          # 终端类型，未空表示不限
+                          screens:
+                            type: array
+                            items:
+                              type: string
+                              enum:
+                                - desktop
+                                - mobile
+                                - wechat
                           # 是否启用
                           enabled:
                             type: boolean
