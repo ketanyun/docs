@@ -592,15 +592,29 @@ spec:
                             # 是否启用
                             enabled:
                               type: boolean
-                      
+                    
                     # 主题配置
-                    theme:
-                      type: object
-                      properties:
-                        # 横幅
-                        banner:
-                          type: string
-                        # 主题颜色，格式 #009933
-                        color:
-                          type: string
-                  
+                    themes:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          # 主题机读名称
+                          name:
+                            type: string
+                          # 横幅
+                          banner:
+                            type: string
+                          # 主题颜色，格式 #009933
+                          color:
+                            type: string
+                          # 终端类型
+                          screen:
+                            type: string
+                            enum:
+                              - desktop
+                              - mobile
+                              - wechat
+                          # 是否启用
+                          enabled:
+                            type: boolean
