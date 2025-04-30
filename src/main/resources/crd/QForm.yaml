@@ -159,7 +159,38 @@ spec:
                                   enum:
                                     - Boundable
                                     - Layoutable
-                                    - Displayable
+                                    - Displayable 
+                                    
+                                # 控件设计时信息，用于回显，对渲染引擎透明
+                                design: 
+                                  type: object
+                                  properties:
+                                    # 控件设计器类型
+                                    kind:
+                                      type: string
+                                      enum:
+                                        - Owner              # 发起人 
+                                        - OwnerUserCode      # 发起人工号选择 
+                                        - OwnerDept          # 发起人所属部门，可配置直接部门还是独立部门 
+                                        - Executor           # 办理人 
+                                        - ExecutorUserCode   # 办理人工号选择
+                                        - ExecutorDept       # 办理人所属部门，可配置直接部门还是独立部门
+                                        - NowDate            # 当前日期，可配置是否允许用户修改
+                                        - NowDateTime        # 当前日期  
+                                        - FileLink           # 文件外链下载
+                                    # 设计器配置项
+                                    attributes:
+                                      type: array
+                                      items:
+                                        type: object
+                                        properties:
+                                          # 属性名
+                                          name:
+                                            type: string
+                                          # 属性值
+                                          value:
+                                            type: string 
+
                                 # 控件类型
                                 kind: 
                                   type: string 
@@ -188,6 +219,10 @@ spec:
                                     - User            # 当前用户
                                     - Dept            # 当前用户所属部门
                                     - WorkflowEntry   # 流程流水引用
+                                    - Thing           # 物品，输入物品
+                                    - Map             # 地图，用于显示位置或者让用户选取位置
+                                    - Seal            # 印章，数字印章的选取和显示
+                                    - Signature       # 签名，对指定表单数据进行签名和验证
 
                                     # 数据控件
                                     - Label           # 标签，标签显示内容，不可输入
@@ -200,7 +235,7 @@ spec:
                                     - Check           # 复选框，复选项
                                     - Switch          # 切换开关，切换状态开关
                                     - CheckList       # 复选框，以代码表作为复选项
-                                    - Option          # 单选框，单选项
+                                    - Option          # （废弃）单选框，单选项
                                     - OptionList      # 单选框，以代码表作为单选项
                                     - Select          # 下拉框，下拉输入
                                     - Suggester       # 提示输入框，带有智能提示的输入文本框
@@ -215,11 +250,7 @@ spec:
                                     - Button          # 按钮，显示一个按钮，点击后会触发后台fieldChange
                                     - LinkButton      # 链接按钮，显示一个链接，点击后会触发后台fieldChange
                                     - CheckButton     # 复选按钮，显示一个按钮，有选中和不选中两种状态
-                                    - Thing           # 物品，输入物品
                                     - IFrame          # iframe，用于设计第三方控件
-                                    - Map             # 地图，用于显示位置或者让用户选取位置
-                                    - Seal            # 印章，数字印章的选取和显示
-                                    - Signature       # 签名，对指定表单数据进行签名和验证
 
                                 # 对应数据字段（组），仅 `数据控件`、`重复节/表` 支持
                                 field: 
