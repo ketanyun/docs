@@ -338,6 +338,19 @@ spec:
                                         # 变量解析路径，如 "result.data.users.edges"
                                         path:
                                           type: string
+                                  # 字段注释
+                                  fields:
+                                    type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        # 字段完整路径，，如 "result.data.users.edges.node.name"
+                                        path:
+                                          type: string
+                                        # 字段描述
+                                        description:
+                                          type: string
+                                  
 
                           # 流程编排
                           chatflow:
@@ -351,7 +364,6 @@ spec:
                               # 流程编排内容
                               content:
                                 type: string
-
 
                           # 数据集定义
                           datasets:
