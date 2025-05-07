@@ -176,8 +176,20 @@ spec:
                                         - ExecutorUserCode   # 办理人工号选择
                                         - ExecutorDept       # 办理人所属部门，可配置直接部门还是独立部门
                                         - NowDate            # 当前日期，可配置是否允许用户修改
-                                        - NowDateTime        # 当前日期  
+                                        - NowDateTime        # 当前日期时间
                                         - FileLink           # 文件外链下载
+                                        - BarCode            # 条形码
+                                        - QRCode             # 二维码
+                                        - EditNumber         # 数字输入
+                                        - EditCurrency       # 金额输入
+                                        - EditEmail          # 邮箱输入
+                                        - EditPhone          # 手机号或电话输入，可配置允许手机还是座机还是全部
+                                        - EditCitzenId       # 身份证输入
+                                        - EditCarNumber      # 车牌号输入
+                                        - EditBankCard       # 银行卡输入
+                                        - Formula            # 计算公式
+                                        - District           # 省市区选择
+
                                     # 设计器配置项
                                     attributes:
                                       type: array
