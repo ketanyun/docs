@@ -350,7 +350,6 @@ spec:
                                         # 字段描述
                                         description:
                                           type: string
-                                  
 
                           # 流程编排
                           chatflow:
@@ -465,6 +464,9 @@ spec:
                           reply:
                             type: object
                             properties:
+                              # 回复重写提示词模版，支持变量
+                              prompt:
+                                type: string
                               # 答复消息
                               message:
                                 type: object
@@ -551,15 +553,16 @@ spec:
                           # 后端显示名
                           text:
                             type: string
-                          # 后端类别
+                          # 后端类别：不同功能会使用不同模型
                           kind:
                             type: string
                             enum:
-                              - llm
-                              - embedding
+                              - llm         # 聊天生成
+                              - embedding   # 嵌入
+                              - tool        # 工具调用
+                              - intent      # 意图识别
                               - speech
                               - agent
-                              - reasoning
                           # Agent类型的额外配置
                           agent:
                             type: object
