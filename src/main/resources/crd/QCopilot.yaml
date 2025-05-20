@@ -643,6 +643,19 @@ spec:
                         # 是否启用
                         enabled:
                           type: boolean
+                        # 技能分类
+                        category:
+                          type: object
+                          properties:
+                            # 分类标识
+                            name:
+                              type: string
+                            # 分类名称
+                            text:
+                              type: string
+                            # 分类描述
+                            description:
+                              type: string
                         # 技能列表
                         skills:
                           type: array
@@ -657,6 +670,9 @@ spec:
                                 type: string
                               # 技能描述
                               description:
+                                type: string
+                              # 技能分类标识
+                              category:
                                 type: string
                               # 是否多轮技能，默认 false
                               multiturn:
