@@ -635,3 +635,48 @@ spec:
                           # 是否启用
                           enabled:
                             type: boolean
+
+                    # 技能配置
+                    skill:
+                      type: object
+                      properties:
+                        # 是否启用
+                        enabled:
+                          type: boolean
+                        # 技能列表
+                        skills:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              # 技能标识
+                              name:
+                                type: string
+                              # 技能名称
+                              text:
+                                type: string
+                              # 技能描述
+                              description:
+                                type: string
+                              # 技能提示词模版
+                              prompt:
+                                type: object
+                                properties:
+                                  # 提示词模版
+                                  # 例如：帮我写一篇关于{主题}的作文，字数不少于{300}字。
+                                  template:
+                                    type: string
+                              # 智能体引用（可选）
+                              agent:
+                                type: object
+                                properties:
+                                  # 智能体标识
+                                  name:
+                                    type: string
+                              # 任务引用（可选）
+                              task:
+                                type: object
+                                properties:
+                                  # 任务名称
+                                  name:
+                                    type: string
