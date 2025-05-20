@@ -658,6 +658,9 @@ spec:
                               # 技能描述
                               description:
                                 type: string
+                              # 是否多轮技能，默认 false
+                              multiturn:
+                                type: boolean
                               # 技能提示词模版
                               prompt:
                                 type: object
