@@ -350,7 +350,27 @@ spec:
                                         # 字段描述
                                         description:
                                           type: string
-
+                                  # 响应回复消息
+                                  reply:
+                                    type: object
+                                    properties:
+                                      # 内容
+                                      content: &CONTENT
+                                        type: object
+                                        properties: 
+                                          kind:
+                                            type: string
+                                            enum:
+                                              - markdown
+                                          # 内容模版
+                                          # 支持变量举例（查询学生成绩）：
+                                          #   ${result.data.score}：接口调用返回值
+                                          #   ${params["subject"].code}：学科代码
+                                          #   ${params["subject"].name}：学科名称
+                                          #   ${user.name}: 当前用户名，id_token格式
+                                          template:
+                                            type: string
+                                      
                           # 流程编排
                           chatflow:
                             type: object
@@ -460,35 +480,20 @@ spec:
                                                   items:
                                                     type: string
 
-                          # 回复设置
+                          # 二次回复设置
                           reply:
                             type: object
                             properties:
-                              # 回复重写提示词模版，支持变量
+                              # 二次回复提示词模版，支持变量
                               prompt:
                                 type: string
-                              # 答复消息
+                              # 二次回复消息
                               message:
                                 type: object
                                 properties:
                                   # 内容
-                                  content: &CONTENT
-                                    type: object
-                                    properties: 
-                                      kind:
-                                        type: string
-                                        enum:
-                                          - markdown
-                                      # 内容模版
-                                      # 支持变量举例（查询学生成绩）：
-                                      #   ${result.data.score}：接口调用返回值
-                                      #   ${params["subject"].code}：学科代码
-                                      #   ${params["subject"].name}：学科名称
-                                      #   ${user.name}: 当前用户名，id_token格式
-                                      template:
-                                        type: string
-
-
+                                  content: *CONTENT
+                                    
                               # 额外前端指令
                               actions:
                                 type: array
