@@ -1,4 +1,3 @@
-
 openapi: 3.0.3
 info:
   title: 智能流程格式定义
@@ -91,20 +90,18 @@ components:
                       operator:
                         type: string
                         enum:
-                          - eq             # 等于
-                          - ne             # 不等于
-                          - gt             # 大于
-                          - ge             # 大于等于
-                          - lt             # 小于
-                          - le             # 小于等于
-                          - in             # 在列表中
-                          - notin          # 不在列表中
-                          - like           # 模糊匹配
-                          - notlike        # 不模糊匹配
+                          - 等于
+                          - 不等于
+                          - 大于
+                          - 大于等于
+                          - 小于
+                          - 小于等于
+                          - 包含
+                          - 不包含
                       # 表达式参数值
                       value:
                         type: string
-              # 盖步骤的表单
+              # 该步骤的表单
               form:
                 type: object
                 properties:
@@ -127,18 +124,17 @@ components:
                         type:
                           type: string
                           enum:
-                            - Title           # 标题控件
-                            - Text            # 文本内容
-                            - User            # 当前用户
-                            - Dept            # 当前用户所属部门
-                            - Label           # 标签，标签显示内容，不可输入
-                            - Edit            # 文本框，单行文本 
-                            - TextArea        # 大文本框，多行文本
-                            - Date            # 日期，以yyyy-MM-dd的格式输入日期
-                            - DateRange       # 日期范围范围，格式为 yyyy-MM-dd,yyyy-MM-dd
-                            - DateTime        # 日期时间，以yyyy-MM-dd HH:mm:ss的格式输入日期时间
-                            - Check           # 复选框，复选项
-                            - CheckList       # 复选框，以代码表作为复选项
-                            - Select          # 下拉框，下拉输入
-                            - UserSelector    # 选人控件
-                            - File            # 文件，文件上传
+                            - 标题控件      
+                            - 文本显示
+                            - 单行文本输入
+                            - 单行数字输入
+                            - 当前用户
+                            - 当前用户所属部门  
+                            - 日期选择 
+                            - 日期范围选择  
+                            - 日期时间显示
+                            - 复选框
+                            - 多项选择
+                            - 下拉框单项选择
+                            - 人员选择 
+                            - 文件上传

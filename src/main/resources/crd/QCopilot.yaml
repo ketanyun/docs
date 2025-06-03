@@ -71,6 +71,19 @@ spec:
                     icon:
                       type: string
                     # 欢迎语
+                    # 其格式可通过xml标签指定，不带标签视为纯文本。
+                    # 支持标签举例：
+                    # 1. html_render，兼容 maxkb 语法
+                    # <html_render>
+                    #   <td onclick="send(event)">人工客服</td>
+                    #   <script> function send(event) { sendMessage(event.target.innerText); } </script>
+                    # </html_render>
+                    # 2. markdown
+                    # <markdown>
+                    # ```white-board
+                    # { "url": "https://example.com", "title": "画布区"  }
+                    # ```
+                    # </markdown>
                     welcome:
                       type: string
                     # 推荐度，零标识不推荐
