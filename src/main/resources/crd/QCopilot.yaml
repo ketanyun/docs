@@ -248,7 +248,7 @@ spec:
                             enum:
                               - function    # 工具调用
                               - chatflow    # 流程编排
-                              - text2sql    # 文本转SQL
+                              - mcptool     # MCP工具
                           # 是否启用
                           enabled:
                             type: boolean
@@ -492,6 +492,38 @@ spec:
                                                   type: array
                                                   items:
                                                     type: string
+
+                          # MCP工具
+                          mcptool:
+                            type: object
+                            properties:
+                              # MCP工具标识
+                              name:
+                                type: string
+                              # MCP工具名称
+                              text:
+                                type: string
+                              # MCP服务信息
+                              server:
+                                type: object
+                                properties:
+                                  # MCP服务标识，从插件市场获取
+                                  name:
+                                    type: string
+                              # MCP根定义
+                              roots:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    # 根描述
+                                    text:
+                                      type: string
+                                    # URI标识，支持变量，比如：
+                                    #   当前租户 var://${tenant.code}
+                                    #   当前数据集：${COPILOT_BASE_URL}/dataset/${task.name}
+                                    uri:
+                                      type: string
 
                           # 二次回复设置
                           reply:
