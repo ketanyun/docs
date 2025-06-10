@@ -150,7 +150,47 @@ spec:
                               # 是否通过大模型增强，仅对 faq 类型有效
                               augment:
                                 type: boolean
-
+                              # 检索模式
+                              mode:
+                                type: string
+                                enum:
+                                  - vector    # 向量模式
+                                  - fulltext  # 全文模式
+                                  - hybrid    # 混合模式
+                              # 混合检索配置，仅当 mode=hybrid 时生效
+                              rerank:
+                                type: object
+                                properties:
+                                  # 算法名称
+                                  algorithm:
+                                    type: object
+                                    properites:
+                                      # 加权算法
+                                      weighted:
+                                        type: object
+                                        properites:
+                                          enabled:
+                                            type: boolean
+                                          # 权重参数
+                                          weights:
+                                            type: object
+                                            properites:
+                                              # 向量权重，默认0.5
+                                              vector:
+                                                type: number
+                                              # 全文检索权重，默认0.5
+                                              fulltext:
+                                                type: number
+                                      # RRF算法
+                                      rrf:
+                                        type: object
+                                        properites: 
+                                          enabled:
+                                            type: boolean 
+                                          # 平滑参数"k"
+                                          k:
+                                            type: integer
+                                        
                         # 提示词设置
                         prompt:
                           type: object
