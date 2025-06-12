@@ -295,7 +295,7 @@ spec:
                           # 任务推荐度，零标识不推荐
                           recommend:
                             type: integer
-                          # 任务适合的用户集
+                          # 任务适合的用户集(不启用技能时有效)
                           userFilters:
                             type: array
                             items:
@@ -774,6 +774,11 @@ spec:
                               # 是否启用
                               enabled:
                                 type: boolean
+                              # 技能适合的用户集
+                              userFilters:
+                                type: array
+                                items:
+                                  type: string
                               # 技能提示词模版
                               prompt:
                                 type: object
