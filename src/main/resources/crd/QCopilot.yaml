@@ -289,6 +289,7 @@ spec:
                               - function    # 工具调用
                               - chatflow    # 流程编排
                               - mcptool     # MCP工具
+                              - mcptools    # MCP工具编排
                           # 是否启用
                           enabled:
                             type: boolean
@@ -534,7 +535,7 @@ spec:
                                                     type: string
 
                           # MCP工具
-                          mcptool:
+                          mcptool: &MCPTOOL
                             type: object
                             properties:
                               # MCP工具标识
@@ -564,6 +565,15 @@ spec:
                                     #   当前数据集：${COPILOT_BASE_URL}/dataset/${task.name}
                                     uri:
                                       type: string
+
+                          # MCP工具编排
+                          mcptools:
+                            type: object
+                            properties:
+                              # MCP工具列表
+                              tools:
+                                type: array
+                                items: *MCPTOOL
 
                           # 二次回复设置
                           reply:
