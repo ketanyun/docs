@@ -661,8 +661,11 @@ spec:
                               - embedding   # 嵌入
                               - tool        # 工具调用
                               - intent      # 意图识别
-                              - speech
-                              - agent
+                              - speech      # 语音识别
+                              - rerank      # 知识找回重排
+                              - vision      # 视觉模型
+                              - search      # 联网搜索
+                              - agent       # 智能体代理
                           # Agent类型的额外配置
                           agent:
                             type: object
