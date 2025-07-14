@@ -95,6 +95,27 @@ spec:
                       items:
                         type: string
 
+                    # 意图识别
+                    intent:
+                      type: object
+                      properties:
+                        # 意图识别范围
+                        scope:
+                          type: object
+                          properties:
+                            knowledge:
+                              type: object
+                              properites:
+                                # 是否启用知识库意图识别，默认true
+                                enabled:
+                                  type: boolean
+                            skill:
+                              type: object
+                              properties:
+                                # 是否启用技能意图识别，默认true
+                                enabled:
+                                  type: boolean
+
                     # 会话配置
                     session:
                       type: object
@@ -244,6 +265,64 @@ spec:
                             maxCharacters:
                               type: integer
                  
+                        # 外部知识源
+                        sources:
+                          type: object
+                          properties:
+                            # 知识库列表
+                            repositories:
+                              type: array
+                              items:
+                                type: object
+                                properites:
+                                  # 知识库名称
+                                  text:
+                                    type: string
+                                  # 知识库类型
+                                  kind:
+                                    type: string
+                                    enum:
+                                      - mcp-tool      # MCP工具
+                                      - mcp-resource  # MCP资源
+                                  # 知识库存服务定义
+                                  server:
+                                    type: object
+                                    properties:
+                                      # MCP服务标识，从插件市场获取
+                                      name:
+                                        type: string
+                                      # MCP服务名称，用于回显
+                                      text:
+                                        type: string
+                                      # 类型
+                                      kind:
+                                        type: string
+                                        enum:
+                                          - mcp     # MCP服务
+                                      # 工具列表
+                                      tools:
+                                        type: array
+                                        items:
+                                          type: object
+                                          properties:
+                                            # 工具标识
+                                            name:
+                                              type: string
+                                            # 工具名称
+                                            text:
+                                      # 资源列表
+                                      resources:
+                                        type: array
+                                        items:
+                                          type: object
+                                          properties:
+                                            # 资源标识
+                                            name:
+                                              type: string
+                                            # 资源名称
+                                            text:
+                                              type: string
+
                     # 内容生成配置
                     generation: 
                       type: object
@@ -453,6 +532,17 @@ spec:
                                 # 数据集描述
                                 description:
                                   type: string
+                                # 处理策略
+                                strategy:
+                                  type: object
+                                  properties:
+                                    # 模式类型
+                                    kind:
+                                      type: string
+                                      enum:
+                                        - auto        # 自动模式，默认
+                                        - performance # 性能优先
+                                        - quality     # 质量优先
 
                                 # 数据源引用
                                 datasource:
