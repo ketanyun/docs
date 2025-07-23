@@ -115,6 +115,18 @@ spec:
                                 # 是否启用技能意图识别，默认true
                                 enabled:
                                   type: boolean
+                        # 自动规划
+                        planning:
+                          type: object
+                          properties:
+                            # 是否启用自动规划，默认false
+                            enabled:
+                              type: boolean
+                            # 最大任务限制
+                            maxTasks:
+                              type: integer
+                            
+
 
                     # 会话配置
                     session:
@@ -371,6 +383,9 @@ spec:
                               - mcptools    # MCP工具编排
                           # 是否启用
                           enabled:
+                            type: boolean
+                          # 选中强制触发
+                          forced:
                             type: boolean
                           # 任务推荐度，零标识不推荐
                           recommend:

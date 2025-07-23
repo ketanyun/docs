@@ -175,6 +175,7 @@ spec:
                                         - Executor           # 办理人 
                                         - ExecutorUserCode   # 办理人工号选择
                                         - ExecutorDept       # 办理人所属部门，可配置直接部门还是独立部门
+                                        - ExecutorDepts      # 办理人所属部门选择，单部门是同 ExecutorDept，多部门时为下拉框
                                         - NowDate            # 当前日期，可配置是否允许用户修改
                                         - NowDateTime        # 当前日期时间
                                         - FileLink           # 文件外链下载
@@ -244,6 +245,7 @@ spec:
                                     - Remark          # 备注文本框，可输入多行文本，但只显示一个图标表示有无输入
                                     - Date            # 日期，以yyyy-mm-dd的格式输入日期
                                     - Time            # 时间，以mm:ss的格式输入时间
+                                    - DateRange       # 日期范围，输入开始和结束日期 
                                     - Check           # 复选框，复选项
                                     - Switch          # 切换开关，切换状态开关
                                     - CheckList       # 复选框，以代码表作为复选项
