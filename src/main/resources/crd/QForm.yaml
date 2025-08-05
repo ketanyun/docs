@@ -402,6 +402,9 @@ spec:
                                         - external
                                         # 常量（后面items）
                                         - constant
+                                    # 是否允许手动输入
+                                    creatable:
+                                      type: boolean
                                     # 动态代码表
                                     code:
                                       type: string
