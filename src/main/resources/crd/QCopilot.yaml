@@ -125,8 +125,6 @@ spec:
                             # 最大任务限制
                             maxTasks:
                               type: integer
-                            
-
 
                     # 会话配置
                     session:
@@ -409,7 +407,11 @@ spec:
                                 description: 
                                   type: string
                                 # 参数数据类型
+                                # 原子类型：string/number/boolean/object/array
                                 dataType:
+                                  type: string
+                                # 参数类型schema，仅对 object 和 array 类型有效
+                                schema:
                                   type: string
                                 # 参数是否必填，默认false
                                 required:
@@ -766,8 +768,10 @@ spec:
                               - embedding   # 嵌入
                               - tool        # 工具调用
                               - intent      # 意图识别
-                              - speech      # 语音识别
-                              - rerank      # 知识找回重排
+                              - asr         # 语音识别
+                              - tts         # 语音播报
+                              - avatar      # 数字形象
+                              - rerank      # 知识召回重排
                               - vision      # 视觉模型
                               - search      # 联网搜索
                               - agent       # 智能体代理
@@ -919,3 +923,31 @@ spec:
                                   # 任务名称
                                   name:
                                     type: string
+
+                    # 对话体验
+                    experience:
+                      type: object
+                      properties:
+                        # 能力列表
+                        abilities:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              # 能力类型
+                              kind:
+                                type: string
+                                enum:
+                                  - asr     # 语音识别
+                                  - tts     # 语音播报
+                                  - avatar  # 虚拟形象
+                                  - vision  # 视觉识别
+                              # 是否启用
+                              enabled:
+                                type: boolean
+                              # 提供者
+                              provider:
+                                type: string
+                                enum:
+                                  - webspeech
+                                  - backend
