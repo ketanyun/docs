@@ -928,6 +928,13 @@ spec:
                     experience:
                       type: object
                       properties:
+                        # 聊天对话框
+                        chatbox:
+                          type: object
+                          properties:
+                            # 聊天对话框提示信息
+                            placeholder:
+                              type: string
                         # 能力列表
                         abilities:
                           type: array
