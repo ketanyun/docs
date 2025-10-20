@@ -958,3 +958,13 @@ spec:
                                 enum:
                                   - webspeech
                                   - backend
+                        # 大纲
+                        outline:
+                          type: object
+                          properties:
+                            # 是否启用
+                            enabled:
+                              type: boolean
+                            # 外部实现方式的大纲地址
+                            url:
+                              type: string
