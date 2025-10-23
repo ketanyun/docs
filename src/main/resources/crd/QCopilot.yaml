@@ -867,6 +867,9 @@ spec:
                               # 分类名称
                               text:
                                 type: string
+                              # 技能分类图标，可使用自体，例如：=FONT('ch')，或者 =FONT('ch', 'font-family')
+                              icon:
+                                type: string
                               # 分类描述
                               description:
                                 type: string
@@ -881,6 +884,9 @@ spec:
                                 type: string
                               # 技能名称
                               text:
+                                type: string
+                              # 技能图标，可使用自体，例如：=FONT('ch')，或者 =FONT('ch', 'font-family')
+                              icon:
                                 type: string
                               # 技能描述
                               description:
