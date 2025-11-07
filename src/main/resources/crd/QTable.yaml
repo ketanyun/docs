@@ -265,46 +265,68 @@ spec:
                                         - array   # 数组格式
                                         - jsonl   # JSONL格式
                                 # 关联条件，Lookup控件使用
-                                conditions:
-                                  type: array
-                                  items:
-                                    type: object
-                                    required:
-                                      - name
-                                      - thatColumn
-                                      - match
-                                    properties:
-                                      # 筛选器机读名称，用于Patch
-                                      name:
-                                        type: string
-                                      # 关联表列
-                                      thatColumn:
-                                        type: string
-                                      # 本表列，和 value 二选一 
-                                      thisColumn:
-                                        type: string
-                                      # 常量值，和 thisColumn 二选一                        
-                                      value:
-                                        type: string
-                                      # 运算符
-                                      match: &MATCH
-                                        type: string
-                                        enum:
-                                          - eq 
-                                          - neq
-                                          - in
-                                          - nin
-                                          - gt
-                                          - gte
-                                          - lt
-                                          - lte
-                                          - like
-                                          - bt  
-                                          # 后续运算符调用接口时需做前端转化
-                                          - nil   # NULL
-                                          - nnil  # NOT NULL
-                                          - em    # 空 (NULL或空串)
-                                          - nem   # 非空
+                                condition:
+                                  type: object
+                                  properties:
+                                    # 括号
+                                    brackets:
+                                      type: array
+                                      items:
+                                        type: object
+                                        properties:
+                                          # 括号名
+                                          name:
+                                            type: string
+                                          # 集合运算方式
+                                          logic:
+                                            type: string
+                                            enum:
+                                              - and 
+                                              - or
+                                          # 父括号，不给出视为根括号
+                                          parent:
+                                            type: string
+                                          # 筛选条件列表
+                                          conditions:
+                                            type: array
+                                            items:
+                                              type: object
+                                              required:
+                                                - name
+                                                - thatColumn
+                                                - match
+                                              properties:
+                                                # 筛选器机读名称，用于Patch
+                                                name:
+                                                  type: string
+                                                # 关联表列
+                                                thatColumn:
+                                                  type: string
+                                                # 本表列，和 value 二选一 
+                                                thisColumn:
+                                                  type: string
+                                                # 常量值，和 thisColumn 二选一                        
+                                                value:
+                                                  type: string
+                                                # 运算符
+                                                match: &MATCH
+                                                  type: string
+                                                  enum:
+                                                    - eq 
+                                                    - neq
+                                                    - in
+                                                    - nin
+                                                    - gt
+                                                    - gte
+                                                    - lt
+                                                    - lte
+                                                    - like
+                                                    - bt  
+                                                    # 后续运算符调用接口时需做前端转化
+                                                    - nil   # NULL
+                                                    - nnil  # NOT NULL
+                                                    - em    # 空 (NULL或空串)
+                                                    - nem   # 非空
                                 
 
                       # 视图列表
