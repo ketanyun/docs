@@ -58,6 +58,7 @@ spec:
                       enum:
                         - chat     # 聊天（默认）
                         - app      # 应用
+                        - managed  # 托管智能体，由其他平台（如数字员工、案例中心）自动生成，不允许直接修改
                     # 智能体显示名
                     text: 
                       type: string
@@ -115,16 +116,31 @@ spec:
                                 # 是否启用技能意图识别，默认true
                                 enabled:
                                   type: boolean
-                        # 自动规划
+                    
+                    # 工作模式
+                    mode:
+                      type: object
+                      properties:
+                        # 模式类型
+                        kind:
+                          type: string
+                          enum:
+                            - standard    # 标准模式（默认）
+                            - planning    # 自主模式
+                        # 自动规划配置
                         planning:
                           type: object
                           properties:
-                            # 是否启用自动规划，默认false
-                            enabled:
+                            # 规划算法
+                            algorithm:
                               type: boolean
+                              enum:
+                                - planExecute   # 静态规划
+                                - reasonAct     # 动态规划
                             # 最大任务限制
                             maxTasks:
                               type: integer
+
 
                     # 会话配置
                     session:
@@ -384,6 +400,9 @@ spec:
                             type: boolean
                           # 选中强制触发
                           forced:
+                            type: boolean
+                          # 追问时也提取参数并调用工具
+                          partial:
                             type: boolean
                           # 任务推荐度，零标识不推荐
                           recommend:
