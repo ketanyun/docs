@@ -993,3 +993,13 @@ spec:
                             # 外部实现方式的大纲地址
                             url:
                               type: string
+                            # 停靠位置
+                            dock:
+                              type: string
+                              enum:
+                                - left
+                                - right
+                            # 是否悬浮
+                            float:
+                              type: boolean
+                          
