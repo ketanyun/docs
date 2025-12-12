@@ -131,6 +131,21 @@ spec:
                               # 类型名
                               dataType:
                                 type: string 
+                              # 参数列表
+                              arguments:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    # 参数名
+                                    name:
+                                      type: string
+                                    # 数据类型
+                                    dataType:
+                                      type: string
+                                    # 参数值
+                                    value:
+                                      type: string
                               # 字段列表
                               fields:
                                 type: array
@@ -546,9 +561,9 @@ spec:
                             kind: 
                               type: string
                               enum:
-                                # 常规控件
+                                # 常规控件，可使用 ${列名} 引用 values 定义的第行数据
                                 - Title       # 标题控件
-                                - HTML        # 自定义HTML内容 
+                                - HTML        # 自定义HTML内容
                                 # 统计图
                                 - LineChart   # 折线图
                                 - BarChart    # 柱状图
