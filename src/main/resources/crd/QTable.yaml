@@ -548,6 +548,23 @@ spec:
                       # 标题
                       text:
                         type: string
+                      # 仪表盘布局
+                      layout:
+                        type: object
+                        properties:
+                          # 标题栏
+                          header:
+                            type: object
+                            properties:
+                              # 是否启用
+                              enabled: 
+                                type: boolean
+                              # 富文本内容
+                              content:
+                                type: string
+                          # 主题，默认 light，可选 dark
+                          theme:
+                            type: string
                       # 卡片控件列表
                       charts:
                         type: array
@@ -571,6 +588,7 @@ spec:
                                 - Gauge       # 仪表盘
                                 - KPI         # KPI 
                                 - Funnel      # 漏斗图
+                                - HeatMap     # 热力图
                                 # 数据表 
                                 - DataTable   # 数据表 
                                 - PivotTable  # 透视表 
@@ -639,6 +657,7 @@ spec:
                             # Line、Bar、Pie: 仅使用group[0]作为x轴（invert后为y轴）
                             # DataTable：作为表列（不支持invert）
                             # PivotTable：度量值作为表列（invert后为表行）
+                            # HeatMap：使用两个分组，group[0]行，group[1]列（支持invert）
                             groups:
                               type: array
                               items:

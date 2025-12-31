@@ -886,7 +886,7 @@ spec:
                               # 分类名称
                               text:
                                 type: string
-                              # 技能分类图标，可使用自体，例如：=FONT('ch')，或者 =FONT('ch', 'font-family')
+                              # 技能分类图标，可使用字体，例如：=FONT('ch')，或者 =FONT('ch', 'font-family')
                               icon:
                                 type: string
                               # 分类描述
@@ -1002,4 +1002,15 @@ spec:
                             # 是否悬浮
                             float:
                               type: boolean
-                          
+                            # 缩进标签（形象图标）
+                            tab:
+                              type: object
+                              properties:
+                                # 是否启用
+                                enabled:
+                                  type: boolean
+                                # 形象图标链接
+                                icon:
+                                  type: string
+
+                            
