@@ -140,8 +140,14 @@ spec:
                             # 最大任务限制
                             maxTasks:
                               type: integer
-
-
+                            # 规划提示词
+                            prompt:
+                              type: object
+                              properties:
+                                # 默认值
+                                defaultValue:
+                                  type: string
+                                  
                     # 会话配置
                     session:
                       type: object
@@ -336,6 +342,7 @@ spec:
                                               type: string
                                             # 工具名称
                                             text:
+                                              type: string
                                       # 资源列表
                                       resources:
                                         type: array
