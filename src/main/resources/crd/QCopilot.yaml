@@ -1009,7 +1009,7 @@ spec:
                             # 是否悬浮
                             float:
                               type: boolean
-                            # 缩进标签（形象图标）
+                            # 收起标签（形象图标）
                             tab:
                               type: object
                               properties:
@@ -1019,5 +1019,8 @@ spec:
                                 # 形象图标链接
                                 icon:
                                   type: string
+                                # 是否默认收起大纲
+                                collapsed:
+                                  type: boolean
 
                             
