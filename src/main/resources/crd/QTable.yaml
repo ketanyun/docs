@@ -499,13 +499,13 @@ spec:
                             items:
                               type: object
                               properties:
+                                # 机读名称，用于Patch
+                                name:
+                                  type: string
                                 # 用户筛选器
                                 userFilter:
                                   type: object
                                   properties:
-                                    # 机读名称，用于Patch
-                                    name:
-                                      type: string
                                     # 筛选器表达式，语法参考：[UserFilter](https://github.com/infoplus/docs/wiki/UserFilter)
                                     filter:
                                       type: string
