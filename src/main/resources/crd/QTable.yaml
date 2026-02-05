@@ -342,8 +342,7 @@ spec:
                                                     - nnil  # NOT NULL
                                                     - em    # 空 (NULL或空串)
                                                     - nem   # 非空
-                                
-
+        
                       # 视图列表
                       views:
                         type: array
@@ -565,6 +564,7 @@ spec:
                           # 主题，默认 light，可选 dark
                           theme:
                             type: string
+                      
                       # 卡片控件列表
                       charts:
                         type: array
@@ -776,4 +776,51 @@ spec:
                                 # 是否显示
                                 show:
                                   type: boolean 
+                            
+                            # 筛选栏
+                            filtering:
+                              type: object
+                              filters:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    # 筛选器机读名称，用于Patch
+                                    name:
+                                      type: string
+                                    # 列 name 引用
+                                    column:
+                                      type: string
+                                    # 运算符
+                                    match: *MATCH
+
+                            # 总结信息
+                            summary:
+                              type: object
+                              properties:
+                                # 启用
+                                enabled:
+                                  type: boolean
+                                # 提示词模版
+                                prompt:
+                                  type: string
+                                
+                            # 副图表列表
+                            shifts:
+                              type: object
+                              properties:
+                                # 默认显示类型，可选，默认即主类型
+                                defaults:
+                                  type: string
+                                # 图表类型列表
+                                kinds:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      # 图表类型
+                                      kind:
+                                        type: string
+
+                                  
                             
