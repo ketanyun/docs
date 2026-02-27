@@ -959,6 +959,25 @@ spec:
                                   name:
                                     type: string
 
+                    # 内部工具
+                    tools:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          # 工具标识
+                          name:
+                            type: string
+                          # 工具名称
+                          text:
+                            type: string
+                          # 工具描述
+                          description:
+                            type: string
+                          # 是否启用
+                          enabled:
+                            type: boolean
+
                     # 对话体验
                     experience:
                       type: object
@@ -970,6 +989,13 @@ spec:
                             # 聊天对话框提示信息
                             placeholder:
                               type: string
+                            # 背景图片
+                            background:
+                              type: object
+                              properties:
+                                # 图片链接
+                                uri:
+                                  type: string
                         # 能力列表
                         abilities:
                           type: array
@@ -993,6 +1019,15 @@ spec:
                                 enum:
                                   - webspeech
                                   - backend
+                                  - config
+                              # 能力配置
+                              config:
+                                type: object
+                                properties:
+                                  # 数字人图片链接
+                                  uri:
+                                    type: string
+                                
                         # 大纲
                         outline:
                           type: object
