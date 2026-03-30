@@ -110,13 +110,25 @@ spec:
                                 # 是否启用知识库意图识别，默认true
                                 enabled:
                                   type: boolean
+                                # 允许用户开关知识库意图识别
+                                toggle: &TOGGLE
+                                  type: object
+                                  properties:
+                                    # 是否允许用户开关
+                                    enabled:
+                                      type: boolean
+                                    # 按钮名称
+                                    text:
+                                      type: string
                             skill:
                               type: object
                               properties:
                                 # 是否启用技能意图识别，默认true
                                 enabled:
                                   type: boolean
-                    
+                                # 允许用户开关知识库意图识别
+                                toggle: *TOGGLE
+
                     # 工作模式
                     mode:
                       type: object
@@ -455,6 +467,17 @@ spec:
                                       code: string
                                       # 枚举内容，用于大模型识别
                                       text: string
+                                # 枚举来源
+                                source:
+                                  type: object
+                                  properties:
+                                    # 网关：bus://$service/$type
+                                    uri:
+                                      type: string
+                                    # GraphQL查询，可选，如给出，忽略uri中的$type参数
+                                    query:
+                                      type: string
+
 
                           # 指令和别名指令
                           commands:
@@ -977,6 +1000,19 @@ spec:
                           # 是否启用
                           enabled:
                             type: boolean
+                          # 工具配置列表
+                          config:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                # 配置项标识
+                                name:
+                                  type: string
+                                # 配置项值
+                                value:
+                                  type: string
+
 
                     # 对话体验
                     experience:
@@ -996,6 +1032,7 @@ spec:
                                 # 图片链接
                                 uri:
                                   type: string
+
                         # 能力列表
                         abilities:
                           type: array
@@ -1091,4 +1128,13 @@ spec:
                                 # 技能栏内嵌iframe地址
                                 uri:
                                   type: string
-                            
+                            # 技能排序
+                            sort:
+                              type: object
+                              properties:
+                                # 排序方式
+                                kind:
+                                  type: string
+                                  enum:
+                                    - default     # 手动排序，默认值
+                                    - usage       # 用户使用量
