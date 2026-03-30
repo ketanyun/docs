@@ -1013,7 +1013,6 @@ spec:
                                 value:
                                   type: string
 
-
                     # 对话体验
                     experience:
                       type: object
@@ -1097,6 +1096,7 @@ spec:
                                 # 是否默认收起大纲
                                 collapsed:
                                   type: boolean
+                        
                         # 技能栏
                         skillbar:
                           type: object
