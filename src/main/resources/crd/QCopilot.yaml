@@ -110,24 +110,12 @@ spec:
                                 # 是否启用知识库意图识别，默认true
                                 enabled:
                                   type: boolean
-                                # 允许用户开关知识库意图识别
-                                toggle: &TOGGLE
-                                  type: object
-                                  properties:
-                                    # 是否允许用户开关
-                                    enabled:
-                                      type: boolean
-                                    # 按钮名称
-                                    text:
-                                      type: string
                             skill:
                               type: object
                               properties:
                                 # 是否启用技能意图识别，默认true
                                 enabled:
                                   type: boolean
-                                # 允许用户开关知识库意图识别
-                                toggle: *TOGGLE
 
                     # 工作模式
                     mode:
@@ -1138,3 +1126,28 @@ spec:
                                   enum:
                                     - default     # 手动排序，默认值
                                     - usage       # 用户使用量
+
+                        # 功能开关
+                        toggle:
+                          type: object
+                          properties:
+                            # 是否启用技能
+                            skill:
+                              type: object
+                              properties:
+                                # 是否启用
+                                enabled: 
+                                  type: boolean
+                                # 按钮文字
+                                text:
+                                  type: string
+                            # 是否启用知识库
+                            knowledge:
+                              type: object
+                              properties:
+                                # 是否启用
+                                enabled: 
+                                  type: boolean
+                                # 按钮文字
+                                text:
+                                  type: string
