@@ -538,6 +538,35 @@ spec:
                                       nameRef: 
                                         type: string 
 
+                                # 自动填充
+                                filling:
+                                  type: object
+                                  properties:
+                                    # 启用自动填表
+                                    enabled:
+                                      type: boolean
+                                    # 数据来源，
+                                    # 格式：网关://服务名/类型名[字段名]:方法名
+                                    # 例如：bus://my/Book[title]:myBooks
+                                    uri:
+                                      type: string  
+                                    # 显示文字
+                                    text:
+                                      type: string
+                                    # 填充时机
+                                    condition:
+                                      type: object
+                                      properties:
+                                        # 填充事件:
+                                        # 步骤渲染后：STEP_RENDERED
+                                        event:
+                                          type: string
+                                        # 填写条件，Boolean表达式，默认为空表示无条件
+                                        #   非空填充：this.value != ""
+                                        #   始终填充：true
+                                        expression:
+                                          type: string
+
                 # 数据定义
                 data:
                   type: object
