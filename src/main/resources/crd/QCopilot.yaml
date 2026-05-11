@@ -137,6 +137,7 @@ spec:
                               enum:
                                 - planExecute   # 静态规划
                                 - reasonAct     # 动态规划
+                                - agentSkills   # Agent式技能规划
                             # 最大任务限制
                             maxTasks:
                               type: integer
@@ -158,7 +159,6 @@ spec:
                           enum:
                             - backend   # 后端保持
                             - frontend  # 前端保持
-                            
                         # 上下文
                         context:
                           type: object
@@ -169,10 +169,19 @@ spec:
                             # 根据上下文改写当前提问
                             rewrite:
                               type: boolean
-
                         # 超时
                         timeout:
                           type: integer
+                        # 标题
+                        title:
+                          type: object
+                          properties:
+                            # 生成方式
+                            generation:
+                              type: string
+                              enum:
+                                - summary   # 大模型总结（默认）
+                                - question  # 问题前缀
 
                     # 知识库配置
                     knowledge: 
@@ -405,6 +414,7 @@ spec:
                               - chatflow    # 流程编排
                               - mcptool     # MCP工具
                               - mcptools    # MCP工具编排
+                              - a2a         # A2A协议
                           # 是否启用
                           enabled:
                             type: boolean
@@ -466,14 +476,13 @@ spec:
                                     query:
                                       type: string
 
-
                           # 指令和别名指令
                           commands:
                             type: array
                             items:
                               type: string
 
-                          # 对应的GraphQL操作
+                          # 对应的 GraphQL 操作
                           operation:
                             type: object
                             properties:
@@ -560,7 +569,7 @@ spec:
                                           #   ${user.name}: 当前用户名，id_token格式
                                           template:
                                             type: string
-                                      
+
                           # 流程编排
                           chatflow:
                             type: object
@@ -721,6 +730,14 @@ spec:
                               tools:
                                 type: array
                                 items: *MCPTOOL
+
+                          # A2A协议
+                          a2a:
+                            type: object
+                            properties:
+                              # 发现地址，如：https://{agent-server-domain}/.well-known/agent-card.json
+                              uri:
+                                type: string
 
                           # 二次回复设置
                           reply:
@@ -969,6 +986,19 @@ spec:
                                   # 任务名称
                                   name:
                                     type: string
+                              # Agent SKILLs 引用（可选）
+                              claw:
+                                type: object
+                                properties:
+                                  # 技能列表，可选，不选标识全部
+                                  skills:
+                                    type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        # 技能标识
+                                        name:
+                                          type: string
 
                     # 内部工具
                     tools:
@@ -1001,6 +1031,59 @@ spec:
                                 value:
                                   type: string
 
+                    # 智能体配置
+                    claw:
+                      type: object
+                      properties:
+                        # 技能列表
+                        skills:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              # 技能标识
+                              name:
+                                type: string
+                              # 技能名称
+                              text:
+                                type: string
+                              # 技能描述
+                              description:
+                                type: string
+                              # 是否启用
+                                enabled:
+                                  type: boolean
+                              # 文件来源，如：https://git.example.com/{agent}/skills/{skill_name}.git
+                              uri:
+                                type: string
+                              # 源文件
+                              sources:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    # 唯一标识
+                                    name:
+                                      type: string
+                                    # 文件名，根目录为技能标识，入口为 SKILL.md
+                                    text:
+                                      type: string
+                                    # 文件内容
+                                    content:
+                                      type: string
+                                    # 目录还是文件
+                                    kind:
+                                      type: string
+                                      enum:
+                                        - directory
+                                        - file
+                                    # 文件类型，markdown、javascript、docx 等
+                                    mime:
+                                      type: string
+                                    # 所属目录
+                                    directory:
+                                      type: string
+                          
                     # 对话体验
                     experience:
                       type: object
@@ -1151,3 +1234,24 @@ spec:
                                 # 按钮文字
                                 text:
                                   type: string
+
+                        # 工作区功能，关联共享知识库、个人知识库
+                        workspace:
+                          type: object
+                          properties:
+                            # 是否启用
+                            enabled:
+                              type: boolean
+                            # 共享知识库
+                            sources:
+                              type: array
+                              items:    
+                                type: object
+                                properties:
+                                  # 知识库标识
+                                  name:
+                                    type: string
+                                  # 知识库名称
+                                  text:
+                                    type: string
+
