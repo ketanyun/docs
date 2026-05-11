@@ -387,6 +387,26 @@ spec:
                               # 输出格式
                               schema:
                                 type: string
+                              # 关联技能
+                              skills:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    # 技能标识
+                                    name:
+                                      type: string
+                                    # 技能名称
+                                    text:
+                                      type: string
+                              # 关联知识库
+                              knowledge:
+                                type: object
+                                properties:
+                                  # 是否启用
+                                  enabled:
+                                    type: boolean
+
 
                     # 任务列表
                     tasks:
