@@ -182,7 +182,7 @@ spec:
                               enum:
                                 - summary   # 大模型总结（默认）
                                 - question  # 问题前缀
-
+                                                
                     # 知识库配置
                     knowledge: 
                       type: object
@@ -738,6 +738,16 @@ spec:
                               # 发现地址，如：https://{agent-server-domain}/.well-known/agent-card.json
                               uri:
                                 type: string
+                              # 自动启动
+                              startup:
+                                type: object
+                                properties:
+                                  # 启动方式
+                                  kind: 
+                                    type: string
+                                    enum:
+                                      - none     # 不自动启动，默认
+                                      - session  # 按会话启动
 
                           # 二次回复设置
                           reply:
@@ -1134,7 +1144,7 @@ spec:
                                   # 数字人图片链接
                                   uri:
                                     type: string
-                                
+
                         # 大纲
                         outline:
                           type: object
