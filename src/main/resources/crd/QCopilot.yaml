@@ -137,7 +137,6 @@ spec:
                               enum:
                                 - planExecute   # 静态规划
                                 - reasonAct     # 动态规划
-                                - agentSkills   # Agent式技能规划
                             # 最大任务限制
                             maxTasks:
                               type: integer
@@ -387,26 +386,6 @@ spec:
                               # 输出格式
                               schema:
                                 type: string
-                              # 关联技能
-                              skills:
-                                type: array
-                                items:
-                                  type: object
-                                  properties:
-                                    # 技能标识
-                                    name:
-                                      type: string
-                                    # 技能名称
-                                    text:
-                                      type: string
-                              # 关联知识库
-                              knowledge:
-                                type: object
-                                properties:
-                                  # 是否启用
-                                  enabled:
-                                    type: boolean
-
 
                     # 任务列表
                     tasks:
@@ -960,6 +939,7 @@ spec:
                               # 分类描述
                               description:
                                 type: string
+
                         # 技能列表
                         skills:
                           type: array
@@ -994,6 +974,9 @@ spec:
                                 type: array
                                 items:
                                   type: string
+                              # 系统提示，用于技能工具激活时附加到<system-hint>中
+                              hint:
+                                type: string
                               # 技能提示词模版
                               prompt:
                                 type: object
@@ -1017,18 +1000,13 @@ spec:
                                   name:
                                     type: string
                               # Agent SKILLs 引用（可选）
-                              claw:
+                              agentSkill:
                                 type: object
                                 properties:
-                                  # 技能列表，可选，不选标识全部
-                                  skills:
-                                    type: array
-                                    items:
-                                      type: object
-                                      properties:
-                                        # 技能标识
-                                        name:
-                                          type: string
+                                  # 技能标识
+                                  name:
+                                    type: string
+
 
                     # 内部工具
                     tools:
@@ -1062,7 +1040,7 @@ spec:
                                   type: string
 
                     # 智能体配置
-                    claw:
+                    agent:
                       type: object
                       properties:
                         # 技能列表
@@ -1081,8 +1059,8 @@ spec:
                               description:
                                 type: string
                               # 是否启用
-                                enabled:
-                                  type: boolean
+                              enabled:
+                                type: boolean
                               # 文件来源，如：https://git.example.com/{agent}/skills/{skill_name}.git
                               uri:
                                 type: string
@@ -1265,6 +1243,14 @@ spec:
                                 text:
                                   type: string
 
+                        # 会话
+                        chats:
+                          type: object
+                          properties:
+                            # 单会话模式
+                            singleton:
+                              type: boolean
+
                         # 工作区功能，关联共享知识库、个人知识库
                         workspace:
                           type: object
@@ -1272,16 +1258,4 @@ spec:
                             # 是否启用
                             enabled:
                               type: boolean
-                            # 共享知识库
-                            sources:
-                              type: array
-                              items:    
-                                type: object
-                                properties:
-                                  # 知识库标识
-                                  name:
-                                    type: string
-                                  # 知识库名称
-                                  text:
-                                    type: string
 
