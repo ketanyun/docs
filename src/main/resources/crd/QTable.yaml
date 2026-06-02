@@ -342,7 +342,15 @@ spec:
                                                     - nnil  # NOT NULL
                                                     - em    # 空 (NULL或空串)
                                                     - nem   # 非空
-        
+                            # 公式列
+                            template:
+                              type: object
+                              properties:
+                                # 公式表达式
+                                expression:
+                                  type: string
+
+
                       # 视图列表
                       views:
                         type: array
