@@ -1007,7 +1007,6 @@ spec:
                                   name:
                                     type: string
 
-
                     # 内部工具
                     tools:
                       type: array
@@ -1049,8 +1048,11 @@ spec:
                           items:
                             type: object
                             properties:
-                              # 技能标识
+                              # 技能标识，机读
                               name:
+                                type: string
+                              # 技能编码，格式：组名/技能名
+                              code:
                                 type: string
                               # 技能名称
                               text:
@@ -1061,36 +1063,7 @@ spec:
                               # 是否启用
                               enabled:
                                 type: boolean
-                              # 文件来源，如：https://git.example.com/{agent}/skills/{skill_name}.git
-                              uri:
-                                type: string
-                              # 源文件
-                              sources:
-                                type: array
-                                items:
-                                  type: object
-                                  properties:
-                                    # 唯一标识
-                                    name:
-                                      type: string
-                                    # 文件名，根目录为技能标识，入口为 SKILL.md
-                                    text:
-                                      type: string
-                                    # 文件内容
-                                    content:
-                                      type: string
-                                    # 目录还是文件
-                                    kind:
-                                      type: string
-                                      enum:
-                                        - directory
-                                        - file
-                                    # 文件类型，markdown、javascript、docx 等
-                                    mime:
-                                      type: string
-                                    # 所属目录
-                                    directory:
-                                      type: string
+
                           
                     # 对话体验
                     experience:
