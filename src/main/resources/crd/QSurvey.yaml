@@ -433,6 +433,9 @@ spec:
                         # 次数，每批次每人最多允许填写次数，默认=1
                         maxFill:
                           type: integer
+                        # 人数，每批次
+                        maxUser:
+                          type: integer
 
                     # 抽题
                     selection:
