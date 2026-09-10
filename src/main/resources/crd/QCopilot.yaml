@@ -1063,6 +1063,61 @@ spec:
                               # 是否启用
                               enabled:
                                 type: boolean
+                        # 连接器列表
+                        connectors:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              # 连接器标识，机读，无意义
+                              name:
+                                type: string
+                              # 连接器类型，枚举：mcp
+                              kind:
+                                type: string
+                                enum:
+                                  - mcp
+                              # MCP配置
+                              mcp:
+                                type: object
+                                properties:
+                                  # MCP服务标识，从插件市场获取
+                                  name:
+                                    type: string
+                                  # MCP服务名称，用于插件市场中不存在时回显
+                                  text:
+                                    type: string
+                                  # MCP服务描述，用于插件市场中不存在时回显
+                                  description:
+                                    type: string
+                              # 连接器配置集
+                              profiles:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    # 配置标识，该连接器下唯一，用于大模型识别
+                                    name:
+                                      type: string
+                                    # 配置名称，人读
+                                    text:
+                                      type: string
+                                    # 配置描述，用于大模型识别
+                                    description:
+                                      type: string
+                                    # 参数列表
+                                    parameters:
+                                      type: array
+                                      items:
+                                        type: object
+                                        properties:
+                                          # 参数标识，mcp模式下作为header名
+                                          name:
+                                            type: string
+                                          # 参数值
+                                          value:
+                                            type: string
+                              
 
                           
                     # 对话体验
