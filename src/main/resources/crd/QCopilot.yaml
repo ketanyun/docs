@@ -211,6 +211,9 @@ spec:
                               # 是否通过大模型增强，仅对 faq 类型有效
                               augment:
                                 type: boolean
+                              # 是否通过大模型增加引用，仅对 doc 类型有效
+                              reference:
+                                type: boolean
                               # 检索模式
                               mode:
                                 type: string
