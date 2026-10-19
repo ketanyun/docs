@@ -421,7 +421,7 @@ spec:
                                       # 筛选条件列表
                                       filters:
                                         type: array
-                                        items:
+                                        items: &FILTER
                                           type: object
                                           properties:
                                             # 筛选器机读名称，用于Patch
@@ -530,8 +530,6 @@ spec:
                                   type: string
                                   enum:
                                     - sheet   # 表单
-                                    - view    # 视图
-                                    - field   # 字段
                                 # 权限对象名称
                                 # 支持 "ALL"
                                 name:
@@ -542,6 +540,21 @@ spec:
                                 # x：可授权等其他操作，包括但不限于(s:结构修改、g:授权、i:新建表单/视图、d：删除表单/视图)
                                 operations:
                                   type: string
+                                # 行过滤
+                                filtering:
+                                  type: object
+                                  properties:
+                                    # 析取范式形式的过滤器，支持与/或
+                                    disjunctions:
+                                      type: array
+                                      items:
+                                        type: object
+                                        properties:
+                                          # filters
+                                          filters:
+                                            type: array
+                                            items: *FILTER
+
 
                 # 图表信息
                 dashboards:

@@ -217,6 +217,7 @@ spec:
                                           - "*"           # 不限
                                       name:
                                         type: string
+                                      
                                       # 该《数据操作》所需Filter
                                       # 参考：https://github.com/infoplus/canvas-docs/wiki/Filter
                                       filters:
@@ -252,6 +253,23 @@ spec:
                                                 x-kubernetes-int-or-string: true
                                             expression:
                                               type: string 
+
+                                      # 析取范式形式的 Filters，用于 filters 无法表示的情况
+                                      # 如果 filters 也有定义，则视为第一项
+                                      disjunctions:
+                                        type: array
+                                        items:
+                                          type: object
+                                          properties:
+                                            # 机读名称，无意义，用于QPatch
+                                            name:
+                                              type: string
+                                            # 该析取范式的 Filters
+                                            filters:
+                                              type: array
+                                              items: *FILTER
+
+                                      
                                       # 定义该类型支持哪些 DataFilter
                                       dataFilters:
                                         type: array
@@ -265,6 +283,7 @@ spec:
                                             text:
                                               type: string
 
+                                      
                                       #《数据操作属性》
                                       attributes:
                                         type: object
