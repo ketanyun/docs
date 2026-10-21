@@ -278,7 +278,7 @@ spec:
                                 # 文字内容，仅用于部分控件显示
                                 textContent:
                                   type: string 
-                                # 格式：File/Picture控件用于限制文件类型
+                                # 格式：File/Picture/Text 控件用于限制文件类型
                                 format:
                                   type: string
                                 # 控件无内容时的提示信息
@@ -405,6 +405,8 @@ spec:
                                         - external
                                         # 常量（后面items）
                                         - constant
+                                        # 变量
+                                        - expression
                                     # 是否允许手动输入
                                     creatable:
                                       type: boolean
@@ -423,6 +425,9 @@ spec:
                                           # 显示值
                                           text:
                                             type: string
+                                    # 变量表达式，比如 $user.departments
+                                    expression:
+                                      type: string
 
                                 # 图标
                                 icons:
