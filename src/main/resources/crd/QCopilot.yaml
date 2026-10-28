@@ -1009,6 +1009,9 @@ spec:
                               # 技能描述
                               description:
                                 type: string
+                              # 版本，默认为空，则取 latest；否则视为 git tag
+                              version:
+                                type: string
                               # 是否启用
                               enabled:
                                 type: boolean
