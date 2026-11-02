@@ -412,6 +412,7 @@ spec:
                                       type: boolean
                                     # 动态代码表
                                     code:
+                                    
                                       type: string
                                     # 常量代码表项
                                     items:
@@ -425,7 +426,7 @@ spec:
                                           # 显示值
                                           text:
                                             type: string
-                                    # 变量表达式，比如 $user.departments
+                                    # 变量表达式，比如 =$fieldUser.organize
                                     expression:
                                       type: string
 
