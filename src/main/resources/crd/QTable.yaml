@@ -83,29 +83,6 @@ spec:
                     # 主题
                     theme:
                       type: string
-                    # 文件夹配置
-                    folder:
-                      type: object
-                      properties:
-                        # 是否启用，默认true
-                        enabled:
-                          type: boolean
-                        # 文件夹路径
-                        folders:
-                          type: array
-                          items:
-                            type: object
-                            properties:
-                              # 文件夹标识
-                              name:
-                                type: string
-                              # 文件夹显示名
-                              text:
-                                type: string
-                              # 父文件夹标识
-                              parent:
-                                type: string
-
 
                 # 工作表  
                 sheets:
@@ -123,7 +100,7 @@ spec:
                       # 工作表描述
                       text:
                         type: string
-                      # 所属文件夹
+                      # 所属文件夹标识，可为空
                       folder:
                         type: string
 
@@ -133,6 +110,7 @@ spec:
                         enum:
                           - table     # 表单（默认）
                           - dashboard # 仪表盘
+                          - folder    # 文件夹
                       
                       # 外部工作表引用
                       # 仅用于工作表类型为 dashboard 时
@@ -581,7 +559,6 @@ spec:
                                             type: array
                                             items: *FILTER
 
-
                 # 图表信息
                 dashboards:
                   type: array
@@ -593,9 +570,6 @@ spec:
                         type: string
                       # 标题
                       text:
-                        type: string
-                      # 所属文件夹
-                      folder:
                         type: string
                       # 仪表盘布局
                       layout:
